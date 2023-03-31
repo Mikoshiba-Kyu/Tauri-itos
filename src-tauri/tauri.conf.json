@@ -12,10 +12,28 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
+      "path": {
+        "all":true
+      },
+      "fs": {
+        "exists": true,
+        "writeFile": true,
+        "readFile": true,
+        "readDir": true,
+        "scope": [
+          "$APPLOCALDATA/*",
+          "$APPLOCALDATA/Prompt/*",
+          "$APPLOCALDATA/Talkroom/*",
+          "$APPLOCALDATA/Avatar/*"
+        ]
+      },
       "shell": {
         "all": false,
         "open": true
+      },
+      "protocol": {
+        "asset": true,
+        "assetScope": [ "$APPLOCALDATA/Avatar/*" ]
       }
     },
     "bundle": {
@@ -27,11 +45,11 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "chatgptclient",
       "targets": "all"
     },
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; img-src 'self' asset: https://asset.localhost"
     },
     "updater": {
       "active": false
