@@ -40,7 +40,6 @@ export interface Props {
 const style: object = {
     width: '100%',
     height: '12rem',
-    //background: 'linear-gradient(180deg, rgba(18,18,18,0.5) 0%, rgba(18,18,18,1) 40%)'
 } 
 
 /**
