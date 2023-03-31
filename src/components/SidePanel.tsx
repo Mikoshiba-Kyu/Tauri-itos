@@ -23,6 +23,7 @@ import { getTalkFile } from '../utils/files'
 
 // Types
 import { Talks } from '../types/types'
+import SideFooter from './SideFooter'
 
 /**
  * ---------------------- Props ----------------------
@@ -64,10 +65,14 @@ const SidePanel = (props: Props) => {
                 }}
                 open
                 >
-                <Button variant="outlined" disableElevation onClick={newTalk} sx={{ margin: '1rem'}}>
-                    新しい会話
-                </Button>
-                <TalkRoomList setTalks={props.setTalks}/>
+                <Box sx={{ height: 'calc(100vh - 2.5rem)' }}>
+                    <Button variant="outlined" disableElevation onClick={newTalk} sx={{ margin: '1rem'}}>
+                        新しい会話
+                    </Button>
+                    <TalkRoomList setTalks={props.setTalks}/>
+                </Box>
+
+                <SideFooter/>
             </Drawer>
         </ Box>
 	)

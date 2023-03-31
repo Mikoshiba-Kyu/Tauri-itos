@@ -22,6 +22,9 @@ import { ThemeProvider, createTheme } from "@mui/material/styles"
 import SidePanel from './SidePanel'
 import Content from './Content'
 
+// Utils
+import { lightTheme, darkTheme } from '../utils/theme'
+
 // Types
 import { Talks } from '../types/types'
 
@@ -36,11 +39,9 @@ const MainWindow = () => {
 	const [ isOpenPanel, setOpenPanel ] = useState(false)
 
 	const theme = createTheme({
-		palette: {
-			//TODO 型
-			//@ts-ignore
-			mode: settings.Theme
-		}
+		//TODO 型
+		//@ts-ignore
+		palette: settings.Theme === 'light' ? lightTheme : darkTheme
 	})
 
 	return (
