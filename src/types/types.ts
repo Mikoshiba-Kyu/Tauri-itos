@@ -1,0 +1,1 @@
+export type Talks = {role: string, content: string}[]
