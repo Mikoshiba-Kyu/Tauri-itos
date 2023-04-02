@@ -45,19 +45,22 @@ const style: object = {
 } 
 
 const userCardStyle: object = {
-    maxWidth: '50%',
+    maxWidth: '40%',
+    minWidth: '30%',
     marginLeft: '2rem',
     marginRight: '2rem',
-    marginTop: '2rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
     backgroundColor: '#323835'
 }
 
 const assistantCardStyle: object = {
-    maxWidth: '50%',
+    maxWidth: '40%',
+    minWidth: '30%',
     marginLeft: '2rem',
     marginRight: '2rem',
-    marginTop: '2rem',
-    margin: '2rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
     backgroundColor: '#1e424f'
 }
 
@@ -70,6 +73,7 @@ const Message = (props: Props) => {
     const [selectAvatar, setSelectAvatar] = useRecoilState(selectAvatarFile)
     const [talkRoom] = useRecoilState(selectTalkRoom)
 
+    // talkRoom 変更時に対応するAvatar画像ファイルのパスを変更する
     useEffect(() => {
         const getPath = async () => {
             setSelectAvatar(await getAvatarPath(talkRoom))

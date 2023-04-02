@@ -16,7 +16,8 @@ import { selectTalkRoom } from '../atoms/selectTalkRoom'
 import { flushSync } from 'react-dom'
 
 // MUI
-import { Box, Button, TextField } from '@mui/material'
+import { Box, FormControl, IconButton, InputAdornment, OutlinedInput } from '@mui/material'
+import Send from '@mui/icons-material/Send'
 
 // Utils
 import { send } from '../utils/api'
@@ -39,7 +40,7 @@ export interface Props {
  */
 const style: object = {
     width: '100%',
-    height: '12rem',
+    height: '8rem'
 } 
 
 /**
@@ -71,6 +72,7 @@ const Footer = (props: Props) => {
             }, 0)
 
             const res = await send(settings.ApiKey!, promptText, sendingAll)
+
             const allContent = [...sendingAll, res]
             props.setTalks(allContent)
             setTimeout(() => {
@@ -86,19 +88,28 @@ const Footer = (props: Props) => {
 
     return (
         <Box sx={style}>
-            <TextField 
-                id="outlined-multiline-static"
-                value={inputVal}
-                multiline
-                rows={4}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setInputValue(event.target.value);
-                }}
-                sx={{ width: '70%', margin: '2rem'}}
-            />
-            <Button variant="outlined" disableElevation onClick={sending} sx={{ marginTop: '2rem'}}>
-                送信
-            </Button>
+            <FormControl variant="outlined" sx={{ marginLeft: '2rem', width: '93%' }}>
+                <OutlinedInput
+                    id="text-input"
+                    value={inputVal}
+                    multiline
+                    fullWidth
+                    rows={5}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setInputValue(event.target.value);
+                    }}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            onClick={sending}
+                            edge="end"
+                            >
+                                <Send />
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                />
+            </FormControl>
         </Box>
 	)
 }
