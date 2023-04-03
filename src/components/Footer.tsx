@@ -20,8 +20,10 @@ import { Box, FormControl, IconButton, InputAdornment, OutlinedInput } from '@mu
 import Send from '@mui/icons-material/Send'
 
 // Utils
-import { send } from '../utils/api'
 import { loadPrompt, saveTalks } from '../utils/files'
+
+// Libraries
+import { Configuration, OpenAIApi } from 'openai'
 
 // Types
 import { Talks } from '../types/types'
@@ -61,7 +63,7 @@ const Footer = (props: Props) => {
 
             const promptText = await loadPrompt(talkRoom)
 
-            const sendingAll = [...props.talks, {role: "user", content: inputVal}]
+            const sendingAll: any = [...props.talks, {role: "user", content: inputVal}]
             props.setTalks(sendingAll)
             setInputValue('')
             setTimeout(() => {
@@ -71,18 +73,41 @@ const Footer = (props: Props) => {
                 }
             }, 0)
 
-            const res = await send(settings.ApiKey!, promptText, sendingAll)
+            const apiKey = settings.ApiKey
+            if (!apiKey) return
 
-            const allContent = [...sendingAll, res]
-            props.setTalks(allContent)
-            setTimeout(() => {
-                if (props.scrollRef.current) {
-                    const element = props.scrollRef.current.lastElementChild as HTMLElement
-                    element.scrollIntoView({ behavior: 'smooth', block: 'end' })
+            const configuration = new Configuration({apiKey})
+            const openai = new OpenAIApi(configuration)
+
+            try {
+                const response = await openai.createChatCompletion({
+                    model: 'gpt-3.5-turbo-0301',
+                    messages: [{ role: "system", content: promptText }, ...sendingAll]
+                })
+            
+                const res = response.data.choices[0].message
+
+                const allContent = [...sendingAll, res]
+                
+                props.setTalks(allContent)
+                setTimeout(() => {
+                    if (props.scrollRef.current) {
+                        const element = props.scrollRef.current.lastElementChild as HTMLElement
+                        element.scrollIntoView({ behavior: 'smooth', block: 'end' })
+                    }
+                }, 0)
+    
+                await saveTalks(allContent, talkRoom)
+
+            } catch (err) {
+        
+                return {
+                    "role" : "assistant",
+                    "content" : "エラーです"
                 }
-            }, 0)
+            }
 
-            await saveTalks(allContent, talkRoom)
+
         })
     }
 

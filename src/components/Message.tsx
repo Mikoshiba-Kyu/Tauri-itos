@@ -26,7 +26,6 @@ import { getAvatarPath } from '../utils/files'
 // Types
 import { Talks } from '../types/types'
 
-
 /**
  * ---------------------- Props ----------------------
  */
@@ -71,7 +70,7 @@ const Message = (props: Props) => {
     isLogging && console.log(`[App] [${moduleName}] Render.`)
 
     const [selectAvatar, setSelectAvatar] = useRecoilState(selectAvatarFile)
-    const [talkRoom] = useRecoilState(selectTalkRoom)
+    const [talkRoom, setTalkRoom] = useRecoilState(selectTalkRoom)
 
     // talkRoom 変更時に対応するAvatar画像ファイルのパスを変更する
     useEffect(() => {
@@ -80,6 +79,17 @@ const Message = (props: Props) => {
         }
         getPath()
     }, [talkRoom])
+
+    // TODO 初回起動時に難あり
+    // talkRoom 変更時に message 枠のスクロールを最下部に移動する
+    /*
+    useEffect(() => {
+        if (props.scrollRef.current) {
+            const element = props.scrollRef.current.lastElementChild as HTMLElement
+            element.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        }
+    }, [setTalkRoom])
+    */
 
     const messageItems = props.talks.map((item, index) => (
         <Grid container justifyContent={item.role === 'user' ? "flex-start": "flex-end"} alignItems="center">
