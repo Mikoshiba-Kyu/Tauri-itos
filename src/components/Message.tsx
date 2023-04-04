@@ -17,13 +17,16 @@ import { talkDataState } from '../atoms/talkDataState'
 import { selectAvatarFile } from '../atoms/selectAvatarFile'
 
 // MUI
-import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Grid } from '@mui/material'
 
 // Tauri
 import { convertFileSrc } from '@tauri-apps/api/tauri'
 
 // Utils
 import { getAvatarPath } from '../utils/files'
+
+// Libraries
+import { marked } from "marked"
 
 /**
  * ---------------------- Props ----------------------
@@ -88,11 +91,7 @@ const Message = (props: Props) => {
                 : {...assistantCardStyle, backgroundColor: settings.Theme === 'light' ? '#e9cad1' : '#1e424f' }}>
 
                 <CardContent>
-                    {item.content.split('\\').map((line, i) => (
-                        <Typography key={`${index}-${i}`} variant="body1" component="p" sx={{ whiteSpace: 'pre-line' }}>
-                        {line}
-                        </Typography>
-                    ))}
+                    <span dangerouslySetInnerHTML={{ __html : marked.parse(item.content)}} />
                 </CardContent>
             </Card>
             
