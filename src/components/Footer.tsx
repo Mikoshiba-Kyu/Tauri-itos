@@ -10,9 +10,10 @@ const moduleName = 'Footer.tsx'
 
 // React
 import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { settingsState } from '../atoms/settingsState'
 import { selectTalkRoom } from '../atoms/selectTalkRoom'
+import { talkDataState } from '../atoms/talkDataState'
 import { flushSync } from 'react-dom'
 
 // MUI
@@ -25,15 +26,10 @@ import { loadPrompt, saveTalks } from '../utils/files'
 // Libraries
 import { Configuration, OpenAIApi } from 'openai'
 
-// Types
-import { Talks } from '../types/types'
-
 /**
  * ---------------------- Props ----------------------
  */
 export interface Props {
-    talks: Talks,
-    setTalks: Function
     scrollRef: React.RefObject<HTMLDivElement>
 }
 
@@ -52,6 +48,7 @@ const Footer = (props: Props) => {
 
     const settings = useRecoilValue(settingsState)
     const talkRoom = useRecoilValue(selectTalkRoom)
+    const [talkData, setTalkData] = useRecoilState(talkDataState)
 
     const [inputVal, setInputValue] = useState('')
 
@@ -63,9 +60,10 @@ const Footer = (props: Props) => {
 
             const promptText = await loadPrompt(talkRoom)
 
-            const sendingAll: any = [...props.talks, {role: "user", content: inputVal}]
-            props.setTalks(sendingAll)
+            const sendingAll: any = [...talkData, {role: "user", content: inputVal}]
+            setTalkData(sendingAll)
             setInputValue('')
+
             setTimeout(() => {
                 if (props.scrollRef.current) {
                     const element = props.scrollRef.current.lastElementChild as HTMLElement
@@ -88,8 +86,8 @@ const Footer = (props: Props) => {
                 const res = response.data.choices[0].message
 
                 const allContent = [...sendingAll, res]
-                
-                props.setTalks(allContent)
+                setTalkData(allContent)
+
                 setTimeout(() => {
                     if (props.scrollRef.current) {
                         const element = props.scrollRef.current.lastElementChild as HTMLElement
@@ -106,7 +104,6 @@ const Footer = (props: Props) => {
                     "content" : "エラーです"
                 }
             }
-
 
         })
     }

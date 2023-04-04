@@ -49,8 +49,8 @@ const MainWindow = () => {
 			<ThemeProvider theme={theme}>
 				<Box sx={{ display: 'flex' }}>
 					<CssBaseline />
-					<SidePanel isOpenPanel={isOpenPanel} setOpenPanel={setOpenPanel} talks={talks} setTalks={setTalks}/>
-					<Content talks={talks} setTalks={setTalks}/>
+					<SidePanel isOpenPanel={isOpenPanel} setOpenPanel={setOpenPanel} />
+					<Content />
 				</Box>
 			</ThemeProvider>
         </>

@@ -10,12 +10,14 @@ const moduleName = 'Message.tsx'
 
 // React
 import { useEffect } from 'react'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { settingsState } from '../atoms/settingsState'
+import { selectTalkRoom } from '../atoms/selectTalkRoom'
+import { talkDataState } from '../atoms/talkDataState'
+import { selectAvatarFile } from '../atoms/selectAvatarFile'
 
 // MUI
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import { useRecoilState } from 'recoil'
-import { selectTalkRoom } from '../atoms/selectTalkRoom'
-import { selectAvatarFile } from '../atoms/selectAvatarFile'
 
 // Tauri
 import { convertFileSrc } from '@tauri-apps/api/tauri'
@@ -23,14 +25,10 @@ import { convertFileSrc } from '@tauri-apps/api/tauri'
 // Utils
 import { getAvatarPath } from '../utils/files'
 
-// Types
-import { Talks } from '../types/types'
-
 /**
  * ---------------------- Props ----------------------
  */
 export interface Props {
-    talks: Talks,
     scrollRef: React.RefObject<HTMLDivElement>
 }
 
@@ -49,8 +47,7 @@ const userCardStyle: object = {
     marginLeft: '2rem',
     marginRight: '2rem',
     marginTop: '1rem',
-    marginBottom: '1rem',
-    backgroundColor: '#323835'
+    marginBottom: '1rem'
 }
 
 const assistantCardStyle: object = {
@@ -59,8 +56,7 @@ const assistantCardStyle: object = {
     marginLeft: '2rem',
     marginRight: '2rem',
     marginTop: '1rem',
-    marginBottom: '1rem',
-    backgroundColor: '#1e424f'
+    marginBottom: '1rem'
 }
 
 /**
@@ -70,7 +66,10 @@ const Message = (props: Props) => {
     isLogging && console.log(`[App] [${moduleName}] Render.`)
 
     const [selectAvatar, setSelectAvatar] = useRecoilState(selectAvatarFile)
-    const [talkRoom, setTalkRoom] = useRecoilState(selectTalkRoom)
+
+    const talkRoom = useRecoilValue(selectTalkRoom)
+    const talkData = useRecoilValue(talkDataState)
+    const settings = useRecoilValue(settingsState)
 
     // talkRoom 変更時に対応するAvatar画像ファイルのパスを変更する
     useEffect(() => {
@@ -80,23 +79,16 @@ const Message = (props: Props) => {
         getPath()
     }, [talkRoom])
 
-    // TODO 初回起動時に難あり
-    // talkRoom 変更時に message 枠のスクロールを最下部に移動する
-    /*
-    useEffect(() => {
-        if (props.scrollRef.current) {
-            const element = props.scrollRef.current.lastElementChild as HTMLElement
-            element.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        }
-    }, [setTalkRoom])
-    */
+    const messageItems = talkData.map((item, index) => (
 
-    const messageItems = props.talks.map((item, index) => (
         <Grid container justifyContent={item.role === 'user' ? "flex-start": "flex-end"} alignItems="center">
 
-            <Card sx={item.role === 'user' ? userCardStyle: assistantCardStyle}>
+            <Card sx={item.role === 'user'
+                ? {...userCardStyle, backgroundColor: settings.Theme === 'light' ? '#afdcc8' : '#323835'}
+                : {...assistantCardStyle, backgroundColor: settings.Theme === 'light' ? '#e9cad1' : '#1e424f' }}>
+
                 <CardContent>
-                    {item.content.split('\n').map((line, i) => (
+                    {item.content.split('\\').map((line, i) => (
                         <Typography key={`${index}-${i}`} variant="body1" component="p" sx={{ whiteSpace: 'pre-line' }}>
                         {line}
                         </Typography>
@@ -118,6 +110,7 @@ const Message = (props: Props) => {
     ))
 
     return (
+
         <Box ref={props.scrollRef} sx={style}>
             {messageItems}
         </ Box>
