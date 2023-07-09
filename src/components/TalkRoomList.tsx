@@ -12,6 +12,7 @@ const moduleName = 'TalkRoomList.tsx'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { talkRoomNames } from '../atoms/talkRoomNames'
 import { selectTalkRoom } from '../atoms/selectTalkRoom'
+import { talkDataState } from '../atoms/talkDataState'
 
 // MUI
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
@@ -20,20 +21,14 @@ import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material
 import { getTalkFile } from '../utils/files'
 
 /**
- * ---------------------- Props ----------------------
- */
-export interface Props {
-    setTalks: Function
-}
-
-/**
  * ---------------------- Contents ----------------------
  */
-const TalkRoomList = (props: Props) => {
+const TalkRoomList = () => {
     isLogging && console.log(`[App] [${moduleName}] Render.`)
 
     const talkRoomList = useRecoilValue(talkRoomNames)
     const [talkRoom, setTalkRoom] = useRecoilState(selectTalkRoom)
+    const [talkData, setTalkData ] = useRecoilState(talkDataState)
 
     const roomList = talkRoomList.map((item, index) => (
         <ListItem disablePadding>
@@ -45,7 +40,7 @@ const TalkRoomList = (props: Props) => {
 
     const listClicked = async (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setTalkRoom(event.currentTarget.innerText)
-        await props.setTalks(await getTalkFile(event.currentTarget.innerText))
+        setTalkData(await getTalkFile(event.currentTarget.innerText))
     }
 
     return (

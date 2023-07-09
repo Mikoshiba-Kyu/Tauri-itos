@@ -2,7 +2,7 @@
  * ---------------------- Dev Settings ----------------------
  */
 const isLogging = true
-const moduleName = 'selectTalkRoom.ts'
+const moduleName = 'talkDataState.ts'
 
 /**
  * ---------------------- Import ----------------------
@@ -11,7 +11,9 @@ const moduleName = 'selectTalkRoom.ts'
  // React
 import { atom } from 'recoil'
 
-// Library
-export const selectTalkRoom = atom<string>({
-  key: 'TalkRoom', default: ''
+// Types
+import { Talks } from '../types/types'
+
+export const talkDataState = atom<Talks>({
+  key: 'TalkDataState', default: []
 })

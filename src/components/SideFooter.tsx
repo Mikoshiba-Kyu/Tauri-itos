@@ -19,13 +19,6 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import SettingsModal from './SettingsModal'
 
 /**
- * ---------------------- Props ----------------------
- */
-export interface Props {
-
-}
-
-/**
  * ---------------------- Styles ----------------------
  */
 const style: object = {
@@ -36,7 +29,7 @@ const style: object = {
 /**
  * ---------------------- Contents ----------------------
  */
-const SideFooter = (props: Props) => {
+const SideFooter = () => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)

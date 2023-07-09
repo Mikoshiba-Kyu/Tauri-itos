@@ -9,47 +9,27 @@ const moduleName = 'SidePanel.tsx'
  */
 
 // React
-import { useRecoilState } from 'recoil'
-import { selectTalkRoom } from '../atoms/selectTalkRoom'
+import { useState } from 'react'
 
 // MUI
-import { Box, Button, Drawer } from '@mui/material'
+import { Box, Button, Drawer, Modal, Typography } from '@mui/material'
 
 // Components
 import TalkRoomList from './TalkRoomList'
-
-// Utils
-import { getTalkFile } from '../utils/files'
-
-// Types
-import { Talks } from '../types/types'
 import SideFooter from './SideFooter'
-
-/**
- * ---------------------- Props ----------------------
- */
-export interface Props {
-	isOpenPanel: boolean
-    setOpenPanel: Function
-    talks: Talks
-    setTalks: Function
-}
+import NewTalkModal from './NewTalkModal'
 
 /**
  * ---------------------- Contents ----------------------
  */
-const SidePanel = (props: Props) => {
+const SidePanel = () => {
     isLogging && console.log(`[App] [${moduleName}] Render.`)
 
     const drawerWidth = 260
 
-    const [talkRoom, setTalkRoom] = useRecoilState(selectTalkRoom)
-
-    const newTalk = async () => {
-        const talkRoomName = talkRoom === '' ? 'ルフィ': ''
-        setTalkRoom(talkRoomName)
-        await props.setTalks(await getTalkFile(talkRoomName))
-    }
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     return (
         <Box component="nav"
@@ -66,10 +46,18 @@ const SidePanel = (props: Props) => {
                 open
                 >
                 <Box sx={{ height: 'calc(100vh - 2.5rem)' }}>
-                    <Button variant="outlined" disableElevation onClick={newTalk} sx={{ margin: '1rem'}}>
+                    <Button variant="outlined" disableElevation onClick={handleOpen} sx={{ margin: '1rem'}}>
                         新しい会話
                     </Button>
-                    <TalkRoomList setTalks={props.setTalks}/>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <NewTalkModal />
+                    </Modal>
+                    <TalkRoomList />
                 </Box>
 
                 <SideFooter/>
