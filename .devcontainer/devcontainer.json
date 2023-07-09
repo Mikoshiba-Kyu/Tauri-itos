@@ -9,7 +9,8 @@
 			"extensions": [
 				"rust-lang.rust-analyzer",
 				"ms-vscode-remote.remote-containers",
-				"esbenp.prettier-vscode"
+				"esbenp.prettier-vscode",
+				"tauri-apps.tauri-vscode"
 			]
 		}
 	}
