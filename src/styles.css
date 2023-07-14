@@ -1,9 +1,19 @@
-::-webkit-scrollbar{
-  width: 10px;
+::-webkit-scrollbar {
+  width: 8px;
 }
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
   background-color: #121212;
 }
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background-color: #585858;
+}
+
+:root {
+  --column-header-height: 68px;
+  --column-close-input-height: 24px;
+  --column-open-input-height: 12rem;
+}
+
+body {
+  overflow-y: hidden;
 }

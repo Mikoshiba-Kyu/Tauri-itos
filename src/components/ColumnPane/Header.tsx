@@ -6,9 +6,9 @@
 import { Box, Typography } from '@mui/material'
 
 const style = {
-  height: '68px',
+  height: 'var(--column-header-height)',
+  width: '100%',
   padding: '1rem',
-  borderBottom: '1px solid gray',
 }
 
 interface Props {

@@ -13,8 +13,7 @@ import { appLocalDataDir } from '@tauri-apps/api/path'
 import { exists, readTextFile, writeTextFile } from '@tauri-apps/api/fs'
 
 // Types
-import { TalkList } from '../types/types'
-import { TalkData } from '../types/types'
+import { TalkList, TalkData, Columns } from '../types/types'
 
 /**
  * ---------------------- Contents ----------------------
@@ -27,6 +26,16 @@ export const getTalkListFile = async (): Promise<TalkList> => {
 
   isLogging && console.log(`[App] [${moduleName}] [getTalkListFile] End`)
   return JSON.parse(talkListJson)
+}
+
+export const getColumnsFile = async (): Promise<Columns> => {
+  isLogging && console.log(`[App] [${moduleName}] [getColumnsFile] Start`)
+
+  const columnsFilePath = `${await appLocalDataDir()}data/columns.json`
+  const columnsJson = await readTextFile(columnsFilePath)
+
+  isLogging && console.log(`[App] [${moduleName}] [getColumnsFile] End`)
+  return JSON.parse(columnsJson)
 }
 
 export const getTalkFile = async (talkRoom: string): Promise<TalkData> => {

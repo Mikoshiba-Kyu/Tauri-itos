@@ -11,7 +11,6 @@ const moduleName = 'App.tsx'
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { settingsState } from './atoms/settingsState'
-import { talkListState } from './atoms/talkList'
 
 // MUI
 import CssBaseline from '@mui/material/CssBaseline'
@@ -25,6 +24,7 @@ import Pane from './components/ColumnPane/Pane'
 
 // Utils
 import { lightTheme, darkTheme } from './utils/theme'
+import Columns from './components/Columns/Columns'
 
 // Types
 
@@ -35,7 +35,7 @@ const App = () => {
   isLogging && console.log(`[App] [${moduleName}] Render.`)
 
   const settings = useRecoilValue(settingsState)
-  const talkList = useRecoilValue(talkListState)
+
   const [isOpenPanel, setOpenPanel] = useState(false)
 
   const theme = createTheme({
@@ -51,9 +51,7 @@ const App = () => {
           <CssBaseline />
           <SidePanel />
           {/* <Content /> */}
-          {talkList.map((item) => {
-            return <Pane id={item.id} name={item.name}></Pane>
-          })}
+          <Columns />
         </Box>
       </ThemeProvider>
     </>
