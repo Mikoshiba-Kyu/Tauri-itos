@@ -22,33 +22,33 @@ import SettingsModal from './SettingsModal'
  * ---------------------- Styles ----------------------
  */
 const style: object = {
-    width: '100%',
-    height: '2.5rem',
-} 
+  width: '100%',
+  height: '2.5rem',
+}
 
 /**
  * ---------------------- Contents ----------------------
  */
 const SideFooter = () => {
-    const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-    return (
-        <Box sx={style}>
-            <IconButton aria-label="delete">
-                <SettingsIcon fontSize="small" onClick={handleOpen} />
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <SettingsModal />
-                </Modal>
-            </IconButton>
-        </Box>
-	)
+  return (
+    <Box sx={style}>
+      <IconButton aria-label="delete">
+        <SettingsIcon fontSize="small" onClick={handleOpen} />
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <SettingsModal />
+        </Modal>
+      </IconButton>
+    </Box>
+  )
 }
 
 export default SideFooter

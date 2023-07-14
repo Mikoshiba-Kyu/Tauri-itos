@@ -13,7 +13,7 @@
   "tauri": {
     "allowlist": {
       "path": {
-        "all":true
+        "all": true
       },
       "fs": {
         "exists": true,
@@ -22,6 +22,7 @@
         "readDir": true,
         "scope": [
           "$APPLOCALDATA/*",
+          "$APPLOCALDATA/data/*",
           "$APPLOCALDATA/Prompt/*",
           "$APPLOCALDATA/Talkroom/*",
           "$APPLOCALDATA/Avatar/*"
@@ -33,7 +34,7 @@
       },
       "protocol": {
         "asset": true,
-        "assetScope": [ "$APPLOCALDATA/Avatar/*" ]
+        "assetScope": ["$APPLOCALDATA/Avatar/*"]
       }
     },
     "bundle": {
