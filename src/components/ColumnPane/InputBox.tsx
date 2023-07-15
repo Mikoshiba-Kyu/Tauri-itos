@@ -48,12 +48,10 @@ const InputBox = (props: Props) => {
         return
       }
 
-      // const sendingAll: any = [...talkData, { role: 'user', content: inputVal }]
-      // setTalkData(sendingAll)
-
       // 送信用のデータを作成し、テキストフィールドを空にする
+      const beforeData: TalkFile = talkFile
       const sendData: TalkData[] = [
-        ...talkFile.talks,
+        ...beforeData.talks,
         { role: 'user', content: messageValue },
       ]
 
@@ -74,7 +72,10 @@ const InputBox = (props: Props) => {
 
       try {
         const response = await openai.createChatCompletion({
-          model: 'gpt-3.5-turbo-0301',
+          model: 'gpt-4',
+          // TODO: Settingsからモデルを選択できるようにする
+          // model: 'gpt-3.5-turbo',
+          // model: 'gpt-4',
           messages: sendData as ChatCompletionRequestMessage[],
         })
 
@@ -103,6 +104,11 @@ const InputBox = (props: Props) => {
         //@ts-ignore
         await saveTalkFile(fixedTalkFile)
       } catch (err) {
+        // beforeDataに戻す
+        setTalkFile(beforeData)
+
+        // TODO: SnackBarでエラーを表示する
+
         return {
           role: 'assistant',
           content: 'エラーです',
@@ -151,4 +157,5 @@ const InputBox = (props: Props) => {
     </Accordion>
   )
 }
+
 export default InputBox
