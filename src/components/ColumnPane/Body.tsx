@@ -1,10 +1,10 @@
 import { Box, Typography, Grid } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
-import { TalkData } from '../../types/types'
+import { TalkFile } from '../../types/types'
 
 interface Props {
-  talkData: TalkData
+  talkFile?: TalkFile
 }
 
 const style = {
@@ -21,19 +21,21 @@ const cardStyle = {
 }
 
 const Body = (props: Props) => {
-  const { talkData } = props
+  const { talkFile } = props
+
+  if (!talkFile) return null
 
   return (
     <Box sx={style}>
-      {talkData.map((item, i) => {
+      {talkFile.talks.map((talk, i) => {
         return (
           <Box key={i} sx={cardStyle}>
             <Grid container>
               <Grid sx={{ width: '48px' }}>
-                {item.role === 'user' ? <PersonIcon /> : <AcUnitIcon />}
+                {talk.role === 'user' ? <PersonIcon /> : <AcUnitIcon />}
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
-                <Typography variant="body2">{item.content}</Typography>
+                <Typography variant="body2">{talk.content}</Typography>
               </Grid>
             </Grid>
           </Box>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { talkListState } from '../../atoms/talkList'
+import { columnListState } from '../../atoms/columnList'
 import {
   Box,
   Button,
@@ -10,8 +11,13 @@ import {
   Typography,
 } from '@mui/material'
 import { Spacer } from '../Spacer'
-import { saveTalks } from '../../utils/files'
+import {
+  saveTalkFile,
+  saveTalkListFile,
+  saveColumnListFile,
+} from '../../utils/files'
 import { v4 as uuidv4 } from 'uuid'
+import { TalkData, TalkList } from '../../types/types'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -26,23 +32,52 @@ const style = {
   p: 4,
 }
 
-const NewTalkModal = () => {
+interface Props {
+  handleNewTalkClose: () => void
+}
+
+const NewTalkModal = (props: Props) => {
+  const { handleNewTalkClose }: Props = props
+
   const [titleVal, setTitleValue] = useState('')
   const [promptVal, setPromptValue] = useState('')
   const [titleError, setTitleError] = useState(false)
-
-  // TODO: useRecoilValueで取得すると配列ではなくなってしまう。この書き方しか方法がないのか調査する
-  const loadableTalkList = useRecoilValueLoadable(talkListState)
-  const talkList =
-    loadableTalkList.state === 'hasValue' ? loadableTalkList.contents : []
+  const [talkList, setTalkList] = useRecoilState(talkListState)
+  const [columnList, setColumnList] = useRecoilState(columnListState)
 
   const checkTitle = (checkedValue: string): boolean => {
     return talkList.some((talk) => talk.name === checkedValue)
   }
 
   const submit = async () => {
-    //setTalkNameList([...talkRoomList, inputVal])
-    //await saveTalks([], inputVal)
+    const id = uuidv4()
+    const name = titleVal
+    const talks: TalkData[] = [{ role: 'system', content: promptVal }]
+
+    const data = {
+      id,
+      name,
+      talks,
+    }
+
+    // トークファイルを生成する
+    await saveTalkFile(data)
+
+    // トークリストファイルを更新する
+    const newTalkList: TalkList = [
+      ...talkList,
+      { id: data.id, name: data.name },
+    ]
+    setTalkList(newTalkList)
+    await saveTalkListFile(newTalkList)
+
+    // カラムリストファイルを更新する
+    const newColumnList = [...columnList, data.id]
+    setColumnList(newColumnList)
+    await saveColumnListFile(newColumnList)
+
+    // モーダルを閉じる
+    handleNewTalkClose()
   }
 
   return (

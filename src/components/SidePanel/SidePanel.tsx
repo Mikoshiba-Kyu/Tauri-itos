@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Box, Button, Drawer, Modal, Typography } from '@mui/material'
-import TalkRoomList from '../TalkRoomList'
 import SideFooter from './SideFooter'
 import NewTalkModal from './NewTalkModal'
 
@@ -10,8 +9,6 @@ const SidePanel = () => {
   const [newTalkOpen, setNewTalkOpen] = useState<boolean>(false)
   const handleNewTalkOpen = () => setNewTalkOpen(true)
   const handleNewTalkClose = () => setNewTalkOpen(false)
-
-  const handleNewTalk = () => {}
 
   return (
     <Box
@@ -32,9 +29,8 @@ const SidePanel = () => {
             New Talk
           </Button>
           <Modal open={newTalkOpen} onClose={handleNewTalkClose}>
-            <NewTalkModal />
+            <NewTalkModal handleNewTalkClose={handleNewTalkClose} />
           </Modal>
-          <TalkRoomList />
         </Box>
 
         <SideFooter />

@@ -5,13 +5,13 @@ import { atom } from 'recoil'
 import { ColumnList } from '../types/types'
 
 // Utils
-import { getColumnListFile } from '../utils/files'
+import { loadColumnListFile } from '../utils/files'
 
 const setDefaultValue = async () => {
-  return await getColumnListFile()
+  return await loadColumnListFile()
 }
 
-export const columnsState = atom<ColumnList>({
+export const columnListState = atom<ColumnList>({
   key: 'ColumnListState',
   default: setDefaultValue(),
 })

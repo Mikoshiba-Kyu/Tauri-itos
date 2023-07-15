@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
 import Header from './Header'
 import Body from './Body'
-import { TalkData } from '../../types/types'
-import { getTalkFile } from '../../utils/files'
+import { TalkFile } from '../../types/types'
+import { loadTalkFile } from '../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
 
 interface Props {
   id: string
-  name: string
 }
 
 const style = {
@@ -23,9 +22,9 @@ const resizeHandleClasses = {
 }
 
 const Pane = (props: Props) => {
-  const { id, name } = props
+  const { id } = props
 
-  const [talkData, setTalkData] = useState<TalkData>([])
+  const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
   const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
 
   const handleResize: RndResizeCallback = (_, __, elementRef) => {
@@ -35,8 +34,8 @@ const Pane = (props: Props) => {
   // レンダリング時に対応するIDのトークファイルからデータを取得する
   useEffect(() => {
     const setData = async () => {
-      const result = await getTalkFile(id)
-      setTalkData(result)
+      const result: TalkFile = await loadTalkFile(id)
+      setTalkFile(result)
     }
     setData()
   }, [])
@@ -67,9 +66,9 @@ const Pane = (props: Props) => {
         onResize={handleResize}
         style={{ position: 'inherit' }}
       >
-        <Header id={id} name={name}></Header>
+        <Header talkFile={talkFile}></Header>
         <InputBox />
-        <Body talkData={talkData}></Body>
+        <Body talkFile={talkFile}></Body>
       </Rnd>
     </Box>
   )

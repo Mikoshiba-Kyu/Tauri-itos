@@ -1,9 +1,5 @@
-/**
- * ---------------------- Import ----------------------
- */
-
-// MUI
 import { Box, Typography } from '@mui/material'
+import { TalkFile } from '../../types/types'
 
 const style = {
   height: 'var(--column-header-height)',
@@ -12,16 +8,17 @@ const style = {
 }
 
 interface Props {
-  id: string
-  name: string
+  talkFile?: TalkFile
 }
 
 const Header = (props: Props) => {
-  const { id, name } = props
+  const { talkFile } = props
+
+  if (!talkFile) return null
 
   return (
     <Box sx={style}>
-      <Typography variant={'h6'}>{name}</Typography>
+      <Typography variant={'h6'}>{talkFile.name}</Typography>
     </Box>
   )
 }

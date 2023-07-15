@@ -5,10 +5,10 @@ import { atom } from 'recoil'
 import { TalkList } from '../types/types'
 
 // Utils
-import { getTalkListFile } from '../utils/files'
+import { loadTalkListFile } from '../utils/files'
 
 const setDefaultValue = async () => {
-  return await getTalkListFile()
+  return await loadTalkListFile()
 }
 
 export const talkListState = atom<TalkList>({

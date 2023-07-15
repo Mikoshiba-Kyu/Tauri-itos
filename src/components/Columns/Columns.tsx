@@ -1,14 +1,14 @@
 import { useRecoilValue } from 'recoil'
 import { talkListState } from '../../atoms/talkList'
-import { columnsState } from '../../atoms/columnsState'
+import { columnListState } from '../../atoms/columnList'
 import Pane from '../ColumnPane/Pane'
 import { Box } from '@mui/material'
 
 const Columns = () => {
-  const columns = useRecoilValue(columnsState)
+  const columnList = useRecoilValue(columnListState)
   const talkList = useRecoilValue(talkListState)
 
-  const availableTalkList = columns.map((column) => {
+  const availableTalkList = columnList.map((column) => {
     return talkList.find((talk) => talk.id === column)
   })
 
@@ -22,7 +22,7 @@ const Columns = () => {
       sx={{ overflowX: 'auto' }}
     >
       {availableTalkList.map((item) => {
-        return item && <Pane id={item.id} name={item.name}></Pane>
+        return item && <Pane id={item.id}></Pane>
       })}
     </Box>
   )
