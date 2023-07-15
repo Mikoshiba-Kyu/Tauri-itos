@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { talkRoomNames } from '../../atoms/talkRoomNames'
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil'
+import { talkListState } from '../../atoms/talkList'
 import {
   Box,
   Button,
@@ -19,7 +19,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 600,
-  height: 400,
+  height: 600,
   bgcolor: 'background.paper',
   borderRadius: '0.6rem',
   boxShadow: 24,
@@ -27,21 +27,22 @@ const style = {
 }
 
 const NewTalkModal = () => {
-  const [inputVal, setInputValue] = useState('')
-  const [inputError, setInputError] = useState(false)
-  const [talkRoomList, setTalkNameList] = useRecoilState(talkRoomNames)
+  const [titleVal, setTitleValue] = useState('')
+  const [promptVal, setPromptValue] = useState('')
+  const [titleError, setTitleError] = useState(false)
 
-  const checkValue = (checkedValue: string): boolean => {
-    return talkRoomList.includes(checkedValue)
+  // TODO: useRecoilValueで取得すると配列ではなくなってしまう。この書き方しか方法がないのか調査する
+  const loadableTalkList = useRecoilValueLoadable(talkListState)
+  const talkList =
+    loadableTalkList.state === 'hasValue' ? loadableTalkList.contents : []
+
+  const checkTitle = (checkedValue: string): boolean => {
+    return talkList.some((talk) => talk.name === checkedValue)
   }
 
   const submit = async () => {
-    if (inputVal === '') return
-    if (inputError) return
-
-    setTalkNameList([...talkRoomList, inputVal])
-
-    await saveTalks([], inputVal)
+    //setTalkNameList([...talkRoomList, inputVal])
+    //await saveTalks([], inputVal)
   }
 
   return (
@@ -59,20 +60,48 @@ const NewTalkModal = () => {
       <Spacer size="1rem" />
 
       <TextField
-        value={inputVal}
-        error={inputError}
-        helperText={inputError && '同名のトークルームがすでに存在しています。'}
+        value={titleVal}
+        error={titleError}
+        helperText={titleError && '同名のトークルームがすでに存在しています。'}
         fullWidth
+        required
         size="small"
         variant="standard"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setInputValue(event.target.value)
-          setInputError(checkValue(event.target.value))
+          setTitleValue(event.target.value)
+          setTitleError(checkTitle(event.target.value))
         }}
       />
+
+      <Spacer size="1rem" />
+
+      <FormControl>
+        <FormLabel>
+          <Typography variant="caption">
+            プロンプトを入力してください。
+          </Typography>
+        </FormLabel>
+      </FormControl>
+
+      <Spacer size="1rem" />
+
+      <TextField
+        value={promptVal}
+        fullWidth
+        multiline
+        rows={14}
+        size="small"
+        variant="outlined"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setPromptValue(event.target.value)
+        }}
+      />
+
+      <Spacer size="1rem" />
+
       <Button
         variant="outlined"
-        disableElevation
+        disabled={titleError || titleVal === ''}
         onClick={submit}
         sx={{ marginTop: '1rem' }}
       >
