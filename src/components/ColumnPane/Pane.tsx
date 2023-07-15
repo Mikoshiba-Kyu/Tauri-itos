@@ -40,6 +40,8 @@ const Pane = (props: Props) => {
     setData()
   }, [])
 
+  if (!talkFile) return null
+
   return (
     <Box sx={style}>
       <Rnd
@@ -67,7 +69,7 @@ const Pane = (props: Props) => {
         style={{ position: 'inherit' }}
       >
         <Header talkFile={talkFile}></Header>
-        <InputBox />
+        <InputBox talkFile={talkFile} setTalkFile={setTalkFile} />
         <Body talkFile={talkFile}></Body>
       </Rnd>
     </Box>
