@@ -18,7 +18,7 @@ import { Box } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 // Components
-import SidePanel from './components/SidePanel'
+import SidePanel from './components/SidePanel/SidePanel'
 import Content from './components/Content'
 import Pane from './components/ColumnPane/Pane'
 
