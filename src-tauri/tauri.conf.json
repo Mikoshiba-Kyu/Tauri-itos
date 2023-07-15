@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "chatgpt-client",
+    "productName": "itos",
     "version": "0.0.0"
   },
   "tauri": {
@@ -46,7 +46,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "chatgptclient",
+      "identifier": "itos",
       "targets": "all"
     },
     "security": {
@@ -59,7 +59,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "chatgpt-client",
+        "title": "itos powered by GPT",
         "width": 800,
         "height": 600
       }
