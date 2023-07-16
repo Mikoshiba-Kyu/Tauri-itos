@@ -26,6 +26,7 @@ const Pane = (props: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
   const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
   const handleResize: RndResizeCallback = (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
@@ -73,8 +74,14 @@ const Pane = (props: Props) => {
           talkFile={talkFile}
           setTalkFile={setTalkFile}
           scrollRef={scrollRef}
+          isAccordionOpen={isAccordionOpen}
+          setIsAccordionOpen={setIsAccordionOpen}
         />
-        <Body talkFile={talkFile} scrollRef={scrollRef}></Body>
+        <Body
+          talkFile={talkFile}
+          scrollRef={scrollRef}
+          isAcorrdionOpen={isAccordionOpen}
+        ></Body>
       </Rnd>
     </Box>
   )

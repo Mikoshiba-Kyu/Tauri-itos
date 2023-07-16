@@ -8,11 +8,10 @@ import { TalkFile } from '../../types/types'
 export interface Props {
   talkFile?: TalkFile
   scrollRef: React.RefObject<HTMLDivElement>
+  isAcorrdionOpen: boolean
 }
 
 const style = {
-  height:
-    'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)', // TODO: 8pxはどこから生まれるのか
   width: '100%',
   overflowY: 'auto',
 }
@@ -25,9 +24,13 @@ const cardStyle = {
 }
 
 const Body = (props: Props) => {
-  const { talkFile, scrollRef } = props
+  const { talkFile, scrollRef, isAcorrdionOpen } = props
 
   const settings = useRecoilValue(settingsState)
+
+  const bodyHeight = isAcorrdionOpen
+    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxはどこから生まれるのか
+    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxはどこから生まれるのか
 
   if (!talkFile) return null
 
@@ -36,7 +39,7 @@ const Body = (props: Props) => {
   settings.TimelineSort !== 'asc' && displayTalks.reverse()
 
   return (
-    <Box ref={scrollRef} sx={style}>
+    <Box ref={scrollRef} sx={{ ...style, height: bodyHeight }}>
       {displayTalks.map((talk, i) => {
         return (
           <Box key={i} sx={cardStyle}>
