@@ -23,7 +23,7 @@ const resizeHandleClasses = {
 
 const Pane = (props: Props) => {
   const { id } = props
-
+  const scrollRef = useRef<HTMLDivElement>(null)
   const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
   const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
 
@@ -69,8 +69,12 @@ const Pane = (props: Props) => {
         style={{ position: 'inherit' }}
       >
         <Header talkFile={talkFile}></Header>
-        <InputBox talkFile={talkFile} setTalkFile={setTalkFile} />
-        <Body talkFile={talkFile}></Body>
+        <InputBox
+          talkFile={talkFile}
+          setTalkFile={setTalkFile}
+          scrollRef={scrollRef}
+        />
+        <Body talkFile={talkFile} scrollRef={scrollRef}></Body>
       </Rnd>
     </Box>
   )

@@ -23,18 +23,38 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SendIcon from '@mui/icons-material/Send'
 import { TalkFile, TalkData } from '../../types/types'
 
+interface Props {
+  talkFile: TalkFile
+  setTalkFile: any
+  scrollRef: React.RefObject<HTMLDivElement>
+}
+
+const adjustScroll = (
+  scrollRef: React.RefObject<HTMLDivElement>,
+  timelineSort?: string
+) => {
+  setTimeout(() => {
+    if (scrollRef.current) {
+      let element
+      timelineSort !== 'asc'
+        ? (element = scrollRef.current.firstElementChild as HTMLElement)
+        : (element = scrollRef.current.lastElementChild as HTMLElement)
+
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      })
+    }
+  }, 0)
+}
+
 const inputStyle: object = {
   width: '100%',
   height: 'var(--column-open-input-height)',
 }
 
-interface Props {
-  talkFile: TalkFile
-  setTalkFile: any
-}
-
 const InputBox = (props: Props) => {
-  const { talkFile, setTalkFile } = props
+  const { talkFile, setTalkFile, scrollRef } = props
 
   const [messageValue, setMessageValue] = useState<string>('')
   const settings = useRecoilValue(settingsState)
@@ -57,14 +77,7 @@ const InputBox = (props: Props) => {
 
       setTalkFile({ ...talkFile, talks: sendData })
       setMessageValue('')
-
-      // setTimeout(() => {
-      //   if (props.scrollRef.current) {
-      //     const element = props.scrollRef.current
-      //       .lastElementChild as HTMLElement
-      //     element.scrollIntoView({ behavior: 'smooth', block: 'end' })
-      //   }
-      // }, 0)
+      adjustScroll(scrollRef, settings.TimelineSort)
 
       // OpenAIのAPIを叩く
       const configuration = new Configuration({ apiKey })
@@ -72,7 +85,7 @@ const InputBox = (props: Props) => {
 
       try {
         const response = await openai.createChatCompletion({
-          model: 'gpt-4',
+          model: 'gpt-3.5-turbo',
           // TODO: Settingsからモデルを選択できるようにする
           // model: 'gpt-3.5-turbo',
           // model: 'gpt-4',
@@ -90,14 +103,7 @@ const InputBox = (props: Props) => {
         // talkFileのステートを更新し、描画結果にスクロールを反映する
         const fixedTalkFile = { ...talkFile, talks: [...sendData, res] }
         setTalkFile(fixedTalkFile)
-
-        // setTimeout(() => {
-        //   if (props.scrollRef.current) {
-        //     const element = props.scrollRef.current
-        //       .lastElementChild as HTMLElement
-        //     element.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        //   }
-        // }, 0)
+        adjustScroll(scrollRef, settings.TimelineSort)
 
         // talkFileを更新する
         // TODO talksの型が違うので、可能であれば型を合わせたい

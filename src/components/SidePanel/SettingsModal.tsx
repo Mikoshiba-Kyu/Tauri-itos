@@ -1,18 +1,5 @@
-/**
- * ---------------------- Dev Settings ----------------------
- */
-const isLogging = true
-const moduleName = 'SettingsModal.tsx'
-
-/**
- * ---------------------- Import ----------------------
- */
-
-// React
 import { useRecoilState } from 'recoil'
 import { settingsState } from '../../atoms/settingsState'
-
-// MUI
 import {
   Box,
   FormControl,
@@ -24,18 +11,8 @@ import {
   Typography,
 } from '@mui/material'
 import { Spacer } from '../Spacer'
-
-// Utils
 import { saveConfig } from '../../utils/config'
 
-/**
- * ---------------------- Props ----------------------
- */
-export interface Props {}
-
-/**
- * ---------------------- Styles ----------------------
- */
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -49,17 +26,10 @@ const style = {
   p: 4,
 }
 
-/**
- * ---------------------- Contents ----------------------
- */
-const SettingsModal = (props: Props) => {
-  isLogging && console.log(`[App] [${moduleName}] Render.`)
-
+const SettingsModal = () => {
   const [settings, setSettings] = useRecoilState(settingsState)
 
-  /**
-   * テーマ
-   */
+  // Theme
   const onThemeChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
@@ -69,9 +39,7 @@ const SettingsModal = (props: Props) => {
     })()
   }
 
-  /**
-   * ChatGPT API Key
-   */
+  // ChatGPT API Key
   const onAPIKeyChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
@@ -80,6 +48,17 @@ const SettingsModal = (props: Props) => {
       await saveConfig({ ApiKey: value })
     })()
   }
+
+  // Timeline Sort
+  const onTimelineSortChange =
+    () => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value
+
+      setSettings({ ...settings, ...{ TimelineSort: value } })
+      ;(async () => {
+        await saveConfig({ TimelineSort: value })
+      })()
+    }
 
   return (
     <Box sx={style}>
@@ -119,6 +98,31 @@ const SettingsModal = (props: Props) => {
         defaultValue={settings.ApiKey}
         onChange={onAPIKeyChange()}
       />
+
+      <Spacer size="1rem" />
+
+      <FormControl>
+        <FormLabel>
+          <Typography variant="caption">タイムラインの並び順</Typography>
+        </FormLabel>
+
+        <RadioGroup
+          row
+          defaultValue={() => settings.Theme}
+          onChange={onTimelineSortChange()}
+        >
+          <FormControlLabel
+            value="asc"
+            control={<Radio size="small" />}
+            label="昇順"
+          />
+          <FormControlLabel
+            value="desc"
+            control={<Radio size="small" />}
+            label="降順"
+          />
+        </RadioGroup>
+      </FormControl>
     </Box>
   )
 }
