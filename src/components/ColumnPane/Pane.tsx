@@ -7,7 +7,7 @@ import { loadTalkFile } from '../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
 
-interface Props {
+export interface Props {
   id: string
 }
 

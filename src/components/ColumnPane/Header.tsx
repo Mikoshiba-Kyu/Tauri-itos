@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material'
 import { TalkFile } from '../../types/types'
 
+export interface Props {
+  talkFile?: TalkFile
+}
+
 const style = {
   height: 'var(--column-header-height)',
   width: '100%',
   padding: '1rem',
-}
-
-interface Props {
-  talkFile?: TalkFile
 }
 
 const Header = (props: Props) => {

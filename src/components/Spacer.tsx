@@ -1,25 +1,10 @@
-/**
- * ---------------------- Dev Settings ----------------------
- */
-const isLogging = true
-const moduleName = 'Spacer.tsx'
-
-/**
- * ---------------------- Import ----------------------
- */
 import { Box } from '@mui/material'
 
-/**
- * ---------------------- Props ----------------------
- */
 export interface Props {
   size: string
   horizontal?: boolean
 }
 
-/**
- * ---------------------- Contents ----------------------
- */
 export const Spacer = (props: Props) => {
   return (
     <Box

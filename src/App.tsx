@@ -1,39 +1,14 @@
-/**
- * ---------------------- Dev Settings ----------------------
- */
-const isLogging = true
-const moduleName = 'App.tsx'
-
-/**
- * ---------------------- Import ----------------------
- */
-// React
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { settingsState } from './atoms/settingsState'
-
-// MUI
 import CssBaseline from '@mui/material/CssBaseline'
 import { Box } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-
-// Components
 import SidePanel from './components/SidePanel/SidePanel'
-import Content from './components/Content'
-import Pane from './components/ColumnPane/Pane'
-
-// Utils
 import { lightTheme, darkTheme } from './utils/theme'
-import Columns from './components/Columns/Columns'
+import TimeLine from './components/TimeLine/TimeLine'
 
-// Types
-
-/**
- * ---------------------- Contents ----------------------
- */
 const App = () => {
-  isLogging && console.log(`[App] [${moduleName}] Render.`)
-
   const settings = useRecoilValue(settingsState)
 
   const [isOpenPanel, setOpenPanel] = useState(false)
@@ -50,8 +25,7 @@ const App = () => {
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
           <SidePanel />
-          {/* <Content /> */}
-          <Columns />
+          <TimeLine />
         </Box>
       </ThemeProvider>
     </>

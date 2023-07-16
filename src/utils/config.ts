@@ -1,14 +1,4 @@
-/**
- * ---------------------- Dev Settings ----------------------
- */
-const isLogging = true
-const moduleName = 'config.ts'
-
-/**
- * ---------------------- Import ----------------------
- */
-// Tauri
-import { appLocalDataDir, localDataDir } from '@tauri-apps/api/path'
+import { appLocalDataDir } from '@tauri-apps/api/path'
 import { exists, writeTextFile, readTextFile } from '@tauri-apps/api/fs'
 
 export type Config = {
@@ -17,12 +7,7 @@ export type Config = {
   TimelineSort?: string
 }
 
-/**
- * config.json を初期値で生成する
- */
 const initConfig = async (): Promise<void> => {
-  isLogging && console.log(`[App] [${moduleName}] [initConfig] Start`)
-
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 
   const settings: Config = {
@@ -32,34 +17,23 @@ const initConfig = async (): Promise<void> => {
   }
 
   await writeTextFile(cfgFilePath, JSON.stringify(settings, null, 2))
-  isLogging &&
-    console.log(
-      `[App] [${moduleName}] [initConfig] Created default config.json.`
-    )
-  isLogging && console.log(`[App] [${moduleName}] [initConfig] End`)
 }
 
 /**
  * config.json の内容を Config型で取得する。
  */
 export const loadConfig = async (): Promise<Config> => {
-  isLogging && console.log(`[App] [${moduleName}] [loadConfig] Start`)
-
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 
   // config.json が存在しなければ初期値で生成する
   if (!(await exists(cfgFilePath))) {
-    isLogging && console.log(`[App] [${moduleName}] config.json is exists.`)
+    console.log(`[itos] config.json is not exists. Re-create ${cfgFilePath}`)
     await initConfig()
   }
 
   const configText = await readTextFile(cfgFilePath)
+  console.log(`[itos] Load ${cfgFilePath}`)
 
-  isLogging &&
-    console.log(
-      `[App] [${moduleName}] [loadConfig] Load config.json ${configText}`
-    )
-  isLogging && console.log(`[App] [${moduleName}] [loadConfig] End`)
   return JSON.parse(configText)
 }
 
@@ -67,13 +41,10 @@ export const loadConfig = async (): Promise<Config> => {
  * config.json の特定キーの値を更新する。
  */
 export const saveConfig = async (param: object): Promise<void> => {
-  isLogging && console.log(`[App] [${moduleName}] [saveConfig] Start`)
-
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 
   // config.json が存在しなければ初期値で生成する
   if (!(await exists(cfgFilePath))) {
-    isLogging && console.log(`[App] [${moduleName}] config.json is exists.`)
     await initConfig()
   }
 
@@ -83,7 +54,7 @@ export const saveConfig = async (param: object): Promise<void> => {
   const update = { ...configJson, ...param }
 
   await writeTextFile(cfgFilePath, JSON.stringify(update, null, 2))
-  isLogging && console.log(`[App] [${moduleName}] [saveConfig] End`)
+  console.log(`[itos] Save ${cfgFilePath}`)
 }
 
 export default loadConfig

@@ -23,7 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SendIcon from '@mui/icons-material/Send'
 import { TalkFile, TalkData } from '../../types/types'
 
-interface Props {
+export interface Props {
   talkFile: TalkFile
   setTalkFile: any
   scrollRef: React.RefObject<HTMLDivElement>

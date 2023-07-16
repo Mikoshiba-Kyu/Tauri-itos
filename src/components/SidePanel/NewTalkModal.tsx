@@ -32,7 +32,7 @@ const style = {
   p: 4,
 }
 
-interface Props {
+export interface Props {
   handleNewTalkClose: () => void
 }
 

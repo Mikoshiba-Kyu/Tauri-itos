@@ -5,7 +5,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import { TalkFile } from '../../types/types'
 
-interface Props {
+export interface Props {
   talkFile?: TalkFile
   scrollRef: React.RefObject<HTMLDivElement>
 }

@@ -4,7 +4,7 @@ import { columnListState } from '../../atoms/columnList'
 import Pane from '../ColumnPane/Pane'
 import { Box } from '@mui/material'
 
-const Columns = () => {
+const TimeLine = () => {
   const columnList = useRecoilValue(columnListState)
   const talkList = useRecoilValue(talkListState)
 
@@ -27,4 +27,4 @@ const Columns = () => {
     </Box>
   )
 }
-export default Columns
+export default TimeLine
