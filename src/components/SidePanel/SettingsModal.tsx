@@ -108,7 +108,7 @@ const SettingsModal = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.Theme}
+          defaultValue={() => settings.TimelineSort}
           onChange={onTimelineSortChange()}
         >
           <FormControlLabel
