@@ -39,7 +39,7 @@ const Pane = (props: Props) => {
       setTalkFile(result)
     }
     setData()
-  }, [])
+  }, [id])
 
   if (!talkFile) return null
 
