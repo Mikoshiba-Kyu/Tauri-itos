@@ -27,6 +27,8 @@ export interface Props {
   talkFile: TalkFile
   setTalkFile: any
   scrollRef: React.RefObject<HTMLDivElement>
+  isAccordionOpen: boolean
+  setIsAccordionOpen: any
 }
 
 const adjustScroll = (
@@ -54,7 +56,13 @@ const inputStyle: object = {
 }
 
 const InputBox = (props: Props) => {
-  const { talkFile, setTalkFile, scrollRef } = props
+  const {
+    talkFile,
+    setTalkFile,
+    scrollRef,
+    isAccordionOpen,
+    setIsAccordionOpen,
+  } = props
 
   const [messageValue, setMessageValue] = useState<string>('')
   const settings = useRecoilValue(settingsState)
@@ -124,7 +132,12 @@ const InputBox = (props: Props) => {
   }
 
   return (
-    <Accordion disableGutters>
+    <Accordion
+      disableGutters
+      onChange={(_event: React.SyntheticEvent, expanded: boolean) =>
+        setIsAccordionOpen(expanded)
+      }
+    >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon fontSize="small" />}
         aria-controls="panel1a-content"

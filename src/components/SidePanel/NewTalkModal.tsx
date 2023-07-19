@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { Spacer } from '../Spacer'
+import { Spacer } from '../UI/Spacer'
 import {
   saveTalkFile,
   saveTalkListFile,
@@ -68,13 +68,13 @@ const NewTalkModal = (props: Props) => {
       ...talkList,
       { id: data.id, name: data.name },
     ]
-    setTalkList(newTalkList)
     await saveTalkListFile(newTalkList)
+    setTalkList(newTalkList)
 
     // カラムリストファイルを更新する
-    const newColumnList = [...columnList, data.id]
-    setColumnList(newColumnList)
+    const newColumnList = [data.id, ...columnList]
     await saveColumnListFile(newColumnList)
+    setColumnList(newColumnList)
 
     // モーダルを閉じる
     handleNewTalkClose()
