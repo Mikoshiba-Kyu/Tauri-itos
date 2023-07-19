@@ -1,9 +1,25 @@
+import { createTheme } from '@mui/material/styles'
+
+export const theme = (mode?: string) =>
+  createTheme({
+    //TODO 型
+    //@ts-ignore
+    palette: mode === 'light' ? lightTheme : darkTheme,
+  })
+
 export const lightTheme = {
   mode: 'light',
   background: {
-    //default: '#FFFBFE',
-    default: '#F2F2F2',
-    paper: '#F4EFF4',
+    default: '#EFEFEF',
+    paper: '#002984',
+  },
+  text: {
+    primary: '#424242',
+    secondary: '#828282',
+  },
+  iconColor: {
+    primary: '#424242',
+    secondary: '#EAEAEA',
   },
 }
 
@@ -16,5 +32,9 @@ export const darkTheme = {
   text: {
     primary: '#EAEAEA',
     secondary: '#868598',
+  },
+  iconColor: {
+    primary: '#EAEAEA',
+    secondary: '#EAEAEA',
   },
 }

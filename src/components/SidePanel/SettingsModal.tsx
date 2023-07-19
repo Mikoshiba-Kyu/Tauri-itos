@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { Spacer } from '../Spacer'
+import { Spacer } from '../UI/Spacer'
 import { saveConfig } from '../../utils/config'
 
 const style = {
