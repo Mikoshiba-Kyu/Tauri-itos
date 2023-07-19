@@ -4,6 +4,7 @@ import { Box, Typography, Grid } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import { TalkFile } from '../../types/types'
+import BlankContents from '../UI/BlankContents'
 
 export interface Props {
   talkFile?: TalkFile
@@ -32,7 +33,9 @@ const Body = (props: Props) => {
     ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxはどこから生まれるのか
     : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxはどこから生まれるのか
 
-  if (!talkFile) return null
+  if (!talkFile || talkFile.talks.length === 1) {
+    return <BlankContents message={'トークデータがありません'} />
+  }
 
   // talkFileを画面表示用に整形する
   const displayTalks = talkFile.talks.filter((talk) => talk.role !== 'system')
