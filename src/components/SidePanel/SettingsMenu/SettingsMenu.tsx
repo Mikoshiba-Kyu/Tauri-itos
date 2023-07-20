@@ -1,32 +1,26 @@
 import { useRecoilState } from 'recoil'
-import { settingsState } from '../../atoms/settingsState'
+import { settingsState } from '../../../atoms/settingsState'
 import {
   Box,
+  RadioGroup,
   FormControl,
   FormControlLabel,
   FormLabel,
-  Radio,
-  RadioGroup,
   TextField,
   Typography,
+  Radio,
 } from '@mui/material'
-import { Spacer } from '../UI/Spacer'
-import { saveConfig } from '../../utils/config'
+import { Spacer } from '../../UI/Spacer'
+import { saveConfig } from '../../../utils/config'
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  height: 400,
-  bgcolor: 'background.paper',
-  borderRadius: '0.6rem',
-  boxShadow: 24,
-  p: 4,
+  width: '100%',
+  height: 'calc(100vh - var(--expand-menu-header-height))',
+  padding: '1rem',
+  overflowY: 'auto',
 }
 
-const SettingsModal = () => {
+const SettingsMenu = () => {
   const [settings, setSettings] = useRecoilState(settingsState)
 
   // Theme
@@ -62,9 +56,6 @@ const SettingsModal = () => {
 
   return (
     <Box sx={style}>
-      <h2>設定</h2>
-      <Spacer size="1rem" />
-
       <FormControl>
         <FormLabel>
           <Typography variant="caption">テーマ</Typography>
@@ -88,7 +79,7 @@ const SettingsModal = () => {
         </RadioGroup>
       </FormControl>
 
-      <Spacer size="1rem" />
+      <Spacer size="2rem" />
 
       <TextField
         fullWidth
@@ -99,7 +90,7 @@ const SettingsModal = () => {
         onChange={onAPIKeyChange()}
       />
 
-      <Spacer size="1rem" />
+      <Spacer size="2rem" />
 
       <FormControl>
         <FormLabel>
@@ -127,4 +118,4 @@ const SettingsModal = () => {
   )
 }
 
-export default SettingsModal
+export default SettingsMenu

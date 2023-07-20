@@ -34,7 +34,9 @@ const Body = (props: Props) => {
     : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxはどこから生まれるのか
 
   if (!talkFile || talkFile.talks.length === 1) {
-    return <BlankContents message={'トークデータがありません'} />
+    return (
+      <BlankContents message={'トークデータがありません'} height={bodyHeight} />
+    )
   }
 
   // talkFileを画面表示用に整形する

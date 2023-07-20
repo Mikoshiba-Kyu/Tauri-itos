@@ -12,8 +12,12 @@
   --column-header-height: 68px;
   --column-close-input-height: 24px;
   --column-open-input-height: 12rem;
+  --menu-closed-width: 60px;
+  --expand-menu-header-height: 2rem;
 }
 
 body {
-  overflow-y: hidden;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
 }
