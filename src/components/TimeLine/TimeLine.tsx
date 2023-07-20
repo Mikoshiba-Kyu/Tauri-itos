@@ -14,7 +14,12 @@ const TimeLine = () => {
   })
 
   if (!availableTalkList || availableTalkList.length === 0) {
-    return <BlankContents message={'表示するタイムラインがありません'} />
+    return (
+      <BlankContents
+        message={'表示するタイムラインがありません'}
+        height={'100vh'}
+      />
+    )
   }
 
   return (

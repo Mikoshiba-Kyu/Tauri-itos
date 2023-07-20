@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { talkListState } from '../../atoms/talkList'
-import { columnListState } from '../../atoms/columnList'
+import { talkListState } from '../../../atoms/talkList'
+import { columnListState } from '../../../atoms/columnList'
 import {
   Box,
   Button,
@@ -10,34 +10,28 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { Spacer } from '../UI/Spacer'
+import { Spacer } from '../../UI/Spacer'
 import {
   saveTalkFile,
   saveTalkListFile,
   saveColumnListFile,
-} from '../../utils/files'
+} from '../../../utils/files'
 import { v4 as uuidv4 } from 'uuid'
-import { TalkData, TalkList } from '../../types/types'
+import { TalkData, TalkList } from '../../../types/types'
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  height: 600,
-  bgcolor: 'background.paper',
-  borderRadius: '0.6rem',
-  boxShadow: 24,
-  p: 4,
+  width: '100%',
+  height: 'calc(100vh - var(--expand-menu-header-height))',
+  padding: '1rem',
+  overflowY: 'auto',
 }
 
 export interface Props {
-  handleNewTalkClose: () => void
+  setExpandMenu: (value: string) => void
 }
 
-const NewTalkModal = (props: Props) => {
-  const { handleNewTalkClose }: Props = props
+const NewTalkMenu = (props: Props) => {
+  const { setExpandMenu }: Props = props
 
   const [titleVal, setTitleValue] = useState('')
   const [promptVal, setPromptValue] = useState('')
@@ -76,14 +70,12 @@ const NewTalkModal = (props: Props) => {
     await saveColumnListFile(newColumnList)
     setColumnList(newColumnList)
 
-    // モーダルを閉じる
-    handleNewTalkClose()
+    // メニューを閉じる
+    setExpandMenu('')
   }
 
   return (
     <Box sx={style}>
-      <Spacer size="1rem" />
-
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
@@ -92,7 +84,7 @@ const NewTalkModal = (props: Props) => {
         </FormLabel>
       </FormControl>
 
-      <Spacer size="1rem" />
+      {/* <Spacer size="2rem" /> */}
 
       <TextField
         value={titleVal}
@@ -108,7 +100,7 @@ const NewTalkModal = (props: Props) => {
         }}
       />
 
-      <Spacer size="1rem" />
+      {/* <Spacer size="2rem" /> */}
 
       <FormControl>
         <FormLabel>
@@ -118,13 +110,13 @@ const NewTalkModal = (props: Props) => {
         </FormLabel>
       </FormControl>
 
-      <Spacer size="1rem" />
+      {/* <Spacer size="2rem" /> */}
 
       <TextField
         value={promptVal}
         fullWidth
         multiline
-        rows={14}
+        rows={30}
         size="small"
         variant="outlined"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +124,7 @@ const NewTalkModal = (props: Props) => {
         }}
       />
 
-      <Spacer size="1rem" />
+      {/* <Spacer size="1rem" /> */}
 
       <Button
         variant="outlined"
@@ -146,4 +138,4 @@ const NewTalkModal = (props: Props) => {
   )
 }
 
-export default NewTalkModal
+export default NewTalkMenu
