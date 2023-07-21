@@ -1,14 +1,14 @@
 import { appLocalDataDir } from '@tauri-apps/api/path'
-import { readTextFile, writeTextFile } from '@tauri-apps/api/fs'
+import { readTextFile, writeTextFile, exists } from '@tauri-apps/api/fs'
 import { TalkList, ColumnList, TalkFile } from '../types/types'
 
-/**
- * ---------------------- Contents ----------------------
- */
 export const loadTalkListFile = async (): Promise<TalkList> => {
   const talkListFilePath = `${await appLocalDataDir()}data/Talklist.json`
-  const talkListJson = await readTextFile(talkListFilePath)
+  if (!(await exists(talkListFilePath))) {
+    await saveTalkListFile([])
+  }
 
+  const talkListJson = await readTextFile(talkListFilePath)
   console.log(`[itos] Load ${talkListFilePath}`)
   return JSON.parse(talkListJson)
 }
@@ -21,8 +21,11 @@ export const saveTalkListFile = async (data: TalkList): Promise<void> => {
 
 export const loadColumnListFile = async (): Promise<ColumnList> => {
   const columnListFilePath = `${await appLocalDataDir()}data/ColumnList.json`
-  const columnListJson = await readTextFile(columnListFilePath)
+  if (!(await exists(columnListFilePath))) {
+    await saveColumnListFile([])
+  }
 
+  const columnListJson = await readTextFile(columnListFilePath)
   console.log(`[itos] Load ${columnListFilePath}`)
   return JSON.parse(columnListJson)
 }
@@ -35,8 +38,11 @@ export const saveColumnListFile = async (data: string[]): Promise<void> => {
 
 export const loadTalkFile = async (id: string): Promise<TalkFile> => {
   const talkFilePath = `${await appLocalDataDir()}data/${id}.json`
-  const talkJson = await readTextFile(talkFilePath)
+  if (!(await exists(talkFilePath))) {
+    await saveTalkFile({ id, name: '', talks: [] })
+  }
 
+  const talkJson = await readTextFile(talkFilePath)
   console.log(`[itos] Load ${talkFilePath}`)
   return JSON.parse(talkJson)
 }
