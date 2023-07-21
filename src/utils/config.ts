@@ -3,6 +3,7 @@ import { exists, writeTextFile, readTextFile } from '@tauri-apps/api/fs'
 
 export type Config = {
   Theme?: string
+  Language?: string
   ApiKey?: string
   TimelineSort?: string
 }
@@ -12,6 +13,7 @@ const initConfig = async (): Promise<void> => {
 
   const settings: Config = {
     Theme: 'dark',
+    Language: 'en',
     ApiKey: '',
     TimelineSort: 'desc',
   }

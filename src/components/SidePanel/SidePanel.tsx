@@ -7,6 +7,7 @@ import InfoIcon from '@mui/icons-material/Info'
 import ExpandMenuHeader from './ExpandMenuHeader'
 import NewTalkMenu from './NewTalkMenu/NewTalkMenu'
 import SettingsMenu from './SettingsMenu/SettingsMenu'
+import { t } from 'i18next'
 
 const SidePanel = () => {
   const [expandMenu, setExpandMenu] = useState<string>('')
@@ -46,7 +47,7 @@ const SidePanel = () => {
             justifyContent: 'space-between',
           }}
         >
-          <Tooltip title="New Talk">
+          <Tooltip title={t('menu.newTalk')}>
             <IconButton
               onClick={() =>
                 expandMenu === 'newTalk'
@@ -62,7 +63,7 @@ const SidePanel = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Column Settings">
+          <Tooltip title={t('menu.editColumns')}>
             <IconButton
               onClick={() =>
                 expandMenu === 'columnSettings'
@@ -77,7 +78,7 @@ const SidePanel = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Settings">
+          <Tooltip title={t('menu.changeSettings')}>
             <IconButton
               onClick={() =>
                 expandMenu === 'settings'
@@ -92,7 +93,7 @@ const SidePanel = () => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Info">
+          <Tooltip title={t('menu.info')}>
             <IconButton
               onClick={() =>
                 expandMenu === 'info'
@@ -111,27 +112,27 @@ const SidePanel = () => {
           {expandMenu === 'newTalk' ? (
             <Box>
               <ExpandMenuHeader
-                title={'新しい会話を作成する'}
+                title={t('menu.newTalk')}
                 setExpandMenu={setExpandMenu}
               ></ExpandMenuHeader>
               <NewTalkMenu setExpandMenu={setExpandMenu} />
             </Box>
           ) : expandMenu === 'columnSettings' ? (
             <ExpandMenuHeader
-              title={'カラムを編集する'}
+              title={t('menu.editColumns')}
               setExpandMenu={setExpandMenu}
             ></ExpandMenuHeader>
           ) : expandMenu === 'settings' ? (
             <Box>
               <ExpandMenuHeader
-                title={'設定を変更する'}
+                title={t('menu.changeSettings')}
                 setExpandMenu={setExpandMenu}
               ></ExpandMenuHeader>
               <SettingsMenu />
             </Box>
           ) : expandMenu === 'info' ? (
             <ExpandMenuHeader
-              title={'情報'}
+              title={t('menu.info')}
               setExpandMenu={setExpandMenu}
             ></ExpandMenuHeader>
           ) : null}

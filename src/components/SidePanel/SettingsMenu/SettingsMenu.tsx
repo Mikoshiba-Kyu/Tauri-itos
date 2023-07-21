@@ -12,6 +12,8 @@ import {
 } from '@mui/material'
 import { Spacer } from '../../UI/Spacer'
 import { saveConfig } from '../../../utils/config'
+import { useTranslation } from 'react-i18next'
+import { t } from 'i18next'
 
 const style = {
   width: '100%',
@@ -22,6 +24,7 @@ const style = {
 
 const SettingsMenu = () => {
   const [settings, setSettings] = useRecoilState(settingsState)
+  const { i18n } = useTranslation()
 
   // Theme
   const onThemeChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +35,19 @@ const SettingsMenu = () => {
       await saveConfig({ Theme: value })
     })()
   }
+
+  // Language
+  const onLanguageChange =
+    () => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value
+
+      i18n.changeLanguage(value)
+
+      setSettings({ ...settings, ...{ Language: value } })
+      ;(async () => {
+        await saveConfig({ Language: value })
+      })()
+    }
 
   // ChatGPT API Key
   const onAPIKeyChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +74,7 @@ const SettingsMenu = () => {
     <Box sx={style}>
       <FormControl>
         <FormLabel>
-          <Typography variant="caption">テーマ</Typography>
+          <Typography variant="caption">{t('settings.theme')}</Typography>
         </FormLabel>
 
         <RadioGroup
@@ -69,12 +85,37 @@ const SettingsMenu = () => {
           <FormControlLabel
             value="light"
             control={<Radio size="small" />}
-            label="Light"
+            label={t('settings.light')}
           />
           <FormControlLabel
             value="dark"
             control={<Radio size="small" />}
-            label="Dark"
+            label={t('settings.dark')}
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <Spacer size="2rem" />
+
+      <FormControl>
+        <FormLabel>
+          <Typography variant="caption">{t('settings.language')}</Typography>
+        </FormLabel>
+
+        <RadioGroup
+          row
+          defaultValue={() => settings.Language}
+          onChange={onLanguageChange()}
+        >
+          <FormControlLabel
+            value="en"
+            control={<Radio size="small" />}
+            label={t('settings.english')}
+          />
+          <FormControlLabel
+            value="ja"
+            control={<Radio size="small" />}
+            label={t('settings.japanese')}
           />
         </RadioGroup>
       </FormControl>
@@ -94,7 +135,9 @@ const SettingsMenu = () => {
 
       <FormControl>
         <FormLabel>
-          <Typography variant="caption">タイムラインの並び順</Typography>
+          <Typography variant="caption">
+            {t('settings.timelineSortOrder')}
+          </Typography>
         </FormLabel>
 
         <RadioGroup
@@ -105,12 +148,12 @@ const SettingsMenu = () => {
           <FormControlLabel
             value="asc"
             control={<Radio size="small" />}
-            label="昇順"
+            label={t('settings.ascending')}
           />
           <FormControlLabel
             value="desc"
             control={<Radio size="small" />}
-            label="降順"
+            label={t('settings.descending')}
           />
         </RadioGroup>
       </FormControl>
