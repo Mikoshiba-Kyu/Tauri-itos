@@ -1,0 +1,25 @@
+{
+  "menu": {
+    "newTalk": "新しい会話",
+    "editColumns": "カラムの編集",
+    "changeSettings": "設定を変更する",
+    "info": "情報"
+  },
+  "newConversations": {
+    "enterTitle": "新しい会話のタイトルを入力してください",
+    "sameTitleError": "このタイトルはすでに使用されています",
+    "enterPrompt": "プロンプトを入力してください",
+    "ok": "決定"
+  },
+  "settings": {
+    "theme": "テーマ",
+    "light": "ライト",
+    "dark": "ダーク",
+    "language": "言語",
+    "english": "英語",
+    "japanese": "日本語",
+    "timelineSortOrder": "タイムラインの並び順",
+    "ascending": "昇順",
+    "descending": "降順"
+  }
+}

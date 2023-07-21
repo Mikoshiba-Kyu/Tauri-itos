@@ -18,6 +18,7 @@ import {
 } from '../../../utils/files'
 import { v4 as uuidv4 } from 'uuid'
 import { TalkData, TalkList } from '../../../types/types'
+import { t } from 'i18next'
 
 const style = {
   width: '100%',
@@ -79,7 +80,7 @@ const NewTalkMenu = (props: Props) => {
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            新しい会話のタイトルを入力してください。
+            {t('newConversations.enterTitle')}
           </Typography>
         </FormLabel>
       </FormControl>
@@ -89,7 +90,7 @@ const NewTalkMenu = (props: Props) => {
       <TextField
         value={titleVal}
         error={titleError}
-        helperText={titleError && '同名のトークルームがすでに存在しています。'}
+        helperText={titleError && t('newConversations.sameTitleError')}
         fullWidth
         required
         size="small"
@@ -100,23 +101,21 @@ const NewTalkMenu = (props: Props) => {
         }}
       />
 
-      {/* <Spacer size="2rem" /> */}
+      <Spacer size="2rem" />
 
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            プロンプトを入力してください。
+            {t('newConversations.enterPrompt')}
           </Typography>
         </FormLabel>
       </FormControl>
-
-      {/* <Spacer size="2rem" /> */}
 
       <TextField
         value={promptVal}
         fullWidth
         multiline
-        rows={30}
+        rows={20}
         size="small"
         variant="outlined"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +123,7 @@ const NewTalkMenu = (props: Props) => {
         }}
       />
 
-      {/* <Spacer size="1rem" /> */}
+      <Spacer size="1rem" />
 
       <Button
         variant="outlined"
@@ -132,7 +131,7 @@ const NewTalkMenu = (props: Props) => {
         onClick={submit}
         sx={{ marginTop: '1rem' }}
       >
-        決定
+        {t('newConversations.ok')}
       </Button>
     </Box>
   )

@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import SidePanel from './components/SidePanel/SidePanel'
 import { theme } from './utils/theme'
 import TimeLine from './components/TimeLine/TimeLine'
+import './i18n/configs'
 
 const App = () => {
   const settings = useRecoilValue(settingsState)
