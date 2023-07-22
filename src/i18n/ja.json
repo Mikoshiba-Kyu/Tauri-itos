@@ -11,6 +11,10 @@
     "enterPrompt": "プロンプトを入力してください",
     "ok": "決定"
   },
+  "timeline": {
+    "noTimeline": "表示するタイムラインがありません",
+    "noConversations": "まだ会話がありません"
+  },
   "settings": {
     "theme": "テーマ",
     "light": "ライト",

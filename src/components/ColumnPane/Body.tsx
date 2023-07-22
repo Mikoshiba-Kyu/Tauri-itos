@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import { TalkFile } from '../../types/types'
 import BlankContents from '../UI/BlankContents'
+import { t } from 'i18next'
 
 export interface Props {
   talkFile?: TalkFile
@@ -35,7 +36,10 @@ const Body = (props: Props) => {
 
   if (!talkFile || talkFile.talks.length === 1) {
     return (
-      <BlankContents message={'トークデータがありません'} height={bodyHeight} />
+      <BlankContents
+        message={t('timeline.noConversations')}
+        height={bodyHeight}
+      />
     )
   }
 
