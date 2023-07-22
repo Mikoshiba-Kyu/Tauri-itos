@@ -11,11 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Spacer } from '../../UI/Spacer'
-import {
-  saveTalkFile,
-  saveTalkListFile,
-  saveColumnListFile,
-} from '../../../utils/files'
+import { saveTextFileInDataDir } from '../../../utils/files'
 import { v4 as uuidv4 } from 'uuid'
 import { TalkData, TalkList } from '../../../types/types'
 import { t } from 'i18next'
@@ -56,19 +52,25 @@ const NewTalkMenu = (props: Props) => {
     }
 
     // トークファイルを生成する
-    await saveTalkFile(data)
+    await saveTextFileInDataDir(`${id}.json`, JSON.stringify(data, null, 2))
 
     // トークリストファイルを更新する
     const newTalkList: TalkList = [
       ...talkList,
       { id: data.id, name: data.name },
     ]
-    await saveTalkListFile(newTalkList)
+    await saveTextFileInDataDir(
+      'TalkList.json',
+      JSON.stringify(newTalkList, null, 2)
+    )
     setTalkList(newTalkList)
 
     // カラムリストファイルを更新する
     const newColumnList = [data.id, ...columnList]
-    await saveColumnListFile(newColumnList)
+    await saveTextFileInDataDir(
+      'ColumnList.json',
+      JSON.stringify(newColumnList, null, 2)
+    )
     setColumnList(newColumnList)
 
     // メニューを閉じる

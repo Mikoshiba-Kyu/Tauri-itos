@@ -1,14 +1,10 @@
-// Recoil
 import { atom } from 'recoil'
-
-// Types
 import { TalkList } from '../types/types'
+import { loadTextFileInDataDir } from '../utils/files'
 
-// Utils
-import { loadTalkListFile } from '../utils/files'
-
-const setDefaultValue = async () => {
-  return await loadTalkListFile()
+const setDefaultValue = async (): Promise<TalkList> => {
+  const result = await loadTextFileInDataDir('TalkList.json')
+  return result as TalkList
 }
 
 export const talkListState = atom<TalkList>({

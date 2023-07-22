@@ -1,14 +1,10 @@
-// Recoil
 import { atom } from 'recoil'
-
-// Types
 import { ColumnList } from '../types/types'
+import { loadTextFileInDataDir } from '../utils/files'
 
-// Utils
-import { loadColumnListFile } from '../utils/files'
-
-const setDefaultValue = async () => {
-  return await loadColumnListFile()
+const setDefaultValue = async (): Promise<ColumnList> => {
+  const result = await loadTextFileInDataDir('ColumnList.json')
+  return result as ColumnList
 }
 
 export const columnListState = atom<ColumnList>({
