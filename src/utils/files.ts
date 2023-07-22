@@ -18,74 +18,35 @@ export const createDataDir = async (): Promise<void> => {
   }
 }
 
-export const loadTalkListFile = async (): Promise<TalkList> => {
+export const loadTextFileInDataDir = async (
+  fileName: string
+): Promise<TalkList | ColumnList | TalkFile> => {
+  // If the data directory does not exist, recreate it.
   await createDataDir()
 
-  const talkListFilePath = `${await appLocalDataDir()}data/Talklist.json`
-  if (!(await exists(talkListFilePath))) {
-    await saveTalkListFile([])
+  // If there is no target file, it is created by default.
+  const filePath = `${await appLocalDataDir()}data/${fileName}`
+  if (!(await exists(filePath))) {
+    await saveTextFileInDataDir(fileName, '')
   }
 
-  const talkListJson = await readTextFile(talkListFilePath)
-  console.log(`[itos] Load ${talkListFilePath}`)
-  return JSON.parse(talkListJson)
+  const resultJson = await readTextFile(filePath)
+  console.log(`[itos] Load ${filePath}`)
+  return JSON.parse(resultJson)
 }
 
-export const saveTalkListFile = async (data: TalkList): Promise<void> => {
+export const saveTextFileInDataDir = async (
+  fileName: string,
+  data: string
+): Promise<void> => {
+  // If the data directory does not exist, recreate it.
   await createDataDir()
 
-  const talkListFilePath = `${await appLocalDataDir()}data/Talklist.json`
+  const filePath = `${await appLocalDataDir()}data/${fileName}`
   try {
-    await writeTextFile(talkListFilePath, JSON.stringify(data, null, 2))
-    console.log(`[itos] Save ${talkListFilePath}`)
+    await writeTextFile(filePath, data)
+    console.log(`[itos] Save ${filePath}`)
   } catch (error) {
     console.error(error)
   }
-}
-
-export const loadColumnListFile = async (): Promise<ColumnList> => {
-  await createDataDir()
-
-  const columnListFilePath = `${await appLocalDataDir()}data/ColumnList.json`
-  if (!(await exists(columnListFilePath))) {
-    await saveColumnListFile([])
-  }
-
-  const columnListJson = await readTextFile(columnListFilePath)
-  console.log(`[itos] Load ${columnListFilePath}`)
-  return JSON.parse(columnListJson)
-}
-
-export const saveColumnListFile = async (data: string[]): Promise<void> => {
-  await createDataDir()
-
-  const columnListFilePath = `${await appLocalDataDir()}data/Columnlist.json`
-  try {
-    await writeTextFile(columnListFilePath, JSON.stringify(data, null, 2))
-    console.log(`[itos] Save ${columnListFilePath}`)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export const loadTalkFile = async (id: string): Promise<TalkFile> => {
-  await createDataDir()
-
-  const talkFilePath = `${await appLocalDataDir()}data/${id}.json`
-  if (!(await exists(talkFilePath))) {
-    await saveTalkFile({ id, name: '', talks: [] })
-  }
-
-  const talkJson = await readTextFile(talkFilePath)
-  console.log(`[itos] Load ${talkFilePath}`)
-  return JSON.parse(talkJson)
-}
-
-export const saveTalkFile = async (data: TalkFile): Promise<void> => {
-  await createDataDir()
-
-  const talkFilePath = `${await appLocalDataDir()}data/${data.id}.json`
-
-  await writeTextFile(talkFilePath, JSON.stringify(data, null, 2))
-  console.log(`[itos] Save ${talkFilePath}`)
 }

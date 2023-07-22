@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useRecoilValue } from 'recoil'
 import { settingsState } from '../../atoms/settingsState'
-import { saveTalkFile } from '../../utils/files'
+import { saveTextFileInDataDir } from '../../utils/files'
 import {
   ChatCompletionRequestMessage,
   ChatCompletionResponseMessage,
@@ -114,9 +114,11 @@ const InputBox = (props: Props) => {
         adjustScroll(scrollRef, settings.TimelineSort)
 
         // talkFileを更新する
-        // TODO talksの型が違うので、可能であれば型を合わせたい
-        //@ts-ignore
-        await saveTalkFile(fixedTalkFile)
+        const fileName = `${fixedTalkFile.id}.json`
+        await saveTextFileInDataDir(
+          fileName,
+          JSON.stringify(fixedTalkFile, null, 2)
+        )
       } catch (err) {
         // beforeDataに戻す
         setTalkFile(beforeData)
