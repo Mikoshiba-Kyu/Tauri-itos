@@ -17,6 +17,7 @@
       },
       "fs": {
         "exists": true,
+        "createDir": true,
         "writeFile": true,
         "readFile": true,
         "readDir": true,
