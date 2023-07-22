@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AcUnitIcon from '@mui/icons-material/AcUnit'
 import { TalkFile } from '../../types/types'
 import BlankContents from '../UI/BlankContents'
+import { t } from 'i18next'
 
 export interface Props {
   talkFile?: TalkFile
@@ -30,12 +31,15 @@ const Body = (props: Props) => {
   const settings = useRecoilValue(settingsState)
 
   const bodyHeight = isAcorrdionOpen
-    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxはどこから生まれるのか
-    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxはどこから生まれるのか
+    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxのズレがどこから生まれるのか調査する
+    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxのズレがどこから生まれるのか調査する
 
   if (!talkFile || talkFile.talks.length === 1) {
     return (
-      <BlankContents message={'トークデータがありません'} height={bodyHeight} />
+      <BlankContents
+        message={t('timeline.noConversations')}
+        height={bodyHeight}
+      />
     )
   }
 

@@ -108,28 +108,28 @@ const SidePanel = () => {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box sx={{ height: '100vh', width: expandMenuWidth }}>
+        <Box sx={{ height: '100%', width: expandMenuWidth }}>
           {expandMenu === 'newTalk' ? (
-            <Box>
+            <>
               <ExpandMenuHeader
                 title={t('menu.newTalk')}
                 setExpandMenu={setExpandMenu}
               ></ExpandMenuHeader>
               <NewTalkMenu setExpandMenu={setExpandMenu} />
-            </Box>
+            </>
           ) : expandMenu === 'columnSettings' ? (
             <ExpandMenuHeader
               title={t('menu.editColumns')}
               setExpandMenu={setExpandMenu}
             ></ExpandMenuHeader>
           ) : expandMenu === 'settings' ? (
-            <Box>
+            <>
               <ExpandMenuHeader
                 title={t('menu.changeSettings')}
                 setExpandMenu={setExpandMenu}
               ></ExpandMenuHeader>
               <SettingsMenu />
-            </Box>
+            </>
           ) : expandMenu === 'info' ? (
             <ExpandMenuHeader
               title={t('menu.info')}

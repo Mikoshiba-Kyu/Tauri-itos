@@ -11,6 +11,10 @@
     "enterPrompt": "Please enter a prompt",
     "ok": "OK"
   },
+  "timeline": {
+    "noTimeline": "No timeline to display",
+    "noConversations": "No conversations yet"
+  },
   "settings": {
     "theme": "Theme",
     "light": "Light",
