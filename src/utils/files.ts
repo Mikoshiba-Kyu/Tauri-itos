@@ -1,8 +1,26 @@
 import { appLocalDataDir } from '@tauri-apps/api/path'
-import { readTextFile, writeTextFile, exists } from '@tauri-apps/api/fs'
+import {
+  readTextFile,
+  writeTextFile,
+  exists,
+  createDir,
+} from '@tauri-apps/api/fs'
 import { TalkList, ColumnList, TalkFile } from '../types/types'
 
+export const createDataDir = async (): Promise<void> => {
+  const dataDirPath = `${await appLocalDataDir()}data`
+  try {
+    if (!(await exists(dataDirPath))) {
+      await createDir(dataDirPath)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const loadTalkListFile = async (): Promise<TalkList> => {
+  await createDataDir()
+
   const talkListFilePath = `${await appLocalDataDir()}data/Talklist.json`
   if (!(await exists(talkListFilePath))) {
     await saveTalkListFile([])
@@ -14,12 +32,20 @@ export const loadTalkListFile = async (): Promise<TalkList> => {
 }
 
 export const saveTalkListFile = async (data: TalkList): Promise<void> => {
+  await createDataDir()
+
   const talkListFilePath = `${await appLocalDataDir()}data/Talklist.json`
-  await writeTextFile(talkListFilePath, JSON.stringify(data, null, 2))
-  console.log(`[itos] Save ${talkListFilePath}`)
+  try {
+    await writeTextFile(talkListFilePath, JSON.stringify(data, null, 2))
+    console.log(`[itos] Save ${talkListFilePath}`)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export const loadColumnListFile = async (): Promise<ColumnList> => {
+  await createDataDir()
+
   const columnListFilePath = `${await appLocalDataDir()}data/ColumnList.json`
   if (!(await exists(columnListFilePath))) {
     await saveColumnListFile([])
@@ -31,12 +57,20 @@ export const loadColumnListFile = async (): Promise<ColumnList> => {
 }
 
 export const saveColumnListFile = async (data: string[]): Promise<void> => {
+  await createDataDir()
+
   const columnListFilePath = `${await appLocalDataDir()}data/Columnlist.json`
-  await writeTextFile(columnListFilePath, JSON.stringify(data, null, 2))
-  console.log(`[itos] Save ${columnListFilePath}`)
+  try {
+    await writeTextFile(columnListFilePath, JSON.stringify(data, null, 2))
+    console.log(`[itos] Save ${columnListFilePath}`)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export const loadTalkFile = async (id: string): Promise<TalkFile> => {
+  await createDataDir()
+
   const talkFilePath = `${await appLocalDataDir()}data/${id}.json`
   if (!(await exists(talkFilePath))) {
     await saveTalkFile({ id, name: '', talks: [] })
@@ -48,6 +82,8 @@ export const loadTalkFile = async (id: string): Promise<TalkFile> => {
 }
 
 export const saveTalkFile = async (data: TalkFile): Promise<void> => {
+  await createDataDir()
+
   const talkFilePath = `${await appLocalDataDir()}data/${data.id}.json`
 
   await writeTextFile(talkFilePath, JSON.stringify(data, null, 2))
