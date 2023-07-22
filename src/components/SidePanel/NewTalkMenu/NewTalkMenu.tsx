@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil'
 import { talkListState } from '../../../atoms/talkList'
 import { columnListState } from '../../../atoms/columnList'
 import {
-  Box,
+  Stack,
   Button,
   FormControl,
   FormLabel,
@@ -22,7 +22,7 @@ import { t } from 'i18next'
 
 const style = {
   width: '100%',
-  height: 'calc(100vh - var(--expand-menu-header-height))',
+  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
   padding: '1rem',
   overflowY: 'auto',
 }
@@ -76,7 +76,7 @@ const NewTalkMenu = (props: Props) => {
   }
 
   return (
-    <Box sx={style}>
+    <Stack sx={style}>
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
@@ -84,8 +84,6 @@ const NewTalkMenu = (props: Props) => {
           </Typography>
         </FormLabel>
       </FormControl>
-
-      {/* <Spacer size="2rem" /> */}
 
       <TextField
         value={titleVal}
@@ -133,7 +131,7 @@ const NewTalkMenu = (props: Props) => {
       >
         {t('newConversations.ok')}
       </Button>
-    </Box>
+    </Stack>
   )
 }
 

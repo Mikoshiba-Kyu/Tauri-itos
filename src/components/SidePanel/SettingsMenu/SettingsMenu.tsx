@@ -1,7 +1,7 @@
 import { useRecoilState } from 'recoil'
 import { settingsState } from '../../../atoms/settingsState'
 import {
-  Box,
+  Stack,
   RadioGroup,
   FormControl,
   FormControlLabel,
@@ -17,7 +17,7 @@ import { t } from 'i18next'
 
 const style = {
   width: '100%',
-  height: 'calc(100vh - var(--expand-menu-header-height))',
+  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
   padding: '1rem',
   overflowY: 'auto',
 }
@@ -71,7 +71,7 @@ const SettingsMenu = () => {
     }
 
   return (
-    <Box sx={style}>
+    <Stack sx={style}>
       <FormControl>
         <FormLabel>
           <Typography variant="caption">{t('settings.theme')}</Typography>
@@ -157,7 +157,7 @@ const SettingsMenu = () => {
           />
         </RadioGroup>
       </FormControl>
-    </Box>
+    </Stack>
   )
 }
 
