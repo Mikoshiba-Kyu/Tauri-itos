@@ -3,7 +3,6 @@ import { useRecoilState } from 'recoil'
 import { settingsState } from '../../../atoms/settingsState'
 import {
   Stack,
-  Button,
   RadioGroup,
   FormControl,
   FormControlLabel,
@@ -139,9 +138,11 @@ const SettingsMenu = () => {
         >
           <PersonIcon fontSize="large" />
         </Avatar>
+      </FormControl>
 
-        <Spacer size="2rem" />
+      <Spacer size="2rem" />
 
+      <FormControl>
         <FormLabel>
           <Typography variant="caption">{t('settings.theme')}</Typography>
         </FormLabel>
