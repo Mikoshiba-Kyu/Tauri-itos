@@ -43,7 +43,17 @@ const NewTalkMenu = (props: Props) => {
   const submit = async () => {
     const id = uuidv4()
     const name = titleVal
-    const talks: TalkData[] = [{ role: 'system', content: promptVal }]
+    const talks: TalkData[] = [
+      {
+        number: 0, //TODO: 実際の番号を算出する。beforeData内の最後の番号 + 1
+        timestamp: 'timestamp_prompt', //TODO: 実際のタイムスタンプを取得する
+        model: '',
+        promptTokens: 0,
+        completionTokens: 0,
+        totalTokens: 0,
+        message: { role: 'system', content: promptVal },
+      },
+    ]
 
     const data = {
       id,

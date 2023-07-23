@@ -20,7 +20,7 @@ const App = () => {
   const settings = useRecoilValue(settingsState)
 
   return (
-    <ThemeProvider theme={theme(settings.Theme)}>
+    <ThemeProvider theme={theme(settings.theme)}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <SidePanel />

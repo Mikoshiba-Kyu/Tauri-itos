@@ -110,8 +110,11 @@ const SettingsMenu = () => {
     const fileName = await basename(filePath)
     await copyFile(filePath, `${dataDirPath}${fileName}`)
 
-    // setSettingsでUserIconFileNameを更新する
+    // atomsとファイルのUserIconFileNameを更新する
     setSettings({ ...settings, ...{ UserIconFileName: fileName } })
+    ;(async () => {
+      await saveConfig({ UserIconFileName: fileName })
+    })()
   }
 
   return (
@@ -123,7 +126,7 @@ const SettingsMenu = () => {
 
         <Avatar
           variant="square"
-          src={convertFileSrc(`${dataDirPath}${settings.UserIconFileName}`)}
+          src={convertFileSrc(`${dataDirPath}${settings.userIconFileName}`)}
           sx={{
             width: 82,
             height: 82,
@@ -145,7 +148,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.Theme}
+          defaultValue={() => settings.theme}
           onChange={onThemeChange()}
         >
           <FormControlLabel
@@ -170,7 +173,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.Language}
+          defaultValue={() => settings.language}
           onChange={onLanguageChange()}
         >
           <FormControlLabel
@@ -193,7 +196,7 @@ const SettingsMenu = () => {
         label="ChatGPT API Key"
         size="small"
         variant="standard"
-        defaultValue={settings.ApiKey}
+        defaultValue={settings.apiKey}
         onChange={onAPIKeyChange()}
       />
 
@@ -208,7 +211,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.TimelineSort}
+          defaultValue={() => settings.timelineSort}
           onChange={onTimelineSortChange()}
         >
           <FormControlLabel

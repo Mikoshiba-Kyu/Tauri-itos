@@ -17,7 +17,7 @@ export interface Props {
 }
 
 export interface MessageAvatarProps {
-  talk: TalkData
+  talkData: TalkData
 }
 
 const style = {
@@ -49,7 +49,7 @@ const Body = (props: Props) => {
     ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxのズレがどこから生まれるのか調査する
     : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxのズレがどこから生まれるのか調査する
 
-  if (!talkFile || talkFile.talks.length === 1) {
+  if (!talkFile || Object.keys(talkFile.talks).length <= 1) {
     return (
       <BlankContents
         message={t('timeline.noConversations')}
@@ -59,16 +59,18 @@ const Body = (props: Props) => {
   }
 
   // talkFileを画面表示用に整形する
-  const displayTalks = talkFile.talks.filter((talk) => talk.role !== 'system')
-  settings.TimelineSort !== 'asc' && displayTalks.reverse()
+  const displayTalks: TalkData[] = talkFile.talks.filter(
+    (talkData) => talkData.message.role !== 'system'
+  )
+  settings.timelineSort !== 'asc' && displayTalks.reverse()
 
   // Set Avatar
   const MessageAvatar = (props: MessageAvatarProps) => {
-    const { talk } = props
+    const { talkData } = props
     {
-      return talk.role === 'user' ? (
+      return talkData.message.role === 'user' ? (
         <Avatar
-          src={convertFileSrc(`${dataDirPath}${settings.UserIconFileName}`)}
+          src={convertFileSrc(`${dataDirPath}${settings.userIconFileName}`)}
           sx={{ width: 36, height: 36 }}
         >
           <PersonIcon />
@@ -86,15 +88,17 @@ const Body = (props: Props) => {
 
   return (
     <Box ref={scrollRef} sx={{ ...style, height: bodyHeight }}>
-      {displayTalks.map((talk: TalkData, i) => {
+      {displayTalks.map((talkData: TalkData, i) => {
         return (
           <Box key={i} sx={cardStyle}>
             <Grid container>
               <Grid sx={{ width: '48px' }}>
-                <MessageAvatar talk={talk} />
+                <MessageAvatar talkData={talkData} />
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
-                <Typography variant="body2">{talk.content}</Typography>
+                <Typography variant="body2">
+                  {talkData.message.content}
+                </Typography>
               </Grid>
             </Grid>
           </Box>
