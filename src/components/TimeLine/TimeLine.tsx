@@ -4,6 +4,7 @@ import { columnListState } from '../../atoms/columnList'
 import Pane from '../ColumnPane/Pane'
 import { Box } from '@mui/material'
 import BlankContents from '../UI/BlankContents'
+import { t } from 'i18next'
 
 const TimeLine = () => {
   const columnList = useRecoilValue(columnListState)
@@ -14,7 +15,7 @@ const TimeLine = () => {
   })
 
   if (!availableTalkList || availableTalkList.length === 0) {
-    return <BlankContents message={'表示するタイムラインがありません'} />
+    return <BlankContents message={t('timeline.noTimeline')} height={'100vh'} />
   }
 
   return (

@@ -1,43 +1,34 @@
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { talkListState } from '../../atoms/talkList'
-import { columnListState } from '../../atoms/columnList'
+import { talkListState } from '../../../atoms/talkList'
+import { columnListState } from '../../../atoms/columnList'
 import {
-  Box,
+  Stack,
   Button,
   FormControl,
   FormLabel,
   TextField,
   Typography,
 } from '@mui/material'
-import { Spacer } from '../UI/Spacer'
-import {
-  saveTalkFile,
-  saveTalkListFile,
-  saveColumnListFile,
-} from '../../utils/files'
+import { Spacer } from '../../UI/Spacer'
+import { saveTextFileInDataDir } from '../../../utils/files'
 import { v4 as uuidv4 } from 'uuid'
-import { TalkData, TalkList } from '../../types/types'
+import { TalkData, TalkList } from '../../../types/types'
+import { t } from 'i18next'
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600,
-  height: 600,
-  bgcolor: 'background.paper',
-  borderRadius: '0.6rem',
-  boxShadow: 24,
-  p: 4,
+  width: '100%',
+  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
+  padding: '1rem',
+  overflowY: 'auto',
 }
 
 export interface Props {
-  handleNewTalkClose: () => void
+  setExpandMenu: (value: string) => void
 }
 
-const NewTalkModal = (props: Props) => {
-  const { handleNewTalkClose }: Props = props
+const NewTalkMenu = (props: Props) => {
+  const { setExpandMenu }: Props = props
 
   const [titleVal, setTitleValue] = useState('')
   const [promptVal, setPromptValue] = useState('')
@@ -61,43 +52,45 @@ const NewTalkModal = (props: Props) => {
     }
 
     // トークファイルを生成する
-    await saveTalkFile(data)
+    await saveTextFileInDataDir(`${id}.json`, JSON.stringify(data, null, 2))
 
     // トークリストファイルを更新する
     const newTalkList: TalkList = [
       ...talkList,
       { id: data.id, name: data.name },
     ]
-    await saveTalkListFile(newTalkList)
+    await saveTextFileInDataDir(
+      'TalkList.json',
+      JSON.stringify(newTalkList, null, 2)
+    )
     setTalkList(newTalkList)
 
     // カラムリストファイルを更新する
     const newColumnList = [data.id, ...columnList]
-    await saveColumnListFile(newColumnList)
+    await saveTextFileInDataDir(
+      'ColumnList.json',
+      JSON.stringify(newColumnList, null, 2)
+    )
     setColumnList(newColumnList)
 
-    // モーダルを閉じる
-    handleNewTalkClose()
+    // メニューを閉じる
+    setExpandMenu('')
   }
 
   return (
-    <Box sx={style}>
-      <Spacer size="1rem" />
-
+    <Stack sx={style}>
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            新しい会話のタイトルを入力してください。
+            {t('newConversations.enterTitle')}
           </Typography>
         </FormLabel>
       </FormControl>
 
-      <Spacer size="1rem" />
-
       <TextField
         value={titleVal}
         error={titleError}
-        helperText={titleError && '同名のトークルームがすでに存在しています。'}
+        helperText={titleError && t('newConversations.sameTitleError')}
         fullWidth
         required
         size="small"
@@ -108,23 +101,21 @@ const NewTalkModal = (props: Props) => {
         }}
       />
 
-      <Spacer size="1rem" />
+      <Spacer size="2rem" />
 
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            プロンプトを入力してください。
+            {t('newConversations.enterPrompt')}
           </Typography>
         </FormLabel>
       </FormControl>
-
-      <Spacer size="1rem" />
 
       <TextField
         value={promptVal}
         fullWidth
         multiline
-        rows={14}
+        rows={20}
         size="small"
         variant="outlined"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,10 +131,10 @@ const NewTalkModal = (props: Props) => {
         onClick={submit}
         sx={{ marginTop: '1rem' }}
       >
-        決定
+        {t('newConversations.ok')}
       </Button>
-    </Box>
+    </Stack>
   )
 }
 
-export default NewTalkModal
+export default NewTalkMenu

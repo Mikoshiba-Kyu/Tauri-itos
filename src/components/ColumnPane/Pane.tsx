@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import Header from './Header'
 import Body from './Body'
 import { TalkFile } from '../../types/types'
-import { loadTalkFile } from '../../utils/files'
+import { loadTextFileInDataDir } from '../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
 
@@ -35,7 +35,8 @@ const Pane = (props: Props) => {
   // レンダリング時に対応するIDのトークファイルからデータを取得する
   useEffect(() => {
     const setData = async () => {
-      const result: TalkFile = await loadTalkFile(id)
+      const textObject = await loadTextFileInDataDir(`${id}.json`)
+      const result: TalkFile = textObject as TalkFile
       setTalkFile(result)
     }
     setData()

@@ -17,6 +17,8 @@
       },
       "fs": {
         "exists": true,
+        "createDir": true,
+        "copyFile": true,
         "writeFile": true,
         "readFile": true,
         "readDir": true,
@@ -28,13 +30,21 @@
           "$APPLOCALDATA/Avatar/*"
         ]
       },
+      "dialog": {
+        "all": false,
+        "ask": false,
+        "confirm": false,
+        "message": false,
+        "open": true,
+        "save": false
+      },
       "shell": {
         "all": false,
         "open": true
       },
       "protocol": {
         "asset": true,
-        "assetScope": ["$APPLOCALDATA/Avatar/*"]
+        "assetScope": ["$APPLOCALDATA/data/*"]
       }
     },
     "bundle": {
