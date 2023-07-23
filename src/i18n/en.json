@@ -16,6 +16,7 @@
     "noConversations": "No conversations yet"
   },
   "settings": {
+    "userAvatar": "User's avatar file",
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",

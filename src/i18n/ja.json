@@ -16,6 +16,7 @@
     "noConversations": "まだ会話がありません"
   },
   "settings": {
+    "userAvatar": "ユーザーのアイコンファイル",
     "theme": "テーマ",
     "light": "ライト",
     "dark": "ダーク",

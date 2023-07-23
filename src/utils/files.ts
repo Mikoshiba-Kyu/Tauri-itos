@@ -50,3 +50,7 @@ export const saveTextFileInDataDir = async (
     console.error(error)
   }
 }
+
+export const getDataDirPath = async (): Promise<string> => {
+  return `${await appLocalDataDir()}data/`
+}
