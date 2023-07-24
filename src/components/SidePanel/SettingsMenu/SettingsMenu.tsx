@@ -46,9 +46,9 @@ const SettingsMenu = () => {
   const onThemeChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ Theme: value } })
+    setSettings({ ...settings, ...{ theme: value } })
     ;(async () => {
-      await saveConfig({ Theme: value })
+      await saveConfig({ theme: value })
     })()
   }
 
@@ -59,9 +59,9 @@ const SettingsMenu = () => {
 
       i18n.changeLanguage(value)
 
-      setSettings({ ...settings, ...{ Language: value } })
+      setSettings({ ...settings, ...{ language: value } })
       ;(async () => {
-        await saveConfig({ Language: value })
+        await saveConfig({ language: value })
       })()
     }
 
@@ -69,9 +69,9 @@ const SettingsMenu = () => {
   const onAPIKeyChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ ApiKey: value } })
+    setSettings({ ...settings, ...{ apiKey: value } })
     ;(async () => {
-      await saveConfig({ ApiKey: value })
+      await saveConfig({ apiKey: value })
     })()
   }
 
@@ -80,9 +80,9 @@ const SettingsMenu = () => {
     () => (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value
 
-      setSettings({ ...settings, ...{ TimelineSort: value } })
+      setSettings({ ...settings, ...{ timelineSort: value } })
       ;(async () => {
-        await saveConfig({ TimelineSort: value })
+        await saveConfig({ timelineSort: value })
       })()
     }
 
@@ -110,9 +110,9 @@ const SettingsMenu = () => {
     await copyFile(filePath, `${dataDirPath}${fileName}`)
 
     // atomsとファイルのUserIconFileNameを更新する
-    setSettings({ ...settings, ...{ UserIconFileName: fileName } })
+    setSettings({ ...settings, ...{ userIconFileName: fileName } })
     ;(async () => {
-      await saveConfig({ UserIconFileName: fileName })
+      await saveConfig({ userIconFileName: fileName })
     })()
   }
 
