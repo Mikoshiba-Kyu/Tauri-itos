@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom'
 import { useRecoilValue } from 'recoil'
 import { settingsState } from '../../atoms/settingsState'
 import { saveTextFileInDataDir } from '../../utils/files'
+import { t } from 'i18next'
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai'
 import {
   Accordion,
@@ -10,12 +11,12 @@ import {
   AccordionDetails,
   Box,
   FormControl,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
+  FormLabel,
+  Typography,
+  TextField,
+  Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import SendIcon from '@mui/icons-material/Send'
 import { TalkFile, TalkData } from '../../types/types'
 
 export interface Props {
@@ -167,38 +168,39 @@ const InputBox = (props: Props) => {
       ></AccordionSummary>
       <AccordionDetails>
         <Box sx={inputStyle}>
-          <FormControl
-            variant="outlined"
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column-reverse',
-            }}
-          >
-            <OutlinedInput
-              value={messageValue}
-              multiline
-              fullWidth
-              rows={7}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setMessageValue(event.target.value)
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& > fieldset': {
-                    borderColor: 'red',
-                  },
-                },
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={sending} disabled={messageValue === ''}>
-                    <SendIcon fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
+          <FormControl>
+            <FormLabel>
+              <Typography variant="caption">
+                {t('timeline.enterMessage')}
+              </Typography>
+            </FormLabel>
           </FormControl>
+
+          <TextField
+            value={messageValue}
+            fullWidth
+            multiline
+            rows={10}
+            size="small"
+            variant="outlined"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMessageValue(event.target.value)
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& > fieldset': { borderColor: 'inputOutline.primary' },
+              },
+            }}
+          />
+
+          <Button
+            variant="outlined"
+            disabled={messageValue === ''}
+            onClick={sending}
+            sx={{ marginTop: '1rem' }}
+          >
+            {t('timeline.send')}
+          </Button>
         </Box>
       </AccordionDetails>
     </Accordion>
