@@ -79,7 +79,7 @@ const Body = (props: Props) => {
         <Avatar
           src={convertFileSrc(
             `${dataDirPath}${talkFile.assistantIconFileName}`
-          )} // TODO: talkFileにgptAvatarFileNameを追加し、そちらを参照するようにする
+          )}
           sx={{ width: 36, height: 36, backgroundColor: 'darkcyan' }}
         >
           <SpokeIcon />

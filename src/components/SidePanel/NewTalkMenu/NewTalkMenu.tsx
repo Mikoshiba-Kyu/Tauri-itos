@@ -176,7 +176,10 @@ const NewTalkMenu = (props: Props) => {
           }}
           onClick={handleClickAvatar}
         >
-          <SpokeIcon fontSize="large" />
+          <SpokeIcon
+            fontSize="large"
+            sx={{ width: '100%', height: '100%', backgroundColor: 'darkcyan' }}
+          />
         </Avatar>
       </FormControl>
 
