@@ -159,7 +159,9 @@ const InputBox = (props: Props) => {
       }
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon fontSize="small" />}
+        expandIcon={
+          <ExpandMoreIcon fontSize="small" sx={{ color: 'icon.primary' }} />
+        }
         aria-controls="panel1a-content"
         sx={{ minHeight: 'var(--column-close-input-height)' }}
       ></AccordionSummary>
@@ -174,13 +176,19 @@ const InputBox = (props: Props) => {
             }}
           >
             <OutlinedInput
-              id="text-input"
               value={messageValue}
               multiline
               fullWidth
               rows={7}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setMessageValue(event.target.value)
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& > fieldset': {
+                    borderColor: 'red',
+                  },
+                },
               }}
               endAdornment={
                 <InputAdornment position="end">

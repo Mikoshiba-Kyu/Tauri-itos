@@ -18,7 +18,9 @@ const Header = (props: Props) => {
 
   return (
     <Box sx={style}>
-      <Typography variant={'h6'}>{talkFile.name}</Typography>
+      <Typography variant={'h6'} sx={{ color: 'timelineHeaderText.primary' }}>
+        {talkFile.name}
+      </Typography>
     </Box>
   )
 }

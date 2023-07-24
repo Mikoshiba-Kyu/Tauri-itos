@@ -14,7 +14,7 @@ export interface Props {
 const style = {
   borderRightWidth: '4px',
   borderRightStyle: 'solid',
-  borderRightColor: '#464646',
+  borderRightColor: 'timelineBorder.primary',
 }
 
 const resizeHandleClasses = {
