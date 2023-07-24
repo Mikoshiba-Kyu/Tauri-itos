@@ -57,8 +57,13 @@ const SidePanel = () => {
               sx={{ alignItems: 'center' }}
             >
               <DriveFileRenameOutlineIcon
-                color={expandMenu === 'newTalk' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'newTalk'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -72,8 +77,13 @@ const SidePanel = () => {
               }
             >
               <ViewWeekIcon
-                color={expandMenu === 'columnSettings' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'columnSettings'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -87,8 +97,13 @@ const SidePanel = () => {
               }
             >
               <SettingsIcon
-                color={expandMenu === 'settings' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'settings'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -102,8 +117,11 @@ const SidePanel = () => {
               }
             >
               <InfoIcon
-                color={expandMenu === 'info' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'info' ? 'icon.selection' : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>

@@ -14,7 +14,9 @@
   },
   "timeline": {
     "noTimeline": "表示するタイムラインがありません",
-    "noConversations": "まだ会話がありません"
+    "noConversations": "まだ会話がありません",
+    "enterMessage": "メッセージを入力してください",
+    "send": "送信"
   },
   "settings": {
     "userAvatar": "ユーザーのアイコンファイル",

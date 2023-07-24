@@ -2,16 +2,16 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background-color: #121212;
+  background-color: #424242;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #585858;
+  background-color: #888888;
 }
 
 :root {
   --column-header-height: 68px;
   --column-close-input-height: 24px;
-  --column-open-input-height: 12rem;
+  --column-open-input-height: 20rem;
   --menu-closed-width: 60px;
   --expand-menu-header-height: 2rem;
 }

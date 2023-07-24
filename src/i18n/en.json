@@ -14,7 +14,9 @@
   },
   "timeline": {
     "noTimeline": "No timeline to display",
-    "noConversations": "No conversations yet"
+    "noConversations": "No conversations yet",
+    "enterMessage": "Please enter a message.",
+    "send": "Send"
   },
   "settings": {
     "userAvatar": "User's avatar file",

@@ -29,7 +29,8 @@ const style = {
 const cardStyle = {
   width: '100%',
   padding: '1rem',
-  borderBottom: '1px solid #343434',
+  borderBottom: '1px solid',
+  borderBottomColor: 'timelineBorder.primary',
 }
 
 const Body = (props: Props) => {
@@ -98,7 +99,10 @@ const Body = (props: Props) => {
                 <MessageAvatar talkData={talkData} />
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
-                <Typography variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'timelineText.primary' }}
+                >
                   {talkData.message.content}
                 </Typography>
               </Grid>

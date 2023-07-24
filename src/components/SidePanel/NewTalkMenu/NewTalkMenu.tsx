@@ -152,6 +152,10 @@ const NewTalkMenu = (props: Props) => {
           setTitleValue(event.target.value)
           setTitleError(checkTitle(event.target.value))
         }}
+        sx={{
+          borderBottom: '1px solid',
+          borderBottomColor: 'inputOutline.primary',
+        }}
       />
 
       <Spacer size="2rem" />
@@ -202,6 +206,11 @@ const NewTalkMenu = (props: Props) => {
         variant="outlined"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setPromptValue(event.target.value)
+        }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& > fieldset': { borderColor: 'inputOutline.primary' },
+          },
         }}
       />
 
