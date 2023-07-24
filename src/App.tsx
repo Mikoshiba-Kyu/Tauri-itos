@@ -8,16 +8,17 @@ import SidePanel from './components/SidePanel/SidePanel'
 import { theme } from './utils/theme'
 import TimeLine from './components/TimeLine/TimeLine'
 import { createDataDir } from './utils/files'
-import './i18n/configs'
+import { setDefaultLanguage } from './i18n/configs'
 
 const App = () => {
+  const settings = useRecoilValue(settingsState)
+
   useEffect(() => {
     ;(async () => {
       await createDataDir()
     })()
+    setDefaultLanguage(settings.language ?? 'en')
   }, [])
-
-  const settings = useRecoilValue(settingsState)
 
   return (
     <ThemeProvider theme={theme(settings.theme)}>
