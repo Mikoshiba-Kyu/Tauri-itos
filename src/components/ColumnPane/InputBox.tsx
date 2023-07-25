@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { TalkFile, TalkData } from '../../types/types'
+import { getDataTimeNow } from '../../utils/datetime'
 
 export interface Props {
   talkFile: TalkFile
@@ -72,7 +73,7 @@ const InputBox = (props: Props) => {
       // 追記用の talkData を作成する
       const userTalkData: TalkData = {
         number: 0, //TODO: 実際の番号を算出する。beforeData内の最後の番号 + 1
-        timestamp: 'timestamp_test', //TODO: 実際のタイムスタンプを取得する
+        timestamp: getDataTimeNow(),
         message: { role: 'user', content: messageValue },
       }
 
@@ -116,7 +117,7 @@ const InputBox = (props: Props) => {
         // response から talkData を作成する
         const resTalkData: TalkData = {
           number: 0, //TODO: 実際の番号を算出する。beforeData内の最後の番号 + 1
-          timestamp: 'timestamp_res', //TODO: 実際のタイムスタンプを取得する
+          timestamp: getDataTimeNow(),
           model: res.model,
           promptTokens: res.usage.prompt_tokens,
           completionTokens: res.usage.completion_tokens,

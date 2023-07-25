@@ -50,8 +50,8 @@ const Body = (props: Props) => {
   const settings = useRecoilValue(settingsState)
 
   const bodyHeight = isAcorrdionOpen
-    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxのズレがどこから生まれるのか調査する
-    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxのズレがどこから生まれるのか調査する
+    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 74px)' // TODO: 74pxのズレがどこから生まれるのか調査する
+    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 24px)' // TODO: 24pxのズレがどこから生まれるのか調査する
 
   if (!talkFile || Object.keys(talkFile.talks).length <= 1) {
     return (
@@ -111,7 +111,7 @@ const Body = (props: Props) => {
 
                 <Spacer size="1rem"></Spacer>
 
-                <Grid container direction="row">
+                <Grid container direction="row" justifyContent="space-between">
                   <Typography
                     variant="caption"
                     sx={{ color: 'timelineText.secondary' }}
@@ -125,7 +125,7 @@ const Body = (props: Props) => {
                       color: 'timelineText.secondary',
                     }}
                   >
-                    {`${talkData.model ? `Model : ${talkData.model}` : ''}`}
+                    {talkData.model ?? ''}
                   </Typography>
                 </Grid>
               </Grid>
