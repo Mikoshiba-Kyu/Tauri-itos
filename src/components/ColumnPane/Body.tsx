@@ -9,6 +9,7 @@ import { t } from 'i18next'
 import { getDataDirPath } from '../../utils/files'
 import { useEffect, useState } from 'react'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
+import { Spacer } from '../UI/Spacer'
 
 export interface Props {
   talkFile?: TalkFile
@@ -28,7 +29,9 @@ const style = {
 // TODO: カラーにテーマを適用する
 const cardStyle = {
   width: '100%',
-  padding: '1rem',
+  paddingTop: '1rem',
+  paddingLeft: '1rem',
+  paddingRight: '1rem',
   borderBottom: '1px solid',
   borderBottomColor: 'timelineBorder.primary',
 }
@@ -101,10 +104,30 @@ const Body = (props: Props) => {
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
                 <Typography
                   variant="body2"
-                  sx={{ color: 'timelineText.primary' }}
+                  sx={{ color: 'timelineText.primary', userSelect: 'text' }}
                 >
                   {talkData.message.content}
                 </Typography>
+
+                <Spacer size="1rem"></Spacer>
+
+                <Grid container direction="row">
+                  <Typography
+                    variant="caption"
+                    sx={{ color: 'timelineText.secondary' }}
+                  >
+                    {talkData.timestamp ?? ''}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      marginLeft: '0.5rem',
+                      color: 'timelineText.secondary',
+                    }}
+                  >
+                    {`${talkData.model ? `Model : ${talkData.model}` : ''}`}
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
           </Box>
