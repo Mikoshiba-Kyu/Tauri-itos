@@ -11,12 +11,13 @@ import {
   Typography,
   Avatar,
 } from '@mui/material'
-import { Spacer } from '../../UI/Spacer'
-import { saveTextFileInDataDir, getDataDirPath } from '../../../utils/files'
-import { v4 as uuidv4 } from 'uuid'
-import { TalkData, TalkList } from '../../../types/types'
-import { t } from 'i18next'
 import SpokeIcon from '@mui/icons-material/Spoke'
+import { Spacer } from '../../UI/Spacer'
+import { TalkData, TalkList } from '../../../types/types'
+import { saveTextFileInDataDir, getDataDirPath } from '../../../utils/files'
+import { getDataTimeNow } from '../../../utils/datetime'
+import { t } from 'i18next'
+import { v4 as uuidv4 } from 'uuid'
 import { open } from '@tauri-apps/api/dialog'
 import { copyFile } from '@tauri-apps/api/fs'
 import { basename } from '@tauri-apps/api/path'
@@ -62,7 +63,7 @@ const NewTalkMenu = (props: Props) => {
     const talks: TalkData[] = [
       {
         number: 0,
-        timestamp: 'timestamp_prompt', //TODO: 実際のタイムスタンプを取得する
+        timestamp: getDataTimeNow(),
         model: '',
         promptTokens: 0,
         completionTokens: 0,
