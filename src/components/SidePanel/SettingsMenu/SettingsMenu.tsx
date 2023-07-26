@@ -25,7 +25,7 @@ import { getDataDirPath } from '../../../utils/files'
 
 const style = {
   width: '100%',
-  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
+  flexGrow: 1,
   padding: '1rem',
   overflowY: 'auto',
 }

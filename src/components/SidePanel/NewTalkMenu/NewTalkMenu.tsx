@@ -24,8 +24,8 @@ import { basename } from '@tauri-apps/api/path'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
 
 const style = {
+  flexGrow: 1,
   width: '100%',
-  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
   padding: '1rem',
   overflowY: 'auto',
 }

@@ -15,7 +15,7 @@ const TimeLine = () => {
   })
 
   if (!availableTalkList || availableTalkList.length === 0) {
-    return <BlankContents message={t('timeline.noTimeline')} height={'100vh'} />
+    return <BlankContents message={t('timeline.noTimeline')} />
   }
 
   return (

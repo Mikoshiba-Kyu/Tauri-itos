@@ -12,6 +12,9 @@ export interface Props {
 }
 
 const style = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
   borderRightWidth: '4px',
   borderRightStyle: 'solid',
   borderRightColor: 'timelineBorder.primary',
@@ -45,7 +48,7 @@ const Pane = (props: Props) => {
   if (!talkFile) return null
 
   return (
-    <Box sx={style}>
+    <Box>
       <Rnd
         default={{
           x: 0,
@@ -70,19 +73,21 @@ const Pane = (props: Props) => {
         onResize={handleResize}
         style={{ position: 'inherit' }}
       >
-        <Header talkFile={talkFile}></Header>
-        <InputBox
-          talkFile={talkFile}
-          setTalkFile={setTalkFile}
-          scrollRef={scrollRef}
-          isAccordionOpen={isAccordionOpen}
-          setIsAccordionOpen={setIsAccordionOpen}
-        />
-        <Body
-          talkFile={talkFile}
-          scrollRef={scrollRef}
-          isAcorrdionOpen={isAccordionOpen}
-        ></Body>
+        <Box sx={style}>
+          <Header talkFile={talkFile}></Header>
+          <InputBox
+            talkFile={talkFile}
+            setTalkFile={setTalkFile}
+            scrollRef={scrollRef}
+            isAccordionOpen={isAccordionOpen}
+            setIsAccordionOpen={setIsAccordionOpen}
+          />
+          <Body
+            talkFile={talkFile}
+            scrollRef={scrollRef}
+            isAcorrdionOpen={isAccordionOpen}
+          ></Body>
+        </Box>
       </Rnd>
     </Box>
   )

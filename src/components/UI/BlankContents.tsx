@@ -3,15 +3,15 @@ import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined'
 
 interface Props {
   message: string
-  height: string | number
 }
 
 const style = {
+  flexGrow: 1,
   width: '100%',
 }
 
 const BlankContents = (props: Props) => {
-  const { message, height } = props
+  const { message } = props
 
   return (
     <Box
@@ -19,7 +19,7 @@ const BlankContents = (props: Props) => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ ...style, height }}
+      sx={style}
     >
       <SmsOutlinedIcon
         sx={{

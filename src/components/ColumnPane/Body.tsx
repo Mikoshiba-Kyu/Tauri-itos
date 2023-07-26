@@ -22,6 +22,7 @@ export interface MessageAvatarProps {
 }
 
 const style = {
+  flexGrow: 1,
   width: '100%',
   overflowY: 'auto',
 }
@@ -49,17 +50,8 @@ const Body = (props: Props) => {
 
   const settings = useRecoilValue(settingsState)
 
-  const bodyHeight = isAcorrdionOpen
-    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 74px)' // TODO: 74pxのズレがどこから生まれるのか調査する
-    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 24px)' // TODO: 24pxのズレがどこから生まれるのか調査する
-
   if (!talkFile || Object.keys(talkFile.talks).length <= 1) {
-    return (
-      <BlankContents
-        message={t('timeline.noConversations')}
-        height={bodyHeight}
-      />
-    )
+    return <BlankContents message={t('timeline.noConversations')} />
   }
 
   // talkFileを画面表示用に整形する
@@ -93,7 +85,7 @@ const Body = (props: Props) => {
   }
 
   return (
-    <Box ref={scrollRef} sx={{ ...style, height: bodyHeight }}>
+    <Box ref={scrollRef} sx={style}>
       {displayTalks.map((talkData: TalkData, i) => {
         return (
           <Box key={i} sx={cardStyle}>
