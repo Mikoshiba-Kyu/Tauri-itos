@@ -23,7 +23,10 @@ export const lightTheme = {
   },
   timelineText: {
     primary: '#343434',
-    secondary: '#AAAAAA',
+    secondary: '#888888',
+  },
+  timelinePreviewText: {
+    primary: '#EAEAEA',
   },
   timelineBorder: {
     primary: '#888888',
@@ -55,6 +58,9 @@ export const darkTheme = {
   timelineText: {
     primary: '#EAEAEA',
     secondary: '#AAAAAA',
+  },
+  timelinePreviewText: {
+    primary: '#EAEAEA',
   },
   timelineBorder: {
     primary: '#343434',

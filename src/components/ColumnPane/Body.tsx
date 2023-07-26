@@ -13,8 +13,8 @@ import { Spacer } from '../UI/Spacer'
 
 export interface Props {
   talkFile?: TalkFile
-  scrollRef: React.RefObject<HTMLDivElement>
-  isAcorrdionOpen: boolean
+  scrollRef?: React.RefObject<HTMLDivElement>
+  isPreview?: boolean
 }
 
 export interface MessageAvatarProps {
@@ -38,7 +38,7 @@ const cardStyle = {
 }
 
 const Body = (props: Props) => {
-  const { talkFile, scrollRef, isAcorrdionOpen } = props
+  const { talkFile, scrollRef, isPreview } = props
 
   const [dataDirPath, setDataDirPath] = useState('')
   useEffect(() => {
@@ -96,7 +96,12 @@ const Body = (props: Props) => {
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
                 <Typography
                   variant="body2"
-                  sx={{ color: 'timelineText.primary', userSelect: 'text' }}
+                  sx={{
+                    color: !isPreview
+                      ? 'timelineText.primary'
+                      : 'timelinePreviewText.primary',
+                    userSelect: 'text',
+                  }}
                 >
                   {talkData.message.content}
                 </Typography>

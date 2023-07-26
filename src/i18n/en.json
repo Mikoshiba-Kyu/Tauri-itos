@@ -12,6 +12,10 @@
     "enterPrompt": "Please enter a prompt. (optional)",
     "ok": "OK"
   },
+  "editColumns": {
+    "conversationList": "Conversation List",
+    "conversationPreview": "Conversation Preview"
+  },
   "timeline": {
     "noTimeline": "No timeline to display",
     "noConversations": "No conversations yet",
