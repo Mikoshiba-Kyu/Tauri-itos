@@ -9,6 +9,9 @@ import {
   Checkbox,
   ListItemIcon,
   ListItemButton,
+  Menu,
+  MenuItem,
+  IconButton,
 } from '@mui/material'
 import { useRecoilState } from 'recoil'
 import { talkListState } from '../../../atoms/talkList'
@@ -18,7 +21,10 @@ import { Spacer } from '../../UI/Spacer'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
 import { TalkFile } from '../../../types/types'
-import { loadTextFileInDataDir } from '../../../utils/files'
+import {
+  loadTextFileInDataDir,
+  deleteFileInDataDir,
+} from '../../../utils/files'
 import Body from '../../ColumnPane/Body'
 
 const style = {
@@ -40,6 +46,7 @@ const conversationListStyle = {
 
 const conversationPreviewStyle = {
   flexGrow: 1,
+  display: 'flex',
   border: '1px solid',
   borderColor: 'timelineBorder.primary',
   borderRadius: '4px',
@@ -52,6 +59,8 @@ const EditColumnsMenu = () => {
 
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>()
   const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const menuOpen = Boolean(anchorEl)
 
   const handleListItemClick = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -89,6 +98,35 @@ const EditColumnsMenu = () => {
     await saveTextFileInDataDir('columnList.json', JSON.stringify(newColumns))
   }
 
+  const handleDelete = async (id: string) => {
+    const deletedColumnList = columnList.filter((columnId) => columnId !== id)
+    setColumnList(deletedColumnList)
+    await saveTextFileInDataDir(
+      'ColumnList.json',
+      JSON.stringify(deletedColumnList)
+    )
+
+    const deletedTalkList = talkList.filter((talk) => talk.id !== id)
+    setTalkList(deletedTalkList)
+    await saveTextFileInDataDir(
+      'TalkList.json',
+      JSON.stringify(deletedTalkList)
+    )
+
+    await deleteFileInDataDir(`${id}.json`)
+
+    setSelectedIndex(undefined)
+    setAnchorEl(null)
+  }
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <Box sx={style}>
       <FormLabel>
@@ -99,7 +137,11 @@ const EditColumnsMenu = () => {
       <List sx={conversationListStyle}>
         {talkList.map((talk, index) => {
           return (
-            <ListItem disablePadding sx={{ height: '2rem' }}>
+            <ListItem
+              id={`conversation-list-${index}`}
+              disablePadding
+              sx={{ height: '2rem' }}
+            >
               <ListItemButton
                 role={undefined}
                 dense
@@ -119,7 +161,28 @@ const EditColumnsMenu = () => {
                     inputProps={{ 'aria-labelledby': index.toString() }}
                   />
                 </ListItemIcon>
-                <MoreVertIcon />
+                <IconButton onClick={handleMenuOpen}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <MenuItem onClick={async () => handleDelete(talk.id)}>
+                    デリート
+                  </MenuItem>
+                </Menu>
               </ListItemButton>
             </ListItem>
           )
@@ -135,7 +198,9 @@ const EditColumnsMenu = () => {
       </FormLabel>
 
       <Box sx={conversationPreviewStyle}>
-        {selectedIndex && <Body talkFile={talkFile} isPreview={true} />}
+        {selectedIndex !== undefined && (
+          <Body talkFile={talkFile} isPreview={true} />
+        )}
       </Box>
     </Box>
   )

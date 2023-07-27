@@ -14,10 +14,6 @@ const TimeLine = () => {
     return talkList.find((talk) => talk.id === column)
   })
 
-  if (!availableTalkList || availableTalkList.length === 0) {
-    return <BlankContents message={t('timeline.noTimeline')} />
-  }
-
   return (
     <Box
       display={'flex'}
@@ -25,9 +21,11 @@ const TimeLine = () => {
       height={'100vh'}
       sx={{ overflowX: 'auto' }}
     >
-      {availableTalkList.map((item) => {
-        return item && <Pane id={item.id}></Pane>
-      })}
+      {!availableTalkList || availableTalkList.length === 0 ? (
+        <BlankContents message={t('timeline.noTimeline')} />
+      ) : (
+        availableTalkList.map((item) => item && <Pane id={item.id}></Pane>)
+      )}
     </Box>
   )
 }
