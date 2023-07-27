@@ -86,9 +86,9 @@ const Body = (props: Props) => {
 
   return (
     <Box ref={scrollRef} sx={style}>
-      {displayTalks.map((talkData: TalkData, i) => {
+      {displayTalks.map((talkData: TalkData, index) => {
         return (
-          <Box key={i} sx={cardStyle}>
+          <Box key={index} sx={cardStyle}>
             <Grid container>
               <Grid sx={{ width: '48px' }}>
                 <MessageAvatar talkData={talkData} />

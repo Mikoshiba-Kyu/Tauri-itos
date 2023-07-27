@@ -24,7 +24,9 @@ const TimeLine = () => {
       {!availableTalkList || availableTalkList.length === 0 ? (
         <BlankContents message={t('timeline.noTimeline')} />
       ) : (
-        availableTalkList.map((item) => item && <Pane id={item.id}></Pane>)
+        availableTalkList.map(
+          (item, index) => item && <Pane key={index} id={item.id}></Pane>
+        )
       )}
     </Box>
   )

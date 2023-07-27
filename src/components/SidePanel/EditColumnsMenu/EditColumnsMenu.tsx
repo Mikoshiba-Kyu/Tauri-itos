@@ -138,6 +138,7 @@ const EditColumnsMenu = () => {
         {talkList.map((talk, index) => {
           return (
             <ListItem
+              key={index}
               id={`conversation-list-${index}`}
               disablePadding
               sx={{ height: '2rem' }}
