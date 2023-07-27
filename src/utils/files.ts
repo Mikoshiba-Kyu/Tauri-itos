@@ -4,6 +4,7 @@ import {
   writeTextFile,
   exists,
   createDir,
+  removeFile,
 } from '@tauri-apps/api/fs'
 import { TalkList, ColumnList, TalkFile } from '../types/types'
 
@@ -46,6 +47,16 @@ export const saveTextFileInDataDir = async (
   try {
     await writeTextFile(filePath, data)
     console.log(`[itos] Save ${filePath}`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const deleteFileInDataDir = async (fileName: string): Promise<void> => {
+  const filePath = `${await appLocalDataDir()}data/${fileName}`
+  try {
+    await removeFile(filePath)
+    console.log(`[itos] Delete ${filePath}`)
   } catch (error) {
     console.error(error)
   }

@@ -82,11 +82,7 @@ const Pane = (props: Props) => {
             isAccordionOpen={isAccordionOpen}
             setIsAccordionOpen={setIsAccordionOpen}
           />
-          <Body
-            talkFile={talkFile}
-            scrollRef={scrollRef}
-            isAcorrdionOpen={isAccordionOpen}
-          ></Body>
+          <Body talkFile={talkFile} scrollRef={scrollRef}></Body>
         </Box>
       </Rnd>
     </Box>
