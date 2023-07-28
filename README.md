@@ -1,3 +1,6 @@
+![](https://img.shields.io/crates/v/create-tauri-app)
+![](https://img.shields.io/npm/v/create-tauri-app.svg)
+
 # itos powered by GPT
 
 <img src="https://github.com/Mikoshiba-Kyu/Tauri-itos/assets/40236427/164c8bdf-7016-4f02-bb5b-0c9ae167c3cf" width="140px">
