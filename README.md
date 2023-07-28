@@ -10,6 +10,10 @@ Just set the API KEY for ChatGPT to get started right away.
 
 
 
-## Recommended IDE Setup
+## Development
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+* Pull repository your locally and Run `npm i`.
+
+* Start the VSCode workspace with `itos.code-workspace`.
+
+> ※ Once Tauri supports builds for Windows from Linux, it will be possible to migrate to DevContainer.
