@@ -1,5 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { TalkFile } from '../../types/types'
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 
 export interface Props {
   talkFile?: TalkFile
@@ -8,6 +9,7 @@ export interface Props {
 const style = {
   height: 'var(--column-header-height)',
   width: '100%',
+  display: 'flex',
   padding: '1rem',
 }
 
@@ -24,6 +26,7 @@ const Header = (props: Props) => {
 
   return (
     <Box sx={style}>
+      <DragIndicatorIcon></DragIndicatorIcon>
       <Typography variant={'h6'} sx={{ color: 'timelineHeaderText.primary' }}>
         {talkFile.name}
       </Typography>

@@ -6,6 +6,8 @@ import { TalkFile } from '../../types/types'
 import { loadTextFileInDataDir } from '../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 export interface Props {
   id: string
@@ -31,6 +33,13 @@ const Pane = (props: Props) => {
   const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id })
+
+  const dragstyle = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
   const handleResize: RndResizeCallback = (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
     setLeftBoxWidth(newWidth)
@@ -48,7 +57,7 @@ const Pane = (props: Props) => {
   if (!talkFile) return null
 
   return (
-    <Box>
+    <Box ref={setNodeRef} sx={dragstyle} {...attributes} {...listeners}>
       <Rnd
         default={{
           x: 0,
