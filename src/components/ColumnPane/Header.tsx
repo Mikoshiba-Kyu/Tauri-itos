@@ -1,7 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { TalkFile } from '../../types/types'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import { useSortable } from '@dnd-kit/sortable'
 
 export interface Props {
   talkFile?: TalkFile

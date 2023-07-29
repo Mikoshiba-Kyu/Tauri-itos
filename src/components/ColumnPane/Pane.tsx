@@ -38,7 +38,6 @@ const Pane = (props: Props) => {
 
   const dragstyle = {
     transform: CSS.Transform.toString(transform),
-    transition,
   }
   const handleResize: RndResizeCallback = (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
