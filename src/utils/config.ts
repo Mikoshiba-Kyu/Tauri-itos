@@ -1,32 +1,22 @@
 import { appLocalDataDir } from '@tauri-apps/api/path'
 import { exists, writeTextFile, readTextFile } from '@tauri-apps/api/fs'
-
-export type Config = {
-  Theme?: string
-  Language?: string
-  UserIconFileName?: string
-  ApiKey?: string
-  TimelineSort?: string
-}
+import type { ConfigFile } from '../types/types'
 
 const initConfig = async (): Promise<void> => {
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 
-  const settings: Config = {
-    Theme: 'dark',
-    Language: 'en',
-    UserIconFileName: '',
-    ApiKey: '',
-    TimelineSort: 'desc',
+  const settings: ConfigFile = {
+    theme: 'dark',
+    language: 'en',
+    userIconFileName: '',
+    apiKey: '',
+    timelineSort: 'desc',
   }
 
   await writeTextFile(cfgFilePath, JSON.stringify(settings, null, 2))
 }
 
-/**
- * config.json の内容を Config型で取得する。
- */
-export const loadConfig = async (): Promise<Config> => {
+export const loadConfig = async (): Promise<ConfigFile> => {
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 
   // config.json が存在しなければ初期値で生成する
@@ -41,9 +31,6 @@ export const loadConfig = async (): Promise<Config> => {
   return JSON.parse(configText)
 }
 
-/**
- * config.json の特定キーの値を更新する。
- */
 export const saveConfig = async (param: object): Promise<void> => {
   const cfgFilePath = `${await appLocalDataDir()}config.json`
 

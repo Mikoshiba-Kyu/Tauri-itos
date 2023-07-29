@@ -8,6 +8,7 @@ import ExpandMenuHeader from './ExpandMenuHeader'
 import NewTalkMenu from './NewTalkMenu/NewTalkMenu'
 import SettingsMenu from './SettingsMenu/SettingsMenu'
 import { t } from 'i18next'
+import EditColumnsMenu from './EditColumnsMenu/EditColumnsMenu'
 
 const SidePanel = () => {
   const [expandMenu, setExpandMenu] = useState<string>('')
@@ -57,8 +58,13 @@ const SidePanel = () => {
               sx={{ alignItems: 'center' }}
             >
               <DriveFileRenameOutlineIcon
-                color={expandMenu === 'newTalk' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'newTalk'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -72,8 +78,13 @@ const SidePanel = () => {
               }
             >
               <ViewWeekIcon
-                color={expandMenu === 'columnSettings' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'columnSettings'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -87,8 +98,13 @@ const SidePanel = () => {
               }
             >
               <SettingsIcon
-                color={expandMenu === 'settings' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'settings'
+                      ? 'icon.selection'
+                      : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
@@ -102,13 +118,23 @@ const SidePanel = () => {
               }
             >
               <InfoIcon
-                color={expandMenu === 'info' ? 'primary' : undefined}
                 fontSize="large"
+                sx={{
+                  color:
+                    expandMenu === 'info' ? 'icon.selection' : 'icon.primary',
+                }}
               />
             </IconButton>
           </Tooltip>
         </Box>
-        <Box sx={{ height: '100%', width: expandMenuWidth }}>
+        <Box
+          sx={{
+            height: '100%',
+            width: expandMenuWidth,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           {expandMenu === 'newTalk' ? (
             <>
               <ExpandMenuHeader
@@ -118,10 +144,13 @@ const SidePanel = () => {
               <NewTalkMenu setExpandMenu={setExpandMenu} />
             </>
           ) : expandMenu === 'columnSettings' ? (
-            <ExpandMenuHeader
-              title={t('menu.editColumns')}
-              setExpandMenu={setExpandMenu}
-            ></ExpandMenuHeader>
+            <>
+              <ExpandMenuHeader
+                title={t('menu.editColumns')}
+                setExpandMenu={setExpandMenu}
+              ></ExpandMenuHeader>
+              <EditColumnsMenu />
+            </>
           ) : expandMenu === 'settings' ? (
             <>
               <ExpandMenuHeader

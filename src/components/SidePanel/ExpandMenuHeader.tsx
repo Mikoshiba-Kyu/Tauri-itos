@@ -20,7 +20,7 @@ const ExpandMenuHeader = (props: Props) => {
       <Grid container justifyContent="space-between" alignItems="center">
         <Typography variant="h6">{title}</Typography>
         <IconButton onClick={() => setExpandMenu('')}>
-          <CloseIcon fontSize="small" />
+          <CloseIcon fontSize="small" sx={{ color: 'icon.primary' }} />
         </IconButton>
       </Grid>
     </Box>

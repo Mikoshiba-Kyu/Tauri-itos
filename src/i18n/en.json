@@ -8,12 +8,19 @@
   "newConversations": {
     "enterTitle": "Please enter a new conversation title.",
     "sameTitleError": "The title is already used.",
-    "enterPrompt": "Please enter a prompt",
+    "assistantAvatar": "Please select the assistant icon file. (optional)",
+    "enterPrompt": "Please enter a prompt. (optional)",
     "ok": "OK"
+  },
+  "editColumns": {
+    "conversationList": "Conversation List",
+    "conversationPreview": "Conversation Preview"
   },
   "timeline": {
     "noTimeline": "No timeline to display",
-    "noConversations": "No conversations yet"
+    "noConversations": "No conversations yet",
+    "enterMessage": "Please enter a message.",
+    "send": "Send"
   },
   "settings": {
     "userAvatar": "User's avatar file",

@@ -19,6 +19,7 @@
         "exists": true,
         "createDir": true,
         "copyFile": true,
+        "removeFile": true,
         "writeFile": true,
         "readFile": true,
         "readDir": true,

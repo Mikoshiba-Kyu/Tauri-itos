@@ -8,12 +8,19 @@
   "newConversations": {
     "enterTitle": "新しい会話のタイトルを入力してください",
     "sameTitleError": "このタイトルはすでに使用されています",
-    "enterPrompt": "プロンプトを入力してください",
+    "assistantAvatar": "アシスタントのアイコンファイルを選択してください (任意)",
+    "enterPrompt": "プロンプトを入力してください (任意)",
     "ok": "決定"
+  },
+  "editColumns": {
+    "conversationList": "会話の一覧",
+    "conversationPreview": "会話のプレビュー"
   },
   "timeline": {
     "noTimeline": "表示するタイムラインがありません",
-    "noConversations": "まだ会話がありません"
+    "noConversations": "まだ会話がありません",
+    "enterMessage": "メッセージを入力してください",
+    "send": "送信"
   },
   "settings": {
     "userAvatar": "ユーザーのアイコンファイル",

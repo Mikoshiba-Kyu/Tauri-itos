@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { TalkFile } from '../../types/types'
 
 export interface Props {
@@ -16,9 +16,22 @@ const Header = (props: Props) => {
 
   if (!talkFile) return null
 
+  const getTotalTokenCount = () => {
+    const keys = Object.keys(talkFile.talks)
+    const lastKey: any = keys[keys.length - 1]
+    return talkFile.talks[lastKey].totalTokens
+  }
+
   return (
     <Box sx={style}>
-      <Typography variant={'h6'}>{talkFile.name}</Typography>
+      <Typography variant={'h6'} sx={{ color: 'timelineHeaderText.primary' }}>
+        {talkFile.name}
+      </Typography>
+      <Grid container direction="row" justifyContent="flex-end">
+        <Typography variant="caption" sx={{ color: 'timelineText.secondary' }}>
+          {`Total Tokens : ${getTotalTokenCount() ?? '-'}`}
+        </Typography>
+      </Grid>
     </Box>
   )
 }

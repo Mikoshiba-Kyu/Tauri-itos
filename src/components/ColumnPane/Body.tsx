@@ -9,18 +9,20 @@ import { t } from 'i18next'
 import { getDataDirPath } from '../../utils/files'
 import { useEffect, useState } from 'react'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
+import { Spacer } from '../UI/Spacer'
 
 export interface Props {
   talkFile?: TalkFile
-  scrollRef: React.RefObject<HTMLDivElement>
-  isAcorrdionOpen: boolean
+  scrollRef?: React.RefObject<HTMLDivElement>
+  isPreview?: boolean
 }
 
 export interface MessageAvatarProps {
-  talk: TalkData
+  talkData: TalkData
 }
 
 const style = {
+  flexGrow: 1,
   width: '100%',
   overflowY: 'auto',
 }
@@ -28,12 +30,15 @@ const style = {
 // TODO: カラーにテーマを適用する
 const cardStyle = {
   width: '100%',
-  padding: '1rem',
-  borderBottom: '1px solid #343434',
+  paddingTop: '1rem',
+  paddingLeft: '1rem',
+  paddingRight: '1rem',
+  borderBottom: '1px solid',
+  borderBottomColor: 'timelineBorder.primary',
 }
 
 const Body = (props: Props) => {
-  const { talkFile, scrollRef, isAcorrdionOpen } = props
+  const { talkFile, scrollRef, isPreview } = props
 
   const [dataDirPath, setDataDirPath] = useState('')
   useEffect(() => {
@@ -45,37 +50,32 @@ const Body = (props: Props) => {
 
   const settings = useRecoilValue(settingsState)
 
-  const bodyHeight = isAcorrdionOpen
-    ? 'calc(100vh - var(--column-header-height) - var(--column-open-input-height) - 56px)' // TODO: 56pxのズレがどこから生まれるのか調査する
-    : 'calc(100vh - var(--column-header-height) - var(--column-close-input-height) - 8px)' // TODO: 8pxのズレがどこから生まれるのか調査する
-
-  if (!talkFile || talkFile.talks.length === 1) {
-    return (
-      <BlankContents
-        message={t('timeline.noConversations')}
-        height={bodyHeight}
-      />
-    )
+  if (!talkFile || Object.keys(talkFile.talks).length <= 1) {
+    return <BlankContents message={t('timeline.noConversations')} />
   }
 
   // talkFileを画面表示用に整形する
-  const displayTalks = talkFile.talks.filter((talk) => talk.role !== 'system')
-  settings.TimelineSort !== 'asc' && displayTalks.reverse()
+  const displayTalks: TalkData[] = talkFile.talks.filter(
+    (talkData) => talkData.message.role !== 'system'
+  )
+  settings.timelineSort !== 'asc' && displayTalks.reverse()
 
   // Set Avatar
   const MessageAvatar = (props: MessageAvatarProps) => {
-    const { talk } = props
+    const { talkData } = props
     {
-      return talk.role === 'user' ? (
+      return talkData.message.role === 'user' ? (
         <Avatar
-          src={convertFileSrc(`${dataDirPath}${settings.UserIconFileName}`)}
+          src={convertFileSrc(`${dataDirPath}${settings.userIconFileName}`)}
           sx={{ width: 36, height: 36 }}
         >
           <PersonIcon />
         </Avatar>
       ) : (
         <Avatar
-          src={convertFileSrc(`${dataDirPath}test.png`)} // TODO: talkFileにgptAvatarFileNameを追加し、そちらを参照するようにする
+          src={convertFileSrc(
+            `${dataDirPath}${talkFile.assistantIconFileName}`
+          )}
           sx={{ width: 36, height: 36, backgroundColor: 'darkcyan' }}
         >
           <SpokeIcon />
@@ -85,16 +85,46 @@ const Body = (props: Props) => {
   }
 
   return (
-    <Box ref={scrollRef} sx={{ ...style, height: bodyHeight }}>
-      {displayTalks.map((talk: TalkData, i) => {
+    <Box ref={scrollRef} sx={style}>
+      {displayTalks.map((talkData: TalkData, index) => {
         return (
-          <Box key={i} sx={cardStyle}>
+          <Box key={index} sx={cardStyle}>
             <Grid container>
               <Grid sx={{ width: '48px' }}>
-                <MessageAvatar talk={talk} />
+                <MessageAvatar talkData={talkData} />
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
-                <Typography variant="body2">{talk.content}</Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: !isPreview
+                      ? 'timelineText.primary'
+                      : 'timelinePreviewText.primary',
+                    userSelect: 'text',
+                  }}
+                >
+                  {talkData.message.content}
+                </Typography>
+
+                <Spacer size="1rem"></Spacer>
+
+                <Grid container direction="row" justifyContent="space-between">
+                  <Typography
+                    variant="caption"
+                    sx={{ color: 'timelineText.secondary' }}
+                  >
+                    {talkData.timestamp ?? ''}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      marginLeft: '0.5rem',
+                      color: 'timelineText.secondary',
+                    }}
+                  >
+                    {talkData.model ?? ''}
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
           </Box>

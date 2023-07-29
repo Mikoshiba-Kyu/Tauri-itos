@@ -3,7 +3,6 @@ import { useRecoilState } from 'recoil'
 import { settingsState } from '../../../atoms/settingsState'
 import {
   Stack,
-  Button,
   RadioGroup,
   FormControl,
   FormControlLabel,
@@ -26,7 +25,7 @@ import { getDataDirPath } from '../../../utils/files'
 
 const style = {
   width: '100%',
-  height: 'calc(100% - var(--expand-menu-header-height) - 34px)', // TODO: 34pxのズレがどこから生まれるのか調査する
+  flexGrow: 1,
   padding: '1rem',
   overflowY: 'auto',
 }
@@ -47,9 +46,9 @@ const SettingsMenu = () => {
   const onThemeChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ Theme: value } })
+    setSettings({ ...settings, ...{ theme: value } })
     ;(async () => {
-      await saveConfig({ Theme: value })
+      await saveConfig({ theme: value })
     })()
   }
 
@@ -60,9 +59,9 @@ const SettingsMenu = () => {
 
       i18n.changeLanguage(value)
 
-      setSettings({ ...settings, ...{ Language: value } })
+      setSettings({ ...settings, ...{ language: value } })
       ;(async () => {
-        await saveConfig({ Language: value })
+        await saveConfig({ language: value })
       })()
     }
 
@@ -70,9 +69,9 @@ const SettingsMenu = () => {
   const onAPIKeyChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ ApiKey: value } })
+    setSettings({ ...settings, ...{ apiKey: value } })
     ;(async () => {
-      await saveConfig({ ApiKey: value })
+      await saveConfig({ apiKey: value })
     })()
   }
 
@@ -81,9 +80,9 @@ const SettingsMenu = () => {
     () => (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value
 
-      setSettings({ ...settings, ...{ TimelineSort: value } })
+      setSettings({ ...settings, ...{ timelineSort: value } })
       ;(async () => {
-        await saveConfig({ TimelineSort: value })
+        await saveConfig({ timelineSort: value })
       })()
     }
 
@@ -110,8 +109,11 @@ const SettingsMenu = () => {
     const fileName = await basename(filePath)
     await copyFile(filePath, `${dataDirPath}${fileName}`)
 
-    // setSettingsでUserIconFileNameを更新する
-    setSettings({ ...settings, ...{ UserIconFileName: fileName } })
+    // atomsとファイルのUserIconFileNameを更新する
+    setSettings({ ...settings, ...{ userIconFileName: fileName } })
+    ;(async () => {
+      await saveConfig({ userIconFileName: fileName })
+    })()
   }
 
   return (
@@ -123,7 +125,7 @@ const SettingsMenu = () => {
 
         <Avatar
           variant="square"
-          src={convertFileSrc(`${dataDirPath}${settings.UserIconFileName}`)}
+          src={convertFileSrc(`${dataDirPath}${settings.userIconFileName}`)}
           sx={{
             width: 82,
             height: 82,
@@ -136,16 +138,18 @@ const SettingsMenu = () => {
         >
           <PersonIcon fontSize="large" />
         </Avatar>
+      </FormControl>
 
-        <Spacer size="2rem" />
+      <Spacer size="2rem" />
 
+      <FormControl>
         <FormLabel>
           <Typography variant="caption">{t('settings.theme')}</Typography>
         </FormLabel>
 
         <RadioGroup
           row
-          defaultValue={() => settings.Theme}
+          defaultValue={() => settings.theme}
           onChange={onThemeChange()}
         >
           <FormControlLabel
@@ -170,7 +174,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.Language}
+          defaultValue={() => settings.language}
           onChange={onLanguageChange()}
         >
           <FormControlLabel
@@ -193,8 +197,12 @@ const SettingsMenu = () => {
         label="ChatGPT API Key"
         size="small"
         variant="standard"
-        defaultValue={settings.ApiKey}
+        defaultValue={settings.apiKey}
         onChange={onAPIKeyChange()}
+        sx={{
+          borderBottom: '1px solid',
+          borderBottomColor: 'inputOutline.primary',
+        }}
       />
 
       <Spacer size="2rem" />
@@ -208,7 +216,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.TimelineSort}
+          defaultValue={() => settings.timelineSort}
           onChange={onTimelineSortChange()}
         >
           <FormControlLabel
