@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import SpokeIcon from '@mui/icons-material/Spoke'
 import { Spacer } from '../../UI/Spacer'
-import { TalkData, Timeline, TimelineData } from '../../../types/types'
+import { ConversationData, Timeline, TimelineData } from '../../../types/types'
 import { saveTextFileInDataDir, getDataDirPath } from '../../../utils/files'
 import { getDataTimeNow } from '../../../utils/datetime'
 import { t } from 'i18next'
@@ -57,7 +57,7 @@ const NewTalkMenu = (props: Props) => {
   const submit = async () => {
     const id = uuidv4()
     const name = titleVal
-    const talks: TalkData[] = [
+    const conversations: ConversationData[] = [
       {
         number: 0,
         timestamp: getDataTimeNow(),
@@ -73,7 +73,7 @@ const NewTalkMenu = (props: Props) => {
       id,
       name,
       assistantIconFileName: avaterFileName,
-      talks,
+      conversations,
     }
 
     // トークファイルを生成する

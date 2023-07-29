@@ -19,7 +19,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Spacer } from '../../UI/Spacer'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
-import { TalkFile, TimelineData } from '../../../types/types'
+import { ConversationFile, TimelineData } from '../../../types/types'
 import {
   loadTextFileInDataDir,
   deleteFileInDataDir,
@@ -56,7 +56,9 @@ const EditColumnsMenu = () => {
   const [timeline, setTimeline] = useRecoilState(timelineState)
 
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>()
-  const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
+  const [conversationFile, setConversationFile] = useState<
+    ConversationFile | undefined
+  >(undefined)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
 
@@ -70,8 +72,8 @@ const EditColumnsMenu = () => {
 
     const setData = async () => {
       const textObject = await loadTextFileInDataDir(`${id}.json`)
-      const result: TalkFile = textObject as TalkFile
-      setTalkFile(result)
+      const result: ConversationFile = textObject as ConversationFile
+      setConversationFile(result)
     }
     setData()
   }
@@ -192,7 +194,7 @@ const EditColumnsMenu = () => {
 
       <Box sx={conversationPreviewStyle}>
         {selectedIndex !== undefined && (
-          <Body talkFile={talkFile} isPreview={true} />
+          <Body conversationFile={conversationFile} isPreview={true} />
         )}
       </Box>
     </Box>

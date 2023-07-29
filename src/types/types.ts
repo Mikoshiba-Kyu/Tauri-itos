@@ -1,10 +1,10 @@
-export type TalkFile = {
+export type ConversationFile = {
   id: string
   name: string
   assistantIconFileName: string
-  talks: TalkData[]
+  conversations: ConversationData[]
 }
-export type TalkData = {
+export type ConversationData = {
   number: number
   timestamp: string
   model?: string
