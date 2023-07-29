@@ -65,7 +65,7 @@ const TimeLine = () => {
       display={'flex'}
       width={'100%'}
       height={'100vh'}
-      sx={{ overflowX: 'auto' }}
+      sx={{ overflowX: 'auto', overflowY: 'hidden' }}
     >
       {!viewedColumns || viewedColumns.length === 0 ? (
         <BlankContents message={t('timeline.noTimeline')} />

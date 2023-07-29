@@ -20,7 +20,8 @@
     "noTimeline": "表示するタイムラインがありません",
     "noConversations": "まだ会話がありません",
     "enterMessage": "メッセージを入力してください",
-    "send": "送信"
+    "send": "送信",
+    "dragIcon": "ここをドラッグしてカラムの順番を入れ替えられます"
   },
   "settings": {
     "userAvatar": "ユーザーのアイコンファイル",

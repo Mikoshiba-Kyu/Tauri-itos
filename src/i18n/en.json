@@ -20,7 +20,8 @@
     "noTimeline": "No timeline to display",
     "noConversations": "No conversations yet",
     "enterMessage": "Please enter a message.",
-    "send": "Send"
+    "send": "Send",
+    "dragIcon": "You can rearrange the order of columns by dragging here."
   },
   "settings": {
     "userAvatar": "User's avatar file",
