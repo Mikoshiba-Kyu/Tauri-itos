@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { talkListState } from '../../../atoms/talkList'
-import { columnListState } from '../../../atoms/columnList'
+import { timelineState } from '../../../atoms/timelineState'
 import {
   Stack,
   Button,
@@ -13,7 +12,7 @@ import {
 } from '@mui/material'
 import SpokeIcon from '@mui/icons-material/Spoke'
 import { Spacer } from '../../UI/Spacer'
-import { TalkData, TalkList } from '../../../types/types'
+import { TalkData, Timeline, TimelineData } from '../../../types/types'
 import { saveTextFileInDataDir, getDataDirPath } from '../../../utils/files'
 import { getDataTimeNow } from '../../../utils/datetime'
 import { t } from 'i18next'
@@ -41,9 +40,7 @@ const NewTalkMenu = (props: Props) => {
   const [promptVal, setPromptValue] = useState('')
   const [avaterFileName, setAvatarFileName] = useState('')
   const [titleError, setTitleError] = useState(false)
-  const [talkList, setTalkList] = useRecoilState(talkListState)
-  const [columnList, setColumnList] = useRecoilState(columnListState)
-
+  const [timeline, setTimeline] = useRecoilState(timelineState)
   const [dataDirPath, setDataDirPath] = useState('')
 
   useEffect(() => {
@@ -54,7 +51,7 @@ const NewTalkMenu = (props: Props) => {
   }, [])
 
   const checkTitle = (checkedValue: string): boolean => {
-    return talkList.some((talk) => talk.name === checkedValue)
+    return timeline.some((data: TimelineData) => data.name === checkedValue)
   }
 
   const submit = async () => {
@@ -82,24 +79,16 @@ const NewTalkMenu = (props: Props) => {
     // トークファイルを生成する
     await saveTextFileInDataDir(`${id}.json`, JSON.stringify(data, null, 2))
 
-    // トークリストファイルを更新する
-    const newTalkList: TalkList = [
-      ...talkList,
-      { id: data.id, name: data.name },
+    // タイムライン先頭に新規会話を表示する
+    const newTimeline: Timeline = [
+      { id: data.id, name: data.name, visible: true, columnWidth: 400 },
+      ...timeline,
     ]
     await saveTextFileInDataDir(
-      'TalkList.json',
-      JSON.stringify(newTalkList, null, 2)
+      'Timeline.json',
+      JSON.stringify(newTimeline, null, 2)
     )
-    setTalkList(newTalkList)
-
-    // カラムリストファイルを更新する
-    const newColumnList = [data.id, ...columnList]
-    await saveTextFileInDataDir(
-      'ColumnList.json',
-      JSON.stringify(newColumnList, null, 2)
-    )
-    setColumnList(newColumnList)
+    setTimeline(newTimeline)
 
     // メニューを閉じる
     setExpandMenu('')

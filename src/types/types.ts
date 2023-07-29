@@ -14,6 +14,15 @@ export type TalkData = {
   message: { role: string; content: string }
 }
 
+export type Timeline = TimelineData[]
+
+export type TimelineData = {
+  id: string
+  name: string
+  visible: boolean
+  columnWidth: number
+}
+
 export type ConfigFile = {
   theme?: string
   language?: string
@@ -21,6 +30,3 @@ export type ConfigFile = {
   apiKey?: string
   timelineSort?: string
 }
-
-export type TalkList = { id: string; name: string }[]
-export type ColumnList = string[]

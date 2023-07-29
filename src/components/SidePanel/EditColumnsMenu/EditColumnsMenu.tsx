@@ -14,13 +14,12 @@ import {
   IconButton,
 } from '@mui/material'
 import { useRecoilState } from 'recoil'
-import { talkListState } from '../../../atoms/talkList'
-import { columnListState } from '../../../atoms/columnList'
+import { timelineState } from '../../../atoms/timelineState'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Spacer } from '../../UI/Spacer'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
-import { TalkFile } from '../../../types/types'
+import { TalkFile, TimelineData } from '../../../types/types'
 import {
   loadTextFileInDataDir,
   deleteFileInDataDir,
@@ -54,8 +53,7 @@ const conversationPreviewStyle = {
 }
 
 const EditColumnsMenu = () => {
-  const [talkList, setTalkList] = useRecoilState(talkListState)
-  const [columnList, setColumnList] = useRecoilState(columnListState)
+  const [timeline, setTimeline] = useRecoilState(timelineState)
 
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>()
   const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
@@ -68,7 +66,7 @@ const EditColumnsMenu = () => {
   ) => {
     setSelectedIndex(index)
 
-    const id = talkList[index].id
+    const id = timeline[index].id
 
     const setData = async () => {
       const textObject = await loadTextFileInDataDir(`${id}.json`)
@@ -78,39 +76,33 @@ const EditColumnsMenu = () => {
     setData()
   }
 
-  const checkEnableColumn = (talkId: string): boolean => {
-    return columnList.includes(talkId)
-  }
-
   const handleCheck = async (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => {
-    let newColumns: string[]
+    const newTimeline = timeline.map((timelineData: TimelineData) => {
+      if (timelineData.id === id) {
+        return {
+          ...timelineData,
+          visible: event.target.checked,
+        }
+      } else {
+        return timelineData
+      }
+    })
 
-    if (event.target.checked) {
-      newColumns = [id, ...columnList]
-    } else {
-      newColumns = columnList.filter((columnId) => columnId !== id)
-    }
-
-    setColumnList(newColumns)
-    await saveTextFileInDataDir('columnList.json', JSON.stringify(newColumns))
+    setTimeline(newTimeline)
+    await saveTextFileInDataDir('Timeline.json', JSON.stringify(newTimeline))
   }
 
   const handleDelete = async (id: string) => {
-    const deletedColumnList = columnList.filter((columnId) => columnId !== id)
-    setColumnList(deletedColumnList)
-    await saveTextFileInDataDir(
-      'ColumnList.json',
-      JSON.stringify(deletedColumnList)
+    const deletedTimeline = timeline.filter(
+      (timelineData: TimelineData) => timelineData.id !== id
     )
 
-    const deletedTalkList = talkList.filter((talk) => talk.id !== id)
-    setTalkList(deletedTalkList)
     await saveTextFileInDataDir(
-      'TalkList.json',
-      JSON.stringify(deletedTalkList)
+      'Timeline.json',
+      JSON.stringify(deletedTimeline)
     )
 
     await deleteFileInDataDir(`${id}.json`)
@@ -135,7 +127,7 @@ const EditColumnsMenu = () => {
         </Typography>
       </FormLabel>
       <List sx={conversationListStyle}>
-        {talkList.map((talk, index) => {
+        {timeline.map((timelineData: TimelineData, index) => {
           return (
             <ListItem
               key={index}
@@ -150,13 +142,13 @@ const EditColumnsMenu = () => {
                 selected={selectedIndex === index}
                 onClick={(event) => handleListItemClick(event, index)}
               >
-                <ListItemText primary={talk.name} />
+                <ListItemText primary={timelineData.name} />
                 <ListItemIcon
                   sx={{ justifyContent: 'center', alignItems: 'center' }}
                 >
                   <Checkbox
-                    checked={checkEnableColumn(talk.id)}
-                    onChange={(event) => handleCheck(event, talk.id)}
+                    checked={timelineData.visible}
+                    onChange={(event) => handleCheck(event, timelineData.id)}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': index.toString() }}
@@ -180,7 +172,7 @@ const EditColumnsMenu = () => {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem onClick={async () => handleDelete(talk.id)}>
+                  <MenuItem onClick={async () => handleDelete(timelineData.id)}>
                     デリート
                   </MenuItem>
                 </Menu>
