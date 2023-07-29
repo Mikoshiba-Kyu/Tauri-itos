@@ -1,5 +1,8 @@
-![](https://img.shields.io/crates/v/create-tauri-app)
-![](https://img.shields.io/npm/v/create-tauri-app.svg)
+![License](https://img.shields.io/github/license/Mikoshiba-Kyu/Tauri-itos)
+![Downloads](https://img.shields.io/github/downloads/Mikoshiba-Kyu/Tauri-itos/total)
+![Size](https://img.shields.io/github/languages/code-size/Mikoshiba-Kyu/Tauri-itos)
+![AllContributors](https://img.shields.io/github/all-contributors/Mikoshiba-Kyu/Tauri-itos/main)
+
 
 # itos powered by GPT
 
