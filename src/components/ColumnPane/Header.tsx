@@ -1,9 +1,11 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { TalkFile } from '../../types/types'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
+import { useSortable } from '@dnd-kit/sortable'
 
 export interface Props {
   talkFile?: TalkFile
+  listeners: any
 }
 
 const style = {
@@ -14,7 +16,7 @@ const style = {
 }
 
 const Header = (props: Props) => {
-  const { talkFile } = props
+  const { talkFile, listeners } = props
 
   if (!talkFile) return null
 
@@ -26,7 +28,9 @@ const Header = (props: Props) => {
 
   return (
     <Box sx={style}>
-      <DragIndicatorIcon></DragIndicatorIcon>
+      <Box {...listeners}>
+        <DragIndicatorIcon></DragIndicatorIcon>
+      </Box>
       <Typography variant={'h6'} sx={{ color: 'timelineHeaderText.primary' }}>
         {talkFile.name}
       </Typography>

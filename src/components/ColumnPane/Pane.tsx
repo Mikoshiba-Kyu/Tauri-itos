@@ -57,7 +57,7 @@ const Pane = (props: Props) => {
   if (!talkFile) return null
 
   return (
-    <Box ref={setNodeRef} sx={dragstyle} {...attributes} {...listeners}>
+    <Box ref={setNodeRef} sx={dragstyle} {...attributes}>
       <Rnd
         default={{
           x: 0,
@@ -83,7 +83,7 @@ const Pane = (props: Props) => {
         style={{ position: 'inherit' }}
       >
         <Box sx={style}>
-          <Header talkFile={talkFile}></Header>
+          <Header talkFile={talkFile} listeners={listeners}></Header>
           <InputBox
             talkFile={talkFile}
             setTalkFile={setTalkFile}

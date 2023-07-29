@@ -33,7 +33,7 @@ const TimeLine = () => {
       return talkList.find((talk) => talk.id === column)
     })
     setViewedColumns(result)
-  }, [columnList])
+  }, [])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
