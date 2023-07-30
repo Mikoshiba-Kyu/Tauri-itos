@@ -24,8 +24,6 @@ import { TimelineData } from '../../types/types'
 const TimeLine = () => {
   const [timeline, setTimeline] = useRecoilState(timelineState)
 
-  //const [viewedColumns, setViewedColumns] = useState<any>([])
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
