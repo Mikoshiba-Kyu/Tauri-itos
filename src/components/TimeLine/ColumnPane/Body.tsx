@@ -1,15 +1,15 @@
 import { useRecoilValue } from 'recoil'
-import { settingsState } from '../../atoms/settingsState'
+import { settingsState } from '../../../atoms/settingsState'
 import { Box, Typography, Grid, Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import SpokeIcon from '@mui/icons-material/Spoke'
-import { ConversationFile, ConversationData } from '../../types/types'
-import BlankContents from '../UI/BlankContents'
+import { ConversationFile, ConversationData } from '../../../types/types'
+import BlankContents from '../../UI/BlankContents'
 import { t } from 'i18next'
-import { getDataDirPath } from '../../utils/files'
+import { getDataDirPath } from '../../../utils/files'
 import { useEffect, useState } from 'react'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
-import { Spacer } from '../UI/Spacer'
+import { Spacer } from '../../UI/Spacer'
 
 export interface Props {
   conversationFile?: ConversationFile

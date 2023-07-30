@@ -24,7 +24,7 @@ import {
   loadTextFileInDataDir,
   deleteFileInDataDir,
 } from '../../../utils/files'
-import Body from '../../ColumnPane/Body'
+import Body from '../../TimeLine/ColumnPane/Body'
 
 const style = {
   width: '100%',

@@ -21,7 +21,9 @@
     "noConversations": "まだ会話がありません",
     "enterMessage": "メッセージを入力してください",
     "send": "送信",
-    "dragIcon": "ここをドラッグしてカラムの順番を入れ替えられます"
+    "dragIcon": "ここをドラッグしてカラムの順番を入れ替えられます",
+    "columnSettings": "会話の設定を変更します",
+    "hideColumns": "カラムを非表示にします"
   },
   "settings": {
     "userAvatar": "ユーザーのアイコンファイル",

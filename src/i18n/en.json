@@ -21,7 +21,9 @@
     "noConversations": "No conversations yet",
     "enterMessage": "Please enter a message.",
     "send": "Send",
-    "dragIcon": "You can rearrange the order of columns by dragging here."
+    "dragIcon": "You can rearrange the order of columns by dragging here.",
+    "columnSettings": "Change the conversation settings.",
+    "hideColumns": "Hide columns."
   },
   "settings": {
     "userAvatar": "User's avatar file",

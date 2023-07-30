@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil'
 import { timelineState } from '../../atoms/timelineState'
-import Pane from '../ColumnPane/Pane'
+import Pane from './ColumnPane/Pane'
 import { Box } from '@mui/material'
 import BlankContents from '../UI/BlankContents'
 import { t } from 'i18next'

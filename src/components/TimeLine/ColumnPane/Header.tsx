@@ -1,8 +1,12 @@
+import { useRecoilState } from 'recoil'
+import { timelineState } from '../../../atoms/timelineState'
 import { Box, Grid, Typography, IconButton, Tooltip } from '@mui/material'
-import { ConversationFile } from '../../types/types'
+import { ConversationFile, TimelineData } from '../../../types/types'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SettingsIcon from '@mui/icons-material/Settings'
+import CloseIcon from '@mui/icons-material/Close'
 import { t } from 'i18next'
+import { saveTextFileInDataDir } from '../../../utils/files'
 
 export interface Props {
   conversationFile?: ConversationFile
@@ -20,10 +24,29 @@ const Header = (props: Props) => {
   const { conversationFile, listeners, columnWidth } = props
   if (!conversationFile) return null
 
+  const [timeline, setTimeline] = useRecoilState(timelineState)
+
   const getTotalTokenCount = () => {
     const keys = Object.keys(conversationFile.conversations)
     const lastKey: any = keys[keys.length - 1]
     return conversationFile.conversations[lastKey].totalTokens
+  }
+
+  const handleHideColumns = async () => {
+    const newTimeline = timeline.map((timelineData: TimelineData) => {
+      if (timelineData.id === conversationFile.id) {
+        return {
+          ...timelineData,
+          visible: false,
+        }
+      } else {
+        return timelineData
+      }
+    })
+
+    await saveTextFileInDataDir('Timeline.json', JSON.stringify(newTimeline))
+
+    setTimeline(newTimeline)
   }
 
   return (
@@ -46,7 +69,7 @@ const Header = (props: Props) => {
               }}
             >
               <Tooltip title={t('timeline.dragIcon')}>
-                <DragIndicatorIcon sx={{}} />
+                <DragIndicatorIcon />
               </Tooltip>
             </Box>
             <Box
@@ -57,24 +80,33 @@ const Header = (props: Props) => {
                 flexGrow: 1,
               }}
             >
-              <Typography
-                variant={'h6'}
-                noWrap={true}
-                sx={{
-                  color: 'timelineHeaderText.primary',
-                  flexGrow: 1,
-                  width: `calc(${columnWidth} - 90px)`,
-                  display: 'inline-block',
-                }}
-              >
-                {conversationFile.name}
-              </Typography>
+              <Tooltip title={conversationFile.name}>
+                <Typography
+                  variant={'body1'}
+                  noWrap={true}
+                  sx={{
+                    color: 'timelineHeaderText.primary',
+                    flexGrow: 1,
+                    width: `calc(${columnWidth} - 130px)`,
+                    display: 'inline-block',
+                  }}
+                >
+                  {conversationFile.name}
+                </Typography>
+              </Tooltip>
             </Box>
           </Grid>
           <Grid item>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
+            <Tooltip title={t('timeline.columnSettings')}>
+              <IconButton>
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('timeline.hideColumns')}>
+              <IconButton onClick={handleHideColumns}>
+                <CloseIcon />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
       </Grid>
