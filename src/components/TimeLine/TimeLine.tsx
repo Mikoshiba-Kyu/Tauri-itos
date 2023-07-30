@@ -1,32 +1,76 @@
-import { useRecoilValue } from 'recoil'
-import { talkListState } from '../../atoms/talkList'
-import { columnListState } from '../../atoms/columnList'
+import { useRecoilState } from 'recoil'
+import { timelineState } from '../../atoms/timelineState'
 import Pane from '../ColumnPane/Pane'
 import { Box } from '@mui/material'
 import BlankContents from '../UI/BlankContents'
 import { t } from 'i18next'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable'
+import { TimelineData } from '../../types/types'
 
 const TimeLine = () => {
-  const columnList = useRecoilValue(columnListState)
-  const talkList = useRecoilValue(talkListState)
+  const [timeline, setTimeline] = useRecoilState(timelineState)
 
-  const availableTalkList = columnList.map((column) => {
-    return talkList.find((talk) => talk.id === column)
-  })
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!over) {
+      return
+    }
+
+    if (active.id !== over.id) {
+      const oldIndex = timeline.findIndex(
+        (v: TimelineData) => v.id === active.id
+      )
+      const newIndex = timeline.findIndex((v: TimelineData) => v.id === over.id)
+      setTimeline(arrayMove(timeline, oldIndex, newIndex))
+    }
+  }
 
   return (
     <Box
       display={'flex'}
       width={'100%'}
       height={'100vh'}
-      sx={{ overflowX: 'auto' }}
+      sx={{ overflowX: 'auto', overflowY: 'hidden' }}
     >
-      {!availableTalkList || availableTalkList.length === 0 ? (
+      {!timeline || timeline.length === 0 ? (
         <BlankContents message={t('timeline.noTimeline')} />
       ) : (
-        availableTalkList.map(
-          (item, index) => item && <Pane key={index} id={item.id}></Pane>
-        )
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={timeline}
+            strategy={horizontalListSortingStrategy}
+          >
+            {timeline.map(
+              (item: TimelineData) => item.visible && <Pane id={item.id}></Pane>
+            )}
+          </SortableContext>
+        </DndContext>
       )}
     </Box>
   )

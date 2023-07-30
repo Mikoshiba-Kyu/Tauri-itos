@@ -3,7 +3,7 @@ import { settingsState } from '../../atoms/settingsState'
 import { Box, Typography, Grid, Avatar } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import SpokeIcon from '@mui/icons-material/Spoke'
-import { TalkFile, TalkData } from '../../types/types'
+import { ConversationFile, ConversationData } from '../../types/types'
 import BlankContents from '../UI/BlankContents'
 import { t } from 'i18next'
 import { getDataDirPath } from '../../utils/files'
@@ -12,13 +12,13 @@ import { convertFileSrc } from '@tauri-apps/api/tauri'
 import { Spacer } from '../UI/Spacer'
 
 export interface Props {
-  talkFile?: TalkFile
+  conversationFile?: ConversationFile
   scrollRef?: React.RefObject<HTMLDivElement>
   isPreview?: boolean
 }
 
 export interface MessageAvatarProps {
-  talkData: TalkData
+  conversationData: ConversationData
 }
 
 const style = {
@@ -38,7 +38,7 @@ const cardStyle = {
 }
 
 const Body = (props: Props) => {
-  const { talkFile, scrollRef, isPreview } = props
+  const { conversationFile, scrollRef, isPreview } = props
 
   const [dataDirPath, setDataDirPath] = useState('')
   useEffect(() => {
@@ -50,21 +50,26 @@ const Body = (props: Props) => {
 
   const settings = useRecoilValue(settingsState)
 
-  if (!talkFile || Object.keys(talkFile.talks).length <= 1) {
+  if (
+    !conversationFile ||
+    Object.keys(conversationFile.conversations).length <= 1
+  ) {
     return <BlankContents message={t('timeline.noConversations')} />
   }
 
   // talkFileを画面表示用に整形する
-  const displayTalks: TalkData[] = talkFile.talks.filter(
-    (talkData) => talkData.message.role !== 'system'
-  )
+  const displayTalks: ConversationData[] =
+    conversationFile.conversations.filter(
+      (conversationData: ConversationData) =>
+        conversationData.message.role !== 'system'
+    )
   settings.timelineSort !== 'asc' && displayTalks.reverse()
 
   // Set Avatar
   const MessageAvatar = (props: MessageAvatarProps) => {
-    const { talkData } = props
+    const { conversationData } = props
     {
-      return talkData.message.role === 'user' ? (
+      return conversationData.message.role === 'user' ? (
         <Avatar
           src={convertFileSrc(`${dataDirPath}${settings.userIconFileName}`)}
           sx={{ width: 36, height: 36 }}
@@ -74,7 +79,7 @@ const Body = (props: Props) => {
       ) : (
         <Avatar
           src={convertFileSrc(
-            `${dataDirPath}${talkFile.assistantIconFileName}`
+            `${dataDirPath}${conversationFile.assistantIconFileName}`
           )}
           sx={{ width: 36, height: 36, backgroundColor: 'darkcyan' }}
         >
@@ -86,12 +91,12 @@ const Body = (props: Props) => {
 
   return (
     <Box ref={scrollRef} sx={style}>
-      {displayTalks.map((talkData: TalkData, index) => {
+      {displayTalks.map((conversationData: ConversationData, index) => {
         return (
           <Box key={index} sx={cardStyle}>
             <Grid container>
               <Grid sx={{ width: '48px' }}>
-                <MessageAvatar talkData={talkData} />
+                <MessageAvatar conversationData={conversationData} />
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
                 <Typography
@@ -103,7 +108,7 @@ const Body = (props: Props) => {
                     userSelect: 'text',
                   }}
                 >
-                  {talkData.message.content}
+                  {conversationData.message.content}
                 </Typography>
 
                 <Spacer size="1rem"></Spacer>
@@ -113,7 +118,7 @@ const Body = (props: Props) => {
                     variant="caption"
                     sx={{ color: 'timelineText.secondary' }}
                   >
-                    {talkData.timestamp ?? ''}
+                    {conversationData.timestamp ?? ''}
                   </Typography>
                   <Typography
                     variant="caption"
@@ -122,7 +127,7 @@ const Body = (props: Props) => {
                       color: 'timelineText.secondary',
                     }}
                   >
-                    {talkData.model ?? ''}
+                    {conversationData.model ?? ''}
                   </Typography>
                 </Grid>
               </Grid>

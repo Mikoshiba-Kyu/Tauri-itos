@@ -9,7 +9,7 @@
 }
 
 :root {
-  --column-header-height: 68px;
+  --column-header-height: 64px;
   --column-close-input-height: 24px;
   --column-open-input-height: 20rem;
   --menu-closed-width: 60px;

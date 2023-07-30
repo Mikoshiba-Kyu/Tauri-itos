@@ -14,13 +14,12 @@ import {
   IconButton,
 } from '@mui/material'
 import { useRecoilState } from 'recoil'
-import { talkListState } from '../../../atoms/talkList'
-import { columnListState } from '../../../atoms/columnList'
+import { timelineState } from '../../../atoms/timelineState'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Spacer } from '../../UI/Spacer'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
-import { TalkFile } from '../../../types/types'
+import { ConversationFile, TimelineData } from '../../../types/types'
 import {
   loadTextFileInDataDir,
   deleteFileInDataDir,
@@ -54,72 +53,64 @@ const conversationPreviewStyle = {
 }
 
 const EditColumnsMenu = () => {
-  const [talkList, setTalkList] = useRecoilState(talkListState)
-  const [columnList, setColumnList] = useRecoilState(columnListState)
+  const [timeline, setTimeline] = useRecoilState(timelineState)
 
-  const [selectedIndex, setSelectedIndex] = useState<number | undefined>()
-  const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
+  const [selectedId, setSelectedId] = useState<string | undefined>()
+  const [conversationFile, setConversationFile] = useState<
+    ConversationFile | undefined
+  >(undefined)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
 
-  const handleListItemClick = async (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index)
-
-    const id = talkList[index].id
+  const handleListItemClick = async (id: string) => {
+    setSelectedId(id)
 
     const setData = async () => {
       const textObject = await loadTextFileInDataDir(`${id}.json`)
-      const result: TalkFile = textObject as TalkFile
-      setTalkFile(result)
+      const result: ConversationFile = textObject as ConversationFile
+      setConversationFile(result)
     }
     setData()
-  }
-
-  const checkEnableColumn = (talkId: string): boolean => {
-    return columnList.includes(talkId)
   }
 
   const handleCheck = async (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => {
-    let newColumns: string[]
+    const newTimeline = timeline.map((timelineData: TimelineData) => {
+      if (timelineData.id === id) {
+        return {
+          ...timelineData,
+          visible: event.target.checked,
+        }
+      } else {
+        return timelineData
+      }
+    })
 
-    if (event.target.checked) {
-      newColumns = [id, ...columnList]
-    } else {
-      newColumns = columnList.filter((columnId) => columnId !== id)
-    }
-
-    setColumnList(newColumns)
-    await saveTextFileInDataDir('columnList.json', JSON.stringify(newColumns))
+    setTimeline(newTimeline)
+    await saveTextFileInDataDir('Timeline.json', JSON.stringify(newTimeline))
   }
 
-  const handleDelete = async (id: string) => {
-    const deletedColumnList = columnList.filter((columnId) => columnId !== id)
-    setColumnList(deletedColumnList)
-    await saveTextFileInDataDir(
-      'ColumnList.json',
-      JSON.stringify(deletedColumnList)
+  const handleDelete = async () => {
+    const deletedTimeline = timeline.filter(
+      (timelineData: TimelineData) => timelineData.id !== selectedId
     )
 
-    const deletedTalkList = talkList.filter((talk) => talk.id !== id)
-    setTalkList(deletedTalkList)
     await saveTextFileInDataDir(
-      'TalkList.json',
-      JSON.stringify(deletedTalkList)
+      'Timeline.json',
+      JSON.stringify(deletedTimeline)
     )
 
-    await deleteFileInDataDir(`${id}.json`)
+    await deleteFileInDataDir(`${selectedId}.json`)
 
-    setSelectedIndex(undefined)
-    setAnchorEl(null)
+    setTimeline(deletedTimeline)
+    setSelectedId(undefined)
+    handleMenuClose()
   }
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, id: string) => {
+    setSelectedId(id)
     setAnchorEl(event.currentTarget)
   }
 
@@ -135,11 +126,10 @@ const EditColumnsMenu = () => {
         </Typography>
       </FormLabel>
       <List sx={conversationListStyle}>
-        {talkList.map((talk, index) => {
+        {timeline.map((timelineData: TimelineData) => {
           return (
             <ListItem
-              key={index}
-              id={`conversation-list-${index}`}
+              key={timelineData.id}
               disablePadding
               sx={{ height: '2rem' }}
             >
@@ -147,22 +137,24 @@ const EditColumnsMenu = () => {
                 role={undefined}
                 dense
                 sx={{ height: '2rem' }}
-                selected={selectedIndex === index}
-                onClick={(event) => handleListItemClick(event, index)}
+                selected={selectedId === timelineData.id}
+                onClick={() => handleListItemClick(timelineData.id)}
               >
-                <ListItemText primary={talk.name} />
+                <ListItemText primary={timelineData.name} />
                 <ListItemIcon
                   sx={{ justifyContent: 'center', alignItems: 'center' }}
                 >
                   <Checkbox
-                    checked={checkEnableColumn(talk.id)}
-                    onChange={(event) => handleCheck(event, talk.id)}
+                    checked={timelineData.visible}
+                    onChange={(event) => handleCheck(event, timelineData.id)}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ 'aria-labelledby': index.toString() }}
+                    inputProps={{ 'aria-labelledby': timelineData.id }}
                   />
                 </ListItemIcon>
-                <IconButton onClick={handleMenuOpen}>
+                <IconButton
+                  onClick={(event) => handleMenuOpen(event, timelineData.id)}
+                >
                   <MoreVertIcon />
                 </IconButton>
                 <Menu
@@ -180,7 +172,7 @@ const EditColumnsMenu = () => {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem onClick={async () => handleDelete(talk.id)}>
+                  <MenuItem onClick={async () => handleDelete()}>
                     デリート
                   </MenuItem>
                 </Menu>
@@ -199,8 +191,8 @@ const EditColumnsMenu = () => {
       </FormLabel>
 
       <Box sx={conversationPreviewStyle}>
-        {selectedIndex !== undefined && (
-          <Body talkFile={talkFile} isPreview={true} />
+        {selectedId !== undefined && (
+          <Body conversationFile={conversationFile} isPreview={true} />
         )}
       </Box>
     </Box>
