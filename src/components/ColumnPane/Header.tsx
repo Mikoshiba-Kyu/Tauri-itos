@@ -1,11 +1,11 @@
 import { Box, Grid, Typography, IconButton, Tooltip } from '@mui/material'
-import { TalkFile } from '../../types/types'
+import { ConversationFile } from '../../types/types'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { t } from 'i18next'
 
 export interface Props {
-  talkFile?: TalkFile
+  conversationFile?: ConversationFile
   listeners: any
 }
 
@@ -16,14 +16,13 @@ const style = {
 }
 
 const Header = (props: Props) => {
-  const { talkFile, listeners } = props
-
-  if (!talkFile) return null
+  const { conversationFile, listeners } = props
+  if (!conversationFile) return null
 
   const getTotalTokenCount = () => {
-    const keys = Object.keys(talkFile.talks)
+    const keys = Object.keys(conversationFile.conversations)
     const lastKey: any = keys[keys.length - 1]
-    return talkFile.talks[lastKey].totalTokens
+    return conversationFile.conversations[lastKey].totalTokens
   }
 
   return (
@@ -64,7 +63,7 @@ const Header = (props: Props) => {
                   color: 'timelineHeaderText.primary',
                 }}
               >
-                {talkFile.name}
+                {conversationFile.name}
               </Typography>
             </Box>
           </Grid>

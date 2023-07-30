@@ -1,10 +1,9 @@
-import { useRecoilValue } from 'recoil'
-import { talkListState } from '../../atoms/talkList'
-import { columnListState } from '../../atoms/columnList'
+import { useRecoilState } from 'recoil'
+import { timelineState } from '../../atoms/timelineState'
 import Pane from '../ColumnPane/Pane'
 import { Box } from '@mui/material'
 import BlankContents from '../UI/BlankContents'
-import { t, use } from 'i18next'
+import { t } from 'i18next'
 import {
   DndContext,
   closestCenter,
@@ -20,20 +19,10 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
-import { useEffect, useState } from 'react'
+import { TimelineData } from '../../types/types'
 
 const TimeLine = () => {
-  const columnList = useRecoilValue(columnListState)
-  const talkList = useRecoilValue(talkListState)
-
-  const [viewedColumns, setViewedColumns] = useState<any>([])
-
-  useEffect(() => {
-    const result = columnList.map((column) => {
-      return talkList.find((talk) => talk.id === column)
-    })
-    setViewedColumns(result)
-  }, [])
+  const [timeline, setTimeline] = useRecoilState(timelineState)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -50,13 +39,11 @@ const TimeLine = () => {
     }
 
     if (active.id !== over.id) {
-      const oldIndex = viewedColumns.findIndex(
-        (v: { id: string; name: string }) => v.id === active.id
+      const oldIndex = timeline.findIndex(
+        (v: TimelineData) => v.id === active.id
       )
-      const newIndex = viewedColumns.findIndex(
-        (v: { id: string; name: string }) => v.id === over.id
-      )
-      setViewedColumns(arrayMove(viewedColumns, oldIndex, newIndex))
+      const newIndex = timeline.findIndex((v: TimelineData) => v.id === over.id)
+      setTimeline(arrayMove(timeline, oldIndex, newIndex))
     }
   }
 
@@ -67,7 +54,7 @@ const TimeLine = () => {
       height={'100vh'}
       sx={{ overflowX: 'auto', overflowY: 'hidden' }}
     >
-      {!viewedColumns || viewedColumns.length === 0 ? (
+      {!timeline || timeline.length === 0 ? (
         <BlankContents message={t('timeline.noTimeline')} />
       ) : (
         <DndContext
@@ -76,12 +63,11 @@ const TimeLine = () => {
           onDragEnd={handleDragEnd}
         >
           <SortableContext
-            items={viewedColumns}
+            items={timeline}
             strategy={horizontalListSortingStrategy}
           >
-            {viewedColumns.map(
-              (item: { id: string; name: string }) =>
-                item && <Pane id={item.id}></Pane>
+            {timeline.map(
+              (item: TimelineData) => item.visible && <Pane id={item.id}></Pane>
             )}
           </SortableContext>
         </DndContext>

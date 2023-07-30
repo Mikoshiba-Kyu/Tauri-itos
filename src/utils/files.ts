@@ -6,7 +6,7 @@ import {
   createDir,
   removeFile,
 } from '@tauri-apps/api/fs'
-import { TalkList, ColumnList, TalkFile } from '../types/types'
+import { Timeline, ConversationFile } from '../types/types'
 
 export const createDataDir = async (): Promise<void> => {
   const dataDirPath = `${await appLocalDataDir()}data`
@@ -21,14 +21,14 @@ export const createDataDir = async (): Promise<void> => {
 
 export const loadTextFileInDataDir = async (
   fileName: string
-): Promise<TalkList | ColumnList | TalkFile> => {
+): Promise<Timeline | ConversationFile> => {
   // If the data directory does not exist, recreate it.
   await createDataDir()
 
   // If there is no target file, it is created by default.
   const filePath = `${await appLocalDataDir()}data/${fileName}`
   if (!(await exists(filePath))) {
-    await saveTextFileInDataDir(fileName, '')
+    await saveTextFileInDataDir(fileName, '[]')
   }
 
   const resultJson = await readTextFile(filePath)

@@ -17,12 +17,12 @@ import {
   Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { TalkFile, TalkData } from '../../types/types'
+import { ConversationFile, ConversationData } from '../../types/types'
 import { getDataTimeNow } from '../../utils/datetime'
 
 export interface Props {
-  talkFile: TalkFile
-  setTalkFile: any
+  conversationFile: ConversationFile
+  setConversationFile: any
   scrollRef: React.RefObject<HTMLDivElement>
   isAccordionOpen: boolean
   setIsAccordionOpen: any
@@ -53,7 +53,12 @@ const inputStyle: object = {
 }
 
 const InputBox = (props: Props) => {
-  const { talkFile, setTalkFile, scrollRef, setIsAccordionOpen } = props
+  const {
+    conversationFile,
+    setConversationFile,
+    scrollRef,
+    setIsAccordionOpen,
+  } = props
 
   const [messageValue, setMessageValue] = useState<string>('')
   const settings = useRecoilValue(settingsState)
@@ -67,32 +72,37 @@ const InputBox = (props: Props) => {
         return
       }
 
-      // 現在の talkFile をロールバック用に取得する
-      const baseData: TalkFile = talkFile
+      // 現在の conversationFile をロールバック用に取得する
+      const baseData: ConversationFile = conversationFile
 
-      // 追記用の talkData を作成する
-      const userTalkData: TalkData = {
+      // ユーザーの発言を追記した ConversationData を作成する
+      const userConversationData: ConversationData = {
         number: 0, //TODO: 実際の番号を算出する。beforeData内の最後の番号 + 1
         timestamp: getDataTimeNow(),
         message: { role: 'user', content: messageValue },
       }
 
-      // ユーザー発言後の talkData を作成する
-      const addedUserTalkFile: TalkFile = {
-        ...talkFile,
-        talks: [...talkFile.talks, userTalkData],
+      // ユーザーの発言を追記した ConversationFile を作成する
+      const addedUserConversationFile: ConversationFile = {
+        ...conversationFile,
+        conversations: [
+          ...conversationFile.conversations,
+          userConversationData,
+        ],
       }
 
-      setTalkFile(addedUserTalkFile)
+      setConversationFile(addedUserConversationFile)
 
       setMessageValue('')
       adjustScroll(scrollRef, settings.timelineSort)
 
-      // sendDataに、addedUserTalkFileのtalks内のmessagesのオブジェクトをセットする
+      // sendDataにmessagesのオブジェクトをセットする
       const sendData: { role: string; content: string }[] = [
-        ...addedUserTalkFile.talks.map((talkData) => {
-          return talkData.message
-        }),
+        ...addedUserConversationFile.conversations.map(
+          (conversationData: ConversationData) => {
+            return conversationData.message
+          }
+        ),
       ]
 
       // OpenAIのAPIを叩く
@@ -114,8 +124,8 @@ const InputBox = (props: Props) => {
           return
         }
 
-        // response から talkData を作成する
-        const resTalkData: TalkData = {
+        // response から ConversationData を作成する
+        const resConversationData: ConversationData = {
           number: 0, //TODO: 実際の番号を算出する。beforeData内の最後の番号 + 1
           timestamp: getDataTimeNow(),
           model: res.model,
@@ -125,23 +135,26 @@ const InputBox = (props: Props) => {
           message: res.choices[0].message,
         }
 
-        // talkFileのステートを更新し、描画結果にスクロールを反映する
-        const addedResTalkFile = {
-          ...talkFile,
-          talks: [...addedUserTalkFile.talks, resTalkData],
+        // response から ConversationFile を作成する
+        const addedResConversationFile = {
+          ...conversationFile,
+          talks: [
+            ...addedUserConversationFile.conversations,
+            resConversationData,
+          ],
         }
-        setTalkFile(addedResTalkFile)
+        setConversationFile(addedResConversationFile)
         adjustScroll(scrollRef, settings.timelineSort)
 
-        // talkFileを更新する
-        const fileName = `${addedResTalkFile.id}.json`
+        // ConversationFile を更新する
+        const fileName = `${addedResConversationFile.id}.json`
         await saveTextFileInDataDir(
           fileName,
-          JSON.stringify(addedResTalkFile, null, 2)
+          JSON.stringify(addedResConversationFile, null, 2)
         )
       } catch (err) {
         // baseDataに戻す
-        setTalkFile(baseData)
+        setConversationFile(baseData)
 
         // TODO: SnackBarでエラーを表示する
 

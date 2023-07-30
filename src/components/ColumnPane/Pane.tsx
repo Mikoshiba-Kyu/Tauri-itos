@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
 import Header from './Header'
 import Body from './Body'
-import { TalkFile } from '../../types/types'
+import { ConversationFile } from '../../types/types'
 import { loadTextFileInDataDir } from '../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
@@ -29,7 +29,9 @@ const resizeHandleClasses = {
 const Pane = (props: Props) => {
   const { id } = props
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [talkFile, setTalkFile] = useState<TalkFile | undefined>(undefined)
+  const [conversationFile, setConversationFile] = useState<
+    ConversationFile | undefined
+  >(undefined)
   const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
@@ -47,13 +49,13 @@ const Pane = (props: Props) => {
   useEffect(() => {
     const setData = async () => {
       const textObject = await loadTextFileInDataDir(`${id}.json`)
-      const result: TalkFile = textObject as TalkFile
-      setTalkFile(result)
+      const result: ConversationFile = textObject as ConversationFile
+      setConversationFile(result)
     }
     setData()
   }, [id])
 
-  if (!talkFile) return null
+  if (!conversationFile) return null
 
   return (
     <Box ref={setNodeRef} sx={dragstyle} {...attributes}>
@@ -82,15 +84,21 @@ const Pane = (props: Props) => {
         style={{ position: 'inherit' }}
       >
         <Box sx={style}>
-          <Header talkFile={talkFile} listeners={listeners}></Header>
+          <Header
+            conversationFile={conversationFile}
+            listeners={listeners}
+          ></Header>
           <InputBox
-            talkFile={talkFile}
-            setTalkFile={setTalkFile}
+            conversationFile={conversationFile}
+            setConversationFile={setConversationFile}
             scrollRef={scrollRef}
             isAccordionOpen={isAccordionOpen}
             setIsAccordionOpen={setIsAccordionOpen}
           />
-          <Body talkFile={talkFile} scrollRef={scrollRef}></Body>
+          <Body
+            conversationFile={conversationFile}
+            scrollRef={scrollRef}
+          ></Body>
         </Box>
       </Rnd>
     </Box>
