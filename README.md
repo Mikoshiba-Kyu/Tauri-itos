@@ -18,7 +18,7 @@ Just set the API KEY for ChatGPT to get started right away.
 
 ## Development
 
-* Pull repository your locally and Run `npm i`.
+* Clone repository your locally and Run `npm i`.
 
 * Start the VSCode workspace with `itos.code-workspace`.
 
