@@ -55,20 +55,16 @@ const conversationPreviewStyle = {
 const EditColumnsMenu = () => {
   const [timeline, setTimeline] = useRecoilState(timelineState)
 
-  const [selectedIndex, setSelectedIndex] = useState<number | undefined>()
+  const [selectedId, setSelectedId] = useState<string | undefined>()
   const [conversationFile, setConversationFile] = useState<
     ConversationFile | undefined
   >(undefined)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const menuOpen = Boolean(anchorEl)
 
-  const handleListItemClick = async (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    index: number
-  ) => {
-    setSelectedIndex(index)
-
-    const id = timeline[index].id
+  const handleListItemClick = async (id: string) => {
+    console.log(id)
+    setSelectedId(id)
 
     const setData = async () => {
       const textObject = await loadTextFileInDataDir(`${id}.json`)
@@ -98,19 +94,19 @@ const EditColumnsMenu = () => {
   }
 
   const handleDelete = async (id: string) => {
-    const deletedTimeline = timeline.filter(
-      (timelineData: TimelineData) => timelineData.id !== id
-    )
+    //   const deletedTimeline = timeline.filter(
+    //     (timelineData: TimelineData) => timelineData.id !== id
+    //   )
 
-    await saveTextFileInDataDir(
-      'Timeline.json',
-      JSON.stringify(deletedTimeline)
-    )
+    //   await saveTextFileInDataDir(
+    //     'Timeline.json',
+    //     JSON.stringify(deletedTimeline)
+    //   )
 
-    await deleteFileInDataDir(`${id}.json`)
-
-    setSelectedIndex(undefined)
-    setAnchorEl(null)
+    //   await deleteFileInDataDir(`${id}.json`)
+    console.log(id)
+    setSelectedId(undefined)
+    handleMenuClose()
   }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -129,11 +125,10 @@ const EditColumnsMenu = () => {
         </Typography>
       </FormLabel>
       <List sx={conversationListStyle}>
-        {timeline.map((timelineData: TimelineData, index) => {
+        {timeline.map((timelineData: TimelineData) => {
           return (
             <ListItem
-              key={index}
-              id={`conversation-list-${index}`}
+              key={timelineData.id}
               disablePadding
               sx={{ height: '2rem' }}
             >
@@ -141,8 +136,8 @@ const EditColumnsMenu = () => {
                 role={undefined}
                 dense
                 sx={{ height: '2rem' }}
-                selected={selectedIndex === index}
-                onClick={(event) => handleListItemClick(event, index)}
+                selected={selectedId === timelineData.id}
+                onClick={() => handleListItemClick(timelineData.id)}
               >
                 <ListItemText primary={timelineData.name} />
                 <ListItemIcon
@@ -153,7 +148,7 @@ const EditColumnsMenu = () => {
                     onChange={(event) => handleCheck(event, timelineData.id)}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ 'aria-labelledby': index.toString() }}
+                    inputProps={{ 'aria-labelledby': timelineData.id }}
                   />
                 </ListItemIcon>
                 <IconButton onClick={handleMenuOpen}>
@@ -193,7 +188,7 @@ const EditColumnsMenu = () => {
       </FormLabel>
 
       <Box sx={conversationPreviewStyle}>
-        {selectedIndex !== undefined && (
+        {selectedId !== undefined && (
           <Body conversationFile={conversationFile} isPreview={true} />
         )}
       </Box>
