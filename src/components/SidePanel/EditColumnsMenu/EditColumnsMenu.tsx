@@ -63,7 +63,6 @@ const EditColumnsMenu = () => {
   const menuOpen = Boolean(anchorEl)
 
   const handleListItemClick = async (id: string) => {
-    console.log(id)
     setSelectedId(id)
 
     const setData = async () => {
@@ -93,23 +92,25 @@ const EditColumnsMenu = () => {
     await saveTextFileInDataDir('Timeline.json', JSON.stringify(newTimeline))
   }
 
-  const handleDelete = async (id: string) => {
-    //   const deletedTimeline = timeline.filter(
-    //     (timelineData: TimelineData) => timelineData.id !== id
-    //   )
+  const handleDelete = async () => {
+    const deletedTimeline = timeline.filter(
+      (timelineData: TimelineData) => timelineData.id !== selectedId
+    )
 
-    //   await saveTextFileInDataDir(
-    //     'Timeline.json',
-    //     JSON.stringify(deletedTimeline)
-    //   )
+    await saveTextFileInDataDir(
+      'Timeline.json',
+      JSON.stringify(deletedTimeline)
+    )
 
-    //   await deleteFileInDataDir(`${id}.json`)
-    console.log(id)
+    await deleteFileInDataDir(`${selectedId}.json`)
+
+    setTimeline(deletedTimeline)
     setSelectedId(undefined)
     handleMenuClose()
   }
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, id: string) => {
+    setSelectedId(id)
     setAnchorEl(event.currentTarget)
   }
 
@@ -151,7 +152,9 @@ const EditColumnsMenu = () => {
                     inputProps={{ 'aria-labelledby': timelineData.id }}
                   />
                 </ListItemIcon>
-                <IconButton onClick={handleMenuOpen}>
+                <IconButton
+                  onClick={(event) => handleMenuOpen(event, timelineData.id)}
+                >
                   <MoreVertIcon />
                 </IconButton>
                 <Menu
@@ -169,7 +172,7 @@ const EditColumnsMenu = () => {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem onClick={async () => handleDelete(timelineData.id)}>
+                  <MenuItem onClick={async () => handleDelete()}>
                     デリート
                   </MenuItem>
                 </Menu>

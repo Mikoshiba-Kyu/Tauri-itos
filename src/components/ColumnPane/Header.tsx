@@ -7,6 +7,7 @@ import { t } from 'i18next'
 export interface Props {
   conversationFile?: ConversationFile
   listeners: any
+  columnWidth: string | number
 }
 
 const style = {
@@ -16,7 +17,7 @@ const style = {
 }
 
 const Header = (props: Props) => {
-  const { conversationFile, listeners } = props
+  const { conversationFile, listeners, columnWidth } = props
   if (!conversationFile) return null
 
   const getTotalTokenCount = () => {
@@ -61,6 +62,9 @@ const Header = (props: Props) => {
                 noWrap={true}
                 sx={{
                   color: 'timelineHeaderText.primary',
+                  flexGrow: 1,
+                  width: `calc(${columnWidth} - 90px)`,
+                  display: 'inline-block',
                 }}
               >
                 {conversationFile.name}

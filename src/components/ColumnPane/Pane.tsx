@@ -32,7 +32,7 @@ const Pane = (props: Props) => {
   const [conversationFile, setConversationFile] = useState<
     ConversationFile | undefined
   >(undefined)
-  const [leftBoxWidth, setLeftBoxWidth] = useState<string | number>(400)
+  const [columnWidth, setColumnWidth] = useState<string | number>(400)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -43,7 +43,7 @@ const Pane = (props: Props) => {
   }
   const handleResize: RndResizeCallback = (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
-    setLeftBoxWidth(newWidth)
+    setColumnWidth(newWidth)
   }
   // レンダリング時に対応するIDのトークファイルからデータを取得する
   useEffect(() => {
@@ -63,7 +63,7 @@ const Pane = (props: Props) => {
         default={{
           x: 0,
           y: 0,
-          width: leftBoxWidth,
+          width: columnWidth,
           height: '100%',
         }}
         minWidth={200}
@@ -87,6 +87,7 @@ const Pane = (props: Props) => {
           <Header
             conversationFile={conversationFile}
             listeners={listeners}
+            columnWidth={columnWidth}
           ></Header>
           <InputBox
             conversationFile={conversationFile}

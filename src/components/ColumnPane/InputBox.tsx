@@ -138,7 +138,7 @@ const InputBox = (props: Props) => {
         // response から ConversationFile を作成する
         const addedResConversationFile = {
           ...conversationFile,
-          talks: [
+          conversations: [
             ...addedUserConversationFile.conversations,
             resConversationData,
           ],
