@@ -97,7 +97,6 @@ const Header = (props: Props) => {
                     color: 'timelineHeaderText.primary',
                     flexGrow: 1,
                     width: `calc(${columnWidth} - 130px)`,
-                    display: 'inline-block',
                   }}
                 >
                   {conversationFile.name}
