@@ -14,7 +14,7 @@ export interface Props {
   conversationFile?: ConversationFile
   setConversationFile: (value: ConversationFile) => void
   listeners: any
-  columnWidth: string | number
+  columnWidth: string
 }
 
 const style = {

@@ -38,7 +38,7 @@ const Pane = (props: Props) => {
   const [conversationFile, setConversationFile] = useState<
     ConversationFile | undefined
   >(undefined)
-  const [columnWidth, setColumnWidth] = useState<string | number>(
+  const [columnWidth, setColumnWidth] = useState<string>(
     timeline.find((timelineData: TimelineData) => timelineData.id === id)!
       .columnWidth
   )
