@@ -86,6 +86,7 @@ const Pane = (props: Props) => {
         <Box sx={style}>
           <Header
             conversationFile={conversationFile}
+            setConversationFile={setConversationFile}
             listeners={listeners}
             columnWidth={columnWidth}
           ></Header>

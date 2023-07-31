@@ -7,9 +7,12 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import CloseIcon from '@mui/icons-material/Close'
 import { t } from 'i18next'
 import { saveTextFileInDataDir } from '../../../utils/files'
+import { useState } from 'react'
+import ConversationEditDialog from './ConversationEditDialog'
 
 export interface Props {
   conversationFile?: ConversationFile
+  setConversationFile: (value: ConversationFile) => void
   listeners: any
   columnWidth: string | number
 }
@@ -21,15 +24,21 @@ const style = {
 }
 
 const Header = (props: Props) => {
-  const { conversationFile, listeners, columnWidth } = props
+  const { conversationFile, setConversationFile, listeners, columnWidth } =
+    props
   if (!conversationFile) return null
 
   const [timeline, setTimeline] = useRecoilState(timelineState)
+  const [conversationEditOpen, setConversationEditOpen] = useState(false)
 
   const getTotalTokenCount = () => {
     const keys = Object.keys(conversationFile.conversations)
     const lastKey: any = keys[keys.length - 1]
     return conversationFile.conversations[lastKey].totalTokens
+  }
+
+  const handleConversationEditOpen = () => {
+    setConversationEditOpen(true)
   }
 
   const handleHideColumns = async () => {
@@ -98,10 +107,16 @@ const Header = (props: Props) => {
           </Grid>
           <Grid item>
             <Tooltip title={t('timeline.columnSettings')}>
-              <IconButton>
+              <IconButton onClick={handleConversationEditOpen}>
                 <SettingsIcon />
               </IconButton>
             </Tooltip>
+            <ConversationEditDialog
+              conversationFile={conversationFile}
+              setConversationFile={props.setConversationFile}
+              conversationEditOpen={conversationEditOpen}
+              setConversationEditOpen={setConversationEditOpen}
+            />
             <Tooltip title={t('timeline.hideColumns')}>
               <IconButton onClick={handleHideColumns}>
                 <CloseIcon />

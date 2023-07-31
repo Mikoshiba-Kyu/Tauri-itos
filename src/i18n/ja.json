@@ -6,7 +6,7 @@
     "info": "情報"
   },
   "newConversations": {
-    "enterTitle": "新しい会話のタイトルを入力してください",
+    "enterTitle": "会話のタイトルを入力してください",
     "sameTitleError": "このタイトルはすでに使用されています",
     "assistantAvatar": "アシスタントのアイコンファイルを選択してください (任意)",
     "enterPrompt": "プロンプトを入力してください (任意)",

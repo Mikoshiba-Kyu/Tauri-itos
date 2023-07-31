@@ -6,7 +6,7 @@
     "info": "Information"
   },
   "newConversations": {
-    "enterTitle": "Please enter a new conversation title.",
+    "enterTitle": "Please enter a conversation title.",
     "sameTitleError": "The title is already used.",
     "assistantAvatar": "Please select the assistant icon file. (optional)",
     "enterPrompt": "Please enter a prompt. (optional)",
