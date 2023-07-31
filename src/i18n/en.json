@@ -6,7 +6,7 @@
     "info": "Information"
   },
   "newConversations": {
-    "enterTitle": "Please enter a new conversation title.",
+    "enterTitle": "Please enter a conversation title.",
     "sameTitleError": "The title is already used.",
     "assistantAvatar": "Please select the assistant icon file. (optional)",
     "enterPrompt": "Please enter a prompt. (optional)",
@@ -21,7 +21,9 @@
     "noConversations": "No conversations yet",
     "enterMessage": "Please enter a message.",
     "send": "Send",
-    "dragIcon": "You can rearrange the order of columns by dragging here."
+    "dragIcon": "You can rearrange the order of columns by dragging here.",
+    "columnSettings": "Change the conversation settings.",
+    "hideColumns": "Hide columns."
   },
   "settings": {
     "userAvatar": "User's avatar file",
