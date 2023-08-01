@@ -14,7 +14,8 @@
   },
   "editColumns": {
     "conversationList": "会話の一覧",
-    "conversationPreview": "会話のプレビュー"
+    "conversationPreview": "会話のプレビュー",
+    "displayOnTimeline": "タイムラインに表示する"
   },
   "timeline": {
     "noTimeline": "表示するタイムラインがありません",

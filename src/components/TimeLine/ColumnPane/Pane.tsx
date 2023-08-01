@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { timelineState } from '../../../atoms/timelineState'
 import { Box } from '@mui/material'
 import Header from './Header'
 import Body from './Body'
-import { ConversationFile } from '../../../types/types'
-import { loadTextFileInDataDir } from '../../../utils/files'
+import { ConversationFile, Timeline, TimelineData } from '../../../types/types'
+import {
+  loadTextFileInDataDir,
+  saveTextFileInDataDir,
+} from '../../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
 import { useSortable } from '@dnd-kit/sortable'
@@ -28,23 +33,42 @@ const resizeHandleClasses = {
 
 const Pane = (props: Props) => {
   const { id } = props
+
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  const [timeline, setTimeline] = useRecoilState(timelineState)
+
   const [conversationFile, setConversationFile] = useState<
     ConversationFile | undefined
   >(undefined)
-  const [columnWidth, setColumnWidth] = useState<string | number>(400)
+  const [columnWidth, setColumnWidth] = useState<string>(
+    timeline.find((timelineData: TimelineData) => timelineData.id === id)!
+      .columnWidth
+  )
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id })
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
+    id: id,
+  })
 
   const dragstyle = {
     transform: CSS.Transform.toString(transform),
   }
-  const handleResize: RndResizeCallback = (_, __, elementRef) => {
+
+  const handleResize: RndResizeCallback = async (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
     setColumnWidth(newWidth)
+
+    const newTimeline: Timeline = timeline.map((timelineData: TimelineData) => {
+      if (timelineData.id === id) {
+        return { ...timelineData, columnWidth: newWidth }
+      } else {
+        return timelineData
+      }
+    })
+    setTimeline(newTimeline)
   }
+
   // レンダリング時に対応するIDのトークファイルからデータを取得する
   useEffect(() => {
     const setData = async () => {
@@ -54,6 +78,26 @@ const Pane = (props: Props) => {
     }
     setData()
   }, [id])
+
+  // debounce で columnWidth をファイルに保存する
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const newTimeline: Timeline = timeline.map(
+        (timelineData: TimelineData) => {
+          if (timelineData.id === id) {
+            return { ...timelineData, columnWidth: columnWidth }
+          } else {
+            return timelineData
+          }
+        }
+      )
+      await saveTextFileInDataDir(
+        'Timeline.json',
+        JSON.stringify(newTimeline, null, 2)
+      )
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [columnWidth])
 
   if (!conversationFile) return null
 

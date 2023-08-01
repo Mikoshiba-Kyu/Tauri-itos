@@ -14,7 +14,8 @@
   },
   "editColumns": {
     "conversationList": "Conversation List",
-    "conversationPreview": "Conversation Preview"
+    "conversationPreview": "Conversation Preview",
+    "displayOnTimeline": "Display on Timeline"
   },
   "timeline": {
     "noTimeline": "No timeline to display",

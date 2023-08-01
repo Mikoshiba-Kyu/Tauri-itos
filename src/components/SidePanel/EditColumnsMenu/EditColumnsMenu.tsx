@@ -12,6 +12,7 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  Tooltip,
 } from '@mui/material'
 import { useRecoilState } from 'recoil'
 import { timelineState } from '../../../atoms/timelineState'
@@ -140,17 +141,25 @@ const EditColumnsMenu = () => {
                 selected={selectedId === timelineData.id}
                 onClick={() => handleListItemClick(timelineData.id)}
               >
-                <ListItemText primary={timelineData.name} />
+                <Tooltip title={timelineData.name}>
+                  <ListItemText
+                    primary={timelineData.name}
+                    primaryTypographyProps={{ noWrap: true }}
+                    sx={{ width: '380px' }}
+                  />
+                </Tooltip>
                 <ListItemIcon
                   sx={{ justifyContent: 'center', alignItems: 'center' }}
                 >
-                  <Checkbox
-                    checked={timelineData.visible}
-                    onChange={(event) => handleCheck(event, timelineData.id)}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': timelineData.id }}
-                  />
+                  <Tooltip title={t('editColumns.displayOnTimeline')}>
+                    <Checkbox
+                      checked={timelineData.visible}
+                      onChange={(event) => handleCheck(event, timelineData.id)}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': timelineData.id }}
+                    />
+                  </Tooltip>
                 </ListItemIcon>
                 <IconButton
                   onClick={(event) => handleMenuOpen(event, timelineData.id)}

@@ -101,7 +101,7 @@ const ConversationEditDialog = (props: Props) => {
     setAvatarFileName(rsultFileName)
   }
 
-  const submit = async () => {
+  const handleSubmit = async () => {
     const newConversations: ConversationData[] =
       conversationFile.conversations.map(
         (conversation: ConversationData, index: number) => {
@@ -237,7 +237,7 @@ const ConversationEditDialog = (props: Props) => {
         <Button
           variant="outlined"
           disabled={titleError || titleVal === ''}
-          onClick={submit}
+          onClick={handleSubmit}
           sx={{ marginTop: '1rem' }}
         >
           {t('newConversations.ok')}

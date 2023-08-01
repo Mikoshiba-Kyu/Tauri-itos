@@ -14,7 +14,7 @@ export interface Props {
   conversationFile?: ConversationFile
   setConversationFile: (value: ConversationFile) => void
   listeners: any
-  columnWidth: string | number
+  columnWidth: string
 }
 
 const style = {
@@ -97,7 +97,6 @@ const Header = (props: Props) => {
                     color: 'timelineHeaderText.primary',
                     flexGrow: 1,
                     width: `calc(${columnWidth} - 130px)`,
-                    display: 'inline-block',
                   }}
                 >
                   {conversationFile.name}
