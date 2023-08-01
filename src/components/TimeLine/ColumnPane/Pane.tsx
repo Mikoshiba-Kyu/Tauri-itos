@@ -5,7 +5,10 @@ import { Box } from '@mui/material'
 import Header from './Header'
 import Body from './Body'
 import { ConversationFile, Timeline, TimelineData } from '../../../types/types'
-import { loadTextFileInDataDir } from '../../../utils/files'
+import {
+  loadTextFileInDataDir,
+  saveTextFileInDataDir,
+} from '../../../utils/files'
 import { Rnd, RndResizeCallback } from 'react-rnd'
 import InputBox from './InputBox'
 import { useSortable } from '@dnd-kit/sortable'
@@ -55,6 +58,15 @@ const Pane = (props: Props) => {
   const handleResize: RndResizeCallback = async (_, __, elementRef) => {
     const newWidth: string = elementRef.style.width
     setColumnWidth(newWidth)
+
+    const newTimeline: Timeline = timeline.map((timelineData: TimelineData) => {
+      if (timelineData.id === id) {
+        return { ...timelineData, columnWidth: newWidth }
+      } else {
+        return timelineData
+      }
+    })
+    setTimeline(newTimeline)
   }
 
   // レンダリング時に対応するIDのトークファイルからデータを取得する
@@ -66,6 +78,26 @@ const Pane = (props: Props) => {
     }
     setData()
   }, [id])
+
+  // debounce で columnWidth をファイルに保存する
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const newTimeline: Timeline = timeline.map(
+        (timelineData: TimelineData) => {
+          if (timelineData.id === id) {
+            return { ...timelineData, columnWidth: columnWidth }
+          } else {
+            return timelineData
+          }
+        }
+      )
+      await saveTextFileInDataDir(
+        'Timeline.json',
+        JSON.stringify(newTimeline, null, 2)
+      )
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [columnWidth])
 
   if (!conversationFile) return null
 
