@@ -12,6 +12,9 @@
     "enterPrompt": "プロンプトを入力してください (任意)",
     "ok": "決定"
   },
+  "editConversations": {
+    "editConversations": "会話の編集"
+  },
   "editColumns": {
     "conversationList": "会話の一覧",
     "conversationPreview": "会話のプレビュー",
