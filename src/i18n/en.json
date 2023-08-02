@@ -12,6 +12,9 @@
     "enterPrompt": "Please enter a prompt. (optional)",
     "ok": "OK"
   },
+  "editConversations": {
+    "editConversations": "Edit Conversations"
+  },
   "editColumns": {
     "conversationList": "Conversation List",
     "conversationPreview": "Conversation Preview",

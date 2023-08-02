@@ -1,48 +1,61 @@
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { timelineState } from '../../../atoms/timelineState'
+import { timelineState } from '../../atoms/timelineState'
 import {
-  Stack,
+  Avatar,
   Button,
   FormControl,
   FormLabel,
+  Stack,
   TextField,
   Typography,
-  Avatar,
 } from '@mui/material'
 import SpokeIcon from '@mui/icons-material/Spoke'
-import { Spacer } from '../../UI/Spacer'
-import { ConversationData, Timeline, TimelineData } from '../../../types/types'
-import { saveTextFileInDataDir, getDataDirPath } from '../../../utils/files'
-import { getDataTimeNow } from '../../../utils/datetime'
-import { t } from 'i18next'
-import { v4 as uuidv4 } from 'uuid'
 import { open } from '@tauri-apps/api/dialog'
 import { copyFile } from '@tauri-apps/api/fs'
 import { basename } from '@tauri-apps/api/path'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
+import {
+  ConversationFile,
+  ConversationData,
+  TimelineData,
+} from '../../types/types'
+import { saveTextFileInDataDir, getDataDirPath } from '../../utils/files'
+import { t } from 'i18next'
+import { Spacer } from '../UI/Spacer'
+import { v4 as uuidv4 } from 'uuid'
+import { getDataTimeNow } from '../../utils/datetime'
 
 const style = {
   flexGrow: 1,
-  width: '100%',
   padding: '1rem',
   overflowY: 'auto',
 }
 
-export interface Props {
-  setExpandMenu: (value: string) => void
+interface Props {
+  editMode: 'new' | 'edit'
+  conversationFile?: ConversationFile
+  setConversationFile?: (value: ConversationFile) => void
+  handleClose?: () => void
 }
 
-const NewTalkMenu = (props: Props) => {
-  const { setExpandMenu }: Props = props
+const ConversationEdit = (props: Props) => {
+  const { editMode, conversationFile, setConversationFile, handleClose } = props
 
-  const [titleVal, setTitleValue] = useState('')
-  const [promptVal, setPromptValue] = useState('')
-  const [avaterFileName, setAvatarFileName] = useState('')
+  const [titleVal, setTitleValue] = useState(
+    conversationFile ? conversationFile.name : ''
+  )
+  const [promptVal, setPromptValue] = useState(
+    conversationFile ? conversationFile.conversations[0].message.content : ''
+  )
+  const [avaterFileName, setAvatarFileName] = useState(
+    conversationFile ? conversationFile.assistantIconFileName : ''
+  )
   const [titleError, setTitleError] = useState(false)
   const [timeline, setTimeline] = useRecoilState(timelineState)
   const [dataDirPath, setDataDirPath] = useState('')
 
+  // レンダリング時にデータディレクトリのパスを取得する
   useEffect(() => {
     ;(async () => {
       const result = await getDataDirPath()
@@ -50,48 +63,9 @@ const NewTalkMenu = (props: Props) => {
     })()
   }, [])
 
+  // 指定されたタイトルが既に存在するかチェックする
   const checkTitle = (checkedValue: string): boolean => {
     return timeline.some((data: TimelineData) => data.name === checkedValue)
-  }
-
-  const submit = async () => {
-    const id = uuidv4()
-    const name = titleVal
-    const conversations: ConversationData[] = [
-      {
-        number: 0,
-        timestamp: getDataTimeNow(),
-        model: '',
-        promptTokens: 0,
-        completionTokens: 0,
-        totalTokens: 0,
-        message: { role: 'system', content: promptVal },
-      },
-    ]
-
-    const data = {
-      id,
-      name,
-      assistantIconFileName: avaterFileName,
-      conversations,
-    }
-
-    // トークファイルを生成する
-    await saveTextFileInDataDir(`${id}.json`, JSON.stringify(data, null, 2))
-
-    // タイムライン先頭に新規会話を表示する
-    const newTimeline: Timeline = [
-      { id: data.id, name: data.name, visible: true, columnWidth: 400 },
-      ...timeline,
-    ]
-    await saveTextFileInDataDir(
-      'Timeline.json',
-      JSON.stringify(newTimeline, null, 2)
-    )
-    setTimeline(newTimeline)
-
-    // メニューを閉じる
-    setExpandMenu('')
   }
 
   const handleClickAvatar = async (): Promise<void> => {
@@ -118,6 +92,89 @@ const NewTalkMenu = (props: Props) => {
     await copyFile(filePath, `${dataDirPath}${rsultFileName}`)
 
     setAvatarFileName(rsultFileName)
+  }
+
+  const handleSubmit = async () => {
+    let newConversations: ConversationData[]
+    let newConversationFile: ConversationFile
+
+    if (editMode === 'new') {
+      const id = uuidv4()
+      const name = titleVal
+      const conversations: ConversationData[] = [
+        {
+          number: 0,
+          timestamp: getDataTimeNow(),
+          model: '',
+          promptTokens: 0,
+          completionTokens: 0,
+          totalTokens: 0,
+          message: { role: 'system', content: promptVal },
+        },
+      ]
+
+      newConversationFile = {
+        id,
+        name,
+        assistantIconFileName: avaterFileName,
+        conversations,
+      }
+    } else {
+      newConversations = conversationFile!.conversations.map(
+        (conversation: ConversationData, index: number) => {
+          if (index === 0) {
+            return {
+              ...conversation,
+              message: {
+                ...conversation.message,
+                content: promptVal,
+              },
+            }
+          } else {
+            return conversation
+          }
+        }
+      )
+
+      newConversationFile = {
+        id: conversationFile!.id,
+        name: titleVal,
+        assistantIconFileName: avaterFileName,
+        conversations: newConversations,
+      }
+
+      // editModeの場合は atoms も更新する
+      setConversationFile!(newConversationFile)
+    }
+
+    // トークファイルを新規、または上書き保存する
+    await saveTextFileInDataDir(
+      `${newConversationFile.id}.json`,
+      JSON.stringify(newConversationFile, null, 2)
+    )
+
+    // timeline の atoms を更新する
+    let newTimeline: TimelineData[]
+    if (editMode === 'new') {
+      newTimeline = [
+        {
+          id: newConversationFile.id,
+          name: newConversationFile.name,
+          visible: true,
+          columnWidth: '400px',
+        },
+        ...timeline,
+      ]
+    } else {
+      newTimeline = timeline.map(
+        // TODO ここでうまく timeline の atoms を更新しないと、カラムの編集ペーンのリストに反映されない？
+        (timelineData: TimelineData) => timelineData
+      )
+    }
+
+    setTimeline(newTimeline)
+
+    handleClose!()
   }
 
   return (
@@ -172,7 +229,11 @@ const NewTalkMenu = (props: Props) => {
         >
           <SpokeIcon
             fontSize="large"
-            sx={{ width: '100%', height: '100%', backgroundColor: 'darkcyan' }}
+            sx={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'darkcyan',
+            }}
           />
         </Avatar>
       </FormControl>
@@ -209,7 +270,7 @@ const NewTalkMenu = (props: Props) => {
       <Button
         variant="outlined"
         disabled={titleError || titleVal === ''}
-        onClick={submit}
+        onClick={handleSubmit}
         sx={{ marginTop: '1rem' }}
       >
         {t('newConversations.ok')}
@@ -217,5 +278,4 @@ const NewTalkMenu = (props: Props) => {
     </Stack>
   )
 }
-
-export default NewTalkMenu
+export default ConversationEdit

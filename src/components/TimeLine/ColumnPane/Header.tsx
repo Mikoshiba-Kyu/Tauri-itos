@@ -1,6 +1,14 @@
 import { useRecoilState } from 'recoil'
 import { timelineState } from '../../../atoms/timelineState'
-import { Box, Grid, Typography, IconButton, Tooltip } from '@mui/material'
+import {
+  Box,
+  Grid,
+  Typography,
+  IconButton,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+} from '@mui/material'
 import { ConversationFile, TimelineData } from '../../../types/types'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -8,7 +16,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { t } from 'i18next'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { useState } from 'react'
-import ConversationEditDialog from './ConversationEditDialog'
+import ConversationEdit from '../../UI/ConversationEdit'
 
 export interface Props {
   conversationFile?: ConversationFile
@@ -110,12 +118,22 @@ const Header = (props: Props) => {
                 <SettingsIcon />
               </IconButton>
             </Tooltip>
-            <ConversationEditDialog
-              conversationFile={conversationFile}
-              setConversationFile={props.setConversationFile}
-              conversationEditOpen={conversationEditOpen}
-              setConversationEditOpen={setConversationEditOpen}
-            />
+            <Dialog
+              onClose={() => setConversationEditOpen(false)}
+              open={conversationEditOpen}
+            >
+              <DialogTitle>
+                {t('editConversations.editConversations')}
+              </DialogTitle>
+              <Box sx={{ display: 'flex', width: '600px', height: '840px' }}>
+                <ConversationEdit
+                  editMode="edit"
+                  conversationFile={conversationFile}
+                  setConversationFile={setConversationFile}
+                  handleClose={() => setConversationEditOpen(false)}
+                />
+              </Box>
+            </Dialog>
             <Tooltip title={t('timeline.hideColumns')}>
               <IconButton onClick={handleHideColumns}>
                 <CloseIcon />

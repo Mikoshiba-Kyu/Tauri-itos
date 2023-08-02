@@ -5,10 +5,10 @@ import ViewWeekIcon from '@mui/icons-material/ViewWeek'
 import SettingsIcon from '@mui/icons-material/Settings'
 import InfoIcon from '@mui/icons-material/Info'
 import ExpandMenuHeader from './ExpandMenuHeader'
-import NewTalkMenu from './NewTalkMenu/NewTalkMenu'
 import SettingsMenu from './SettingsMenu/SettingsMenu'
 import { t } from 'i18next'
 import EditColumnsMenu from './EditColumnsMenu/EditColumnsMenu'
+import ConversationEdit from '../UI/ConversationEdit'
 
 const SidePanel = () => {
   const [expandMenu, setExpandMenu] = useState<string>('')
@@ -141,7 +141,10 @@ const SidePanel = () => {
                 title={t('menu.newTalk')}
                 setExpandMenu={setExpandMenu}
               ></ExpandMenuHeader>
-              <NewTalkMenu setExpandMenu={setExpandMenu} />
+              <ConversationEdit
+                editMode="new"
+                handleClose={() => setExpandMenu('')}
+              />
             </>
           ) : expandMenu === 'columnSettings' ? (
             <>
