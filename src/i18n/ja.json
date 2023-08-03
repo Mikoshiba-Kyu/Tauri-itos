@@ -18,7 +18,8 @@
   "editColumns": {
     "conversationList": "会話の一覧",
     "conversationPreview": "会話のプレビュー",
-    "displayOnTimeline": "タイムラインに表示する"
+    "displayOnTimeline": "タイムラインに表示する",
+    "deleteConversation": "会話を削除する"
   },
   "timeline": {
     "noTimeline": "表示するタイムラインがありません",

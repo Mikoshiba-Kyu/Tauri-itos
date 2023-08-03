@@ -18,7 +18,8 @@
   "editColumns": {
     "conversationList": "Conversation List",
     "conversationPreview": "Conversation Preview",
-    "displayOnTimeline": "Display on Timeline"
+    "displayOnTimeline": "Display on Timeline",
+    "deleteConversation": "Delete Conversation"
   },
   "timeline": {
     "noTimeline": "No timeline to display",

@@ -182,7 +182,7 @@ const EditColumnsMenu = () => {
                   }}
                 >
                   <MenuItem onClick={async () => handleDelete()}>
-                    デリート
+                    {t('editColumns.deleteConversation')}
                   </MenuItem>
                 </Menu>
               </ListItemButton>
