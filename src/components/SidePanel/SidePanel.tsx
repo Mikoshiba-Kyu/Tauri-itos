@@ -14,7 +14,7 @@ const SidePanel = () => {
   const [expandMenu, setExpandMenu] = useState<string>('')
 
   const drawerWidth = expandMenu === '' ? 'var(--menu-closed-width)' : '600px'
-  const expandMenuWidth = expandMenu === '' ? '0px' : '600px'
+  const expandMenuWidth = expandMenu === '' ? '0px' : '540px'
 
   return (
     <Box
@@ -127,6 +127,7 @@ const SidePanel = () => {
             </IconButton>
           </Tooltip>
         </Box>
+
         <Box
           sx={{
             height: '100%',
