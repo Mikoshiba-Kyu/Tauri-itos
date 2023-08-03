@@ -13,6 +13,8 @@ itos is a multi-platform application that runs on Windows, MacOS, and Linux.
 
 ## Overview
 
+![overview_fixes](https://github.com/Mikoshiba-Kyu/Tauri-itos/assets/40236427/ab0b28a6-fb50-4fba-b4e7-965939804d1f)
+
 ## Development
 
 1. Clone repository your locally and Run `npm i`.
