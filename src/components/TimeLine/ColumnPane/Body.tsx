@@ -10,6 +10,8 @@ import { getDataDirPath } from '../../../utils/files'
 import { useEffect, useState } from 'react'
 import { convertFileSrc } from '@tauri-apps/api/tauri'
 import { Spacer } from '../../UI/Spacer'
+import ReactMarkdown from 'react-markdown'
+import CodeBlock from '../../UI/CodeBlock'
 
 export interface Props {
   conversationFile?: ConversationFile
@@ -95,12 +97,11 @@ const Body = (props: Props) => {
         return (
           <Box key={index} sx={cardStyle}>
             <Grid container>
-              <Grid sx={{ width: '48px' }}>
+              <Grid sx={{ width: '48px', paddingTop: '0.5rem' }}>
                 <MessageAvatar conversationData={conversationData} />
               </Grid>
               <Grid sx={{ width: 'calc(100% - 48px)' }}>
-                <Typography
-                  variant="body2"
+                <Box
                   sx={{
                     color: !isPreview
                       ? 'timelineText.primary'
@@ -108,8 +109,13 @@ const Body = (props: Props) => {
                     userSelect: 'text',
                   }}
                 >
-                  {conversationData.message.content}
-                </Typography>
+                  <ReactMarkdown
+                    children={conversationData.message.content}
+                    components={{
+                      code: CodeBlock,
+                    }}
+                  />
+                </Box>
 
                 <Spacer size="1rem"></Spacer>
 

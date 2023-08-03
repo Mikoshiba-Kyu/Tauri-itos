@@ -99,7 +99,7 @@ const Header = (props: Props) => {
             >
               <Tooltip title={conversationFile.name}>
                 <Typography
-                  variant={'body1'}
+                  variant={'h6'}
                   noWrap={true}
                   sx={{
                     color: 'timelineHeaderText.primary',
