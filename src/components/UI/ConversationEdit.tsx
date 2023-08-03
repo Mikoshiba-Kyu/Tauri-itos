@@ -9,6 +9,8 @@ import {
   Stack,
   TextField,
   Typography,
+  Menu,
+  MenuItem,
 } from '@mui/material'
 import SpokeIcon from '@mui/icons-material/Spoke'
 import { open } from '@tauri-apps/api/dialog'
@@ -54,6 +56,8 @@ const ConversationEdit = (props: Props) => {
   const [titleError, setTitleError] = useState(false)
   const [timeline, setTimeline] = useRecoilState(timelineState)
   const [dataDirPath, setDataDirPath] = useState('')
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const menuOpen = Boolean(anchorEl)
 
   // レンダリング時にデータディレクトリのパスを取得する
   useEffect(() => {
@@ -68,7 +72,9 @@ const ConversationEdit = (props: Props) => {
     return timeline.some((data: TimelineData) => data.name === checkedValue)
   }
 
-  const handleClickAvatar = async (): Promise<void> => {
+  const avatarSelect = async (): Promise<void> => {
+    setAnchorEl(null)
+
     const result: string | string[] | null = await open({
       multiple: false,
       filters: [
@@ -94,8 +100,17 @@ const ConversationEdit = (props: Props) => {
     setAvatarFileName(rsultFileName)
   }
 
+  const avatarDelete = () => {
+    setAnchorEl(null)
+    setAvatarFileName('')
+  }
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
   const handleSubmit = async () => {
-    let newConversations: ConversationData[]
+    let editConversations: ConversationData[]
     let newConversationFile: ConversationFile
 
     if (editMode === 'new') {
@@ -120,7 +135,7 @@ const ConversationEdit = (props: Props) => {
         conversations,
       }
     } else {
-      newConversations = conversationFile!.conversations.map(
+      editConversations = conversationFile!.conversations.map(
         (conversation: ConversationData, index: number) => {
           if (index === 0) {
             return {
@@ -140,7 +155,7 @@ const ConversationEdit = (props: Props) => {
         id: conversationFile!.id,
         name: titleVal,
         assistantIconFileName: avaterFileName,
-        conversations: newConversations,
+        conversations: editConversations,
       }
 
       // editModeの場合は atoms も更新する
@@ -182,7 +197,7 @@ const ConversationEdit = (props: Props) => {
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            {t('newConversations.enterTitle')}
+            {t('editConversations.enterTitle')}
           </Typography>
         </FormLabel>
       </FormControl>
@@ -190,7 +205,7 @@ const ConversationEdit = (props: Props) => {
       <TextField
         value={titleVal}
         error={titleError}
-        helperText={titleError && t('newConversations.sameTitleError')}
+        helperText={titleError && t('editConversations.sameTitleError')}
         fullWidth
         required
         size="small"
@@ -210,7 +225,7 @@ const ConversationEdit = (props: Props) => {
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            {t('newConversations.assistantAvatar')}
+            {t('editConversations.assistantAvatar')}
           </Typography>
         </FormLabel>
 
@@ -225,7 +240,7 @@ const ConversationEdit = (props: Props) => {
             borderRadius: '0.5rem',
             margin: '0.5rem',
           }}
-          onClick={handleClickAvatar}
+          onClick={(event) => handleMenuOpen(event)}
         >
           <SpokeIcon
             fontSize="large"
@@ -236,6 +251,26 @@ const ConversationEdit = (props: Props) => {
             }}
           />
         </Avatar>
+        <Menu
+          anchorEl={anchorEl}
+          open={menuOpen}
+          onClose={() => setAnchorEl(null)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <MenuItem onClick={avatarSelect}>
+            {t('editConversations.iconSelect')}
+          </MenuItem>
+          <MenuItem onClick={avatarDelete} disabled={avaterFileName === ''}>
+            {t('editConversations.iconDelete')}
+          </MenuItem>
+        </Menu>
       </FormControl>
 
       <Spacer size="2rem" />
@@ -243,7 +278,7 @@ const ConversationEdit = (props: Props) => {
       <FormControl>
         <FormLabel>
           <Typography variant="caption">
-            {t('newConversations.enterPrompt')}
+            {t('editConversations.enterPrompt')}
           </Typography>
         </FormLabel>
       </FormControl>
@@ -273,7 +308,7 @@ const ConversationEdit = (props: Props) => {
         onClick={handleSubmit}
         sx={{ marginTop: '1rem' }}
       >
-        {t('newConversations.ok')}
+        {t('editConversations.ok')}
       </Button>
     </Stack>
   )

@@ -173,7 +173,7 @@ const EditColumnsMenu = () => {
                   open={menuOpen}
                   onClose={handleMenuClose}
                   anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'bottom',
                     horizontal: 'left',
                   }}
                   transformOrigin={{
