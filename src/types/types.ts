@@ -20,7 +20,7 @@ export type TimelineData = {
   id: string
   name: string
   visible: boolean
-  columnWidth: number
+  columnWidth: string
 }
 
 export type ConfigFile = {

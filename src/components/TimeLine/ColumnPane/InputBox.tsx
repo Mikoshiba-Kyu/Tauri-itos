@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useRecoilValue } from 'recoil'
-import { settingsState } from '../../atoms/settingsState'
-import { saveTextFileInDataDir } from '../../utils/files'
+import { settingsState } from '../../../atoms/settingsState'
+import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai'
 import {
@@ -17,8 +17,8 @@ import {
   Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { ConversationFile, ConversationData } from '../../types/types'
-import { getDataTimeNow } from '../../utils/datetime'
+import { ConversationFile, ConversationData } from '../../../types/types'
+import { getDataTimeNow } from '../../../utils/datetime'
 
 export interface Props {
   conversationFile: ConversationFile
