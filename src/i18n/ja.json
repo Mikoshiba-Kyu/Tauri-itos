@@ -5,20 +5,21 @@
     "changeSettings": "設定を変更する",
     "info": "情報"
   },
-  "newConversations": {
+  "editConversations": {
+    "editConversations": "会話の編集",
     "enterTitle": "会話のタイトルを入力してください",
     "sameTitleError": "このタイトルはすでに使用されています",
     "assistantAvatar": "アシスタントのアイコンファイルを選択してください (任意)",
     "enterPrompt": "プロンプトを入力してください (任意)",
-    "ok": "決定"
-  },
-  "editConversations": {
-    "editConversations": "会話の編集"
+    "ok": "決定",
+    "iconSelect": "アイコンを選択",
+    "iconDelete": "アイコンを削除"
   },
   "editColumns": {
     "conversationList": "会話の一覧",
     "conversationPreview": "会話のプレビュー",
-    "displayOnTimeline": "タイムラインに表示する"
+    "displayOnTimeline": "タイムラインに表示する",
+    "deleteConversation": "会話を削除する"
   },
   "timeline": {
     "noTimeline": "表示するタイムラインがありません",

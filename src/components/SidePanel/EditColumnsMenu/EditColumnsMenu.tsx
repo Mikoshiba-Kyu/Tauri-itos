@@ -173,7 +173,7 @@ const EditColumnsMenu = () => {
                   open={menuOpen}
                   onClose={handleMenuClose}
                   anchorOrigin={{
-                    vertical: 'top',
+                    vertical: 'bottom',
                     horizontal: 'left',
                   }}
                   transformOrigin={{
@@ -182,7 +182,7 @@ const EditColumnsMenu = () => {
                   }}
                 >
                   <MenuItem onClick={async () => handleDelete()}>
-                    デリート
+                    {t('editColumns.deleteConversation')}
                   </MenuItem>
                 </Menu>
               </ListItemButton>

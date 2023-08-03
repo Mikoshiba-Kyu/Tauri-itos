@@ -5,20 +5,21 @@
     "changeSettings": "Change Settings",
     "info": "Information"
   },
-  "newConversations": {
+  "editConversations": {
+    "editConversations": "Edit Conversations",
     "enterTitle": "Please enter a conversation title.",
     "sameTitleError": "The title is already used.",
     "assistantAvatar": "Please select the assistant icon file. (optional)",
     "enterPrompt": "Please enter a prompt. (optional)",
-    "ok": "OK"
-  },
-  "editConversations": {
-    "editConversations": "Edit Conversations"
+    "ok": "OK",
+    "iconSelect": "Select Icon",
+    "iconDelete": "Delete Icon"
   },
   "editColumns": {
     "conversationList": "Conversation List",
     "conversationPreview": "Conversation Preview",
-    "displayOnTimeline": "Display on Timeline"
+    "displayOnTimeline": "Display on Timeline",
+    "deleteConversation": "Delete Conversation"
   },
   "timeline": {
     "noTimeline": "No timeline to display",
