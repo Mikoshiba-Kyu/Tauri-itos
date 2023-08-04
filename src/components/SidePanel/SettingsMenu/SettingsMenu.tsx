@@ -149,7 +149,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.theme}
+          defaultValue={() => settings.theme ?? 'dark'}
           onChange={onThemeChange()}
         >
           <FormControlLabel
@@ -174,7 +174,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.language}
+          defaultValue={() => settings.language ?? 'en'}
           onChange={onLanguageChange()}
         >
           <FormControlLabel
@@ -197,7 +197,7 @@ const SettingsMenu = () => {
         label="ChatGPT API Key"
         size="small"
         variant="standard"
-        defaultValue={settings.apiKey}
+        defaultValue={settings.apiKey ?? ''}
         onChange={onAPIKeyChange()}
         sx={{
           borderBottom: '1px solid',
@@ -216,7 +216,7 @@ const SettingsMenu = () => {
 
         <RadioGroup
           row
-          defaultValue={() => settings.timelineSort}
+          defaultValue={() => settings.timelineSort ?? 'desc'}
           onChange={onTimelineSortChange()}
         >
           <FormControlLabel
