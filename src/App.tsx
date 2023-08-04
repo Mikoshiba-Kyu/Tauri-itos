@@ -21,7 +21,7 @@ const App = () => {
   }, [])
 
   return (
-    <ThemeProvider theme={theme(settings.theme)}>
+    <ThemeProvider theme={theme(settings.theme ?? 'dark')}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <SidePanel />
