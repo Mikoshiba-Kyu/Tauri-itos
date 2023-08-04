@@ -3,6 +3,16 @@
 ![Size](https://img.shields.io/github/languages/code-size/Mikoshiba-Kyu/Tauri-itos)
 ![AllContributors](https://img.shields.io/github/all-contributors/Mikoshiba-Kyu/Tauri-itos/main)
 
+![Tauri](https://img.shields.io/badge/Tauri-565656?logo=tauri&style=flat")
+![TypeScript](https://img.shields.io/badge/TypeScript-565656?logo=typescript&style=flat")
+![Rust](https://img.shields.io/badge/Rust-565656?logo=rust&style=flat")
+![React](https://img.shields.io/badge/React-565656?logo=react&style=flat")
+![MUI](https://img.shields.io/badge/MUI-565656?logo=mui&style=flat")
+![Vite](https://img.shields.io/badge/Vite-565656?logo=vite&style=flat")
+![Vitest](https://img.shields.io/badge/Vitest-565656?logo=vitest&style=flat")
+![Github Actions](https://img.shields.io/badge/GithubActions-565656?logo=githubactions&style=flat")
+![npm](https://img.shields.io/badge/npm-565656?logo=npm&style=flat")
+
 # itos powered by GPT
 
 <img src="https://github.com/Mikoshiba-Kyu/Tauri-itos/assets/40236427/1037a411-63f9-4f33-b31f-abdbcc94a576" width="140px"> <img src="https://github.com/Mikoshiba-Kyu/Tauri-itos/assets/40236427/c66700ab-25ab-4a87-9c24-48322f321a89" width="300px">
