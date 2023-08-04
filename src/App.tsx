@@ -9,6 +9,7 @@ import { theme } from './utils/theme'
 import TimeLine from './components/TimeLine/TimeLine'
 import { createDataDir } from './utils/files'
 import { setDefaultLanguage } from './i18n/configs'
+import ShowError from './components/UI/ShowError'
 
 const App = () => {
   const settings = useRecoilValue(settingsState)
@@ -26,6 +27,7 @@ const App = () => {
         <CssBaseline />
         <SidePanel />
         <TimeLine />
+        <ShowError />
       </Box>
     </ThemeProvider>
   )

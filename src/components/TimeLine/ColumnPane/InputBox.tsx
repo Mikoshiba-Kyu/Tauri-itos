@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { flushSync } from 'react-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { showErrorState } from '../../../atoms/showErrorState'
 import { settingsState } from '../../../atoms/settingsState'
 import { saveTextFileInDataDir } from '../../../utils/files'
 import { t } from 'i18next'
@@ -62,13 +63,14 @@ const InputBox = (props: Props) => {
 
   const [messageValue, setMessageValue] = useState<string>('')
   const settings = useRecoilValue(settingsState)
+  const [showError, setShowError] = useRecoilState(showErrorState)
 
-  const sending = async () => {
+  const handleClickSend = async () => {
     flushSync(async () => {
       // ChatGPTのAPIが設定されていなければ処理を終了する
       const apiKey = settings.apiKey
       if (!apiKey) {
-        console.log('API Key is not set.') // TODO: ここでエラーを出す
+        setShowError(t('error.chatGPTApiKeyIsNotSet'))
         return
       }
 
@@ -111,7 +113,7 @@ const InputBox = (props: Props) => {
 
       try {
         const response = await openai.createChatCompletion({
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-4',
           // TODO: Settingsからモデルを選択できるようにする
           // model: 'gpt-3.5-turbo',
           // model: 'gpt-4',
@@ -120,7 +122,7 @@ const InputBox = (props: Props) => {
 
         const res: any | undefined = response.data
         if (!res) {
-          console.log('ChatCompletionResponseMessage is undefined.') //TODO: ここでエラーを出す
+          setShowError(t('error.chatGPTNotResponse'))
           return
         }
 
@@ -153,15 +155,8 @@ const InputBox = (props: Props) => {
           JSON.stringify(addedResConversationFile, null, 2)
         )
       } catch (err) {
-        // baseDataに戻す
         setConversationFile(baseData)
-
-        // TODO: SnackBarでエラーを表示する
-
-        return {
-          role: 'assistant',
-          content: 'エラーです',
-        }
+        setShowError(t('error.chatGPTUnknownError'))
       }
     })
   }
@@ -210,7 +205,7 @@ const InputBox = (props: Props) => {
           <Button
             variant="outlined"
             disabled={messageValue === ''}
-            onClick={sending}
+            onClick={handleClickSend}
             sx={{ marginTop: '1rem' }}
           >
             {t('timeline.send')}
