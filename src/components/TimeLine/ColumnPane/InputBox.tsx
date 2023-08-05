@@ -67,10 +67,16 @@ const InputBox = (props: Props) => {
 
   const handleClickSend = async () => {
     flushSync(async () => {
-      // ChatGPTのAPIが設定されていなければ処理を終了する
+      // ChatGPTが設定されていなければ処理を終了する
       const apiKey = settings.apiKey
       if (!apiKey) {
         setShowError(t('error.chatGPTApiKeyIsNotSet'))
+        return
+      }
+
+      const model = settings.model
+      if (!model) {
+        setShowError(t('error.chatGPTModelIsNotSet'))
         return
       }
 
@@ -113,10 +119,7 @@ const InputBox = (props: Props) => {
 
       try {
         const response = await openai.createChatCompletion({
-          model: 'gpt-4',
-          // TODO: Settingsからモデルを選択できるようにする
-          // model: 'gpt-3.5-turbo',
-          // model: 'gpt-4',
+          model,
           messages: sendData as ChatCompletionRequestMessage[],
         })
 
