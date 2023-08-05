@@ -10,6 +10,7 @@ const initConfig = async (): Promise<void> => {
     language: 'en',
     userIconFileName: '',
     apiKey: '',
+    model: '',
     timelineSort: 'desc',
   }
 

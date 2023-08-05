@@ -28,5 +28,6 @@ export type ConfigFile = {
   language?: string
   userIconFileName?: string
   apiKey?: string
+  model?: string
   timelineSort?: string
 }

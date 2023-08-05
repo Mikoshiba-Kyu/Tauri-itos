@@ -11,6 +11,7 @@ import {
   Typography,
   Radio,
   Avatar,
+  Autocomplete,
 } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import { Spacer } from '../../UI/Spacer'
@@ -43,17 +44,18 @@ const SettingsMenu = () => {
   }, [])
 
   // Theme
-  const onThemeChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = (event.target as HTMLInputElement).value
+  const handleThemeChange =
+    () => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ theme: value } })
-    ;(async () => {
-      await saveConfig({ theme: value })
-    })()
-  }
+      setSettings({ ...settings, ...{ theme: value } })
+      ;(async () => {
+        await saveConfig({ theme: value })
+      })()
+    }
 
   // Language
-  const onLanguageChange =
+  const handleLanguageChange =
     () => (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value
 
@@ -66,17 +68,30 @@ const SettingsMenu = () => {
     }
 
   // ChatGPT API Key
-  const onAPIKeyChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = (event.target as HTMLInputElement).value
+  const handleAPIKeyChange =
+    () => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value
 
-    setSettings({ ...settings, ...{ apiKey: value } })
+      setSettings({ ...settings, ...{ apiKey: value } })
+      ;(async () => {
+        await saveConfig({ apiKey: value })
+      })()
+    }
+
+  // ChatGPT Model
+  const handleModelChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    const resultValue = value ?? ''
+    setSettings({ ...settings, ...{ model: resultValue } })
     ;(async () => {
-      await saveConfig({ apiKey: value })
+      await saveConfig({ model: resultValue })
     })()
   }
 
   // Timeline Sort
-  const onTimelineSortChange =
+  const handleTimelineSortChange =
     () => (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement).value
 
@@ -150,7 +165,7 @@ const SettingsMenu = () => {
         <RadioGroup
           row
           defaultValue={() => settings.theme ?? 'dark'}
-          onChange={onThemeChange()}
+          onChange={handleThemeChange()}
         >
           <FormControlLabel
             value="light"
@@ -175,7 +190,7 @@ const SettingsMenu = () => {
         <RadioGroup
           row
           defaultValue={() => settings.language ?? 'en'}
-          onChange={onLanguageChange()}
+          onChange={handleLanguageChange()}
         >
           <FormControlLabel
             value="en"
@@ -198,11 +213,34 @@ const SettingsMenu = () => {
         size="small"
         variant="standard"
         defaultValue={settings.apiKey ?? ''}
-        onChange={onAPIKeyChange()}
+        onChange={handleAPIKeyChange()}
         sx={{
           borderBottom: '1px solid',
           borderBottomColor: 'inputOutline.primary',
         }}
+      />
+
+      <Spacer size="2rem" />
+
+      <Autocomplete
+        {...{ options: ['gpt-4', 'gpt-3.5-turbo'] }}
+        id="select-on-focus"
+        selectOnFocus
+        onChange={(event: any, value: string | null) =>
+          handleModelChange(event, value ?? '')
+        }
+        onInputChange={(event: any, value: string | null) =>
+          handleModelChange(event, value ?? '')
+        }
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="ChatGPT Model"
+            size="small"
+            variant="standard"
+            defaultValue={settings.model ?? ''}
+          />
+        )}
       />
 
       <Spacer size="2rem" />
@@ -217,7 +255,7 @@ const SettingsMenu = () => {
         <RadioGroup
           row
           defaultValue={() => settings.timelineSort ?? 'desc'}
-          onChange={onTimelineSortChange()}
+          onChange={handleTimelineSortChange()}
         >
           <FormControlLabel
             value="asc"

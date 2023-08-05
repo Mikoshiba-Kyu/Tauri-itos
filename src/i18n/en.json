@@ -44,6 +44,7 @@
   },
   "error": {
     "chatGPTApiKeyIsNotSet": "Please set the API key of ChatGPT.",
+    "chatGPTModelIsNotSet": "Please set the Model of ChatGPT.",
     "chatGPTNotResponse": "No response from ChatGPT was received.",
     "chatGPTUnknownError": "Some problem occurred with the linkage to ChatGPT."
   }
