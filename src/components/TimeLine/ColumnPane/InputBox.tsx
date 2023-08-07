@@ -16,6 +16,7 @@ import {
   Typography,
   TextField,
   Button,
+  Grid,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ConversationFile, ConversationData } from '../../../types/types'
@@ -66,11 +67,20 @@ const InputBox = (props: Props) => {
   const [showError, setShowError] = useRecoilState(showErrorState)
 
   const handleClickSend = async () => {
+    // Handling of blanks, as they may be called from shortcut keys.
+    if (messageValue === '') return
+
     flushSync(async () => {
-      // ChatGPTのAPIが設定されていなければ処理を終了する
+      // ChatGPTが設定されていなければ処理を終了する
       const apiKey = settings.apiKey
       if (!apiKey) {
         setShowError(t('error.chatGPTApiKeyIsNotSet'))
+        return
+      }
+
+      const model = settings.model
+      if (!model) {
+        setShowError(t('error.chatGPTModelIsNotSet'))
         return
       }
 
@@ -113,10 +123,7 @@ const InputBox = (props: Props) => {
 
       try {
         const response = await openai.createChatCompletion({
-          model: 'gpt-4',
-          // TODO: Settingsからモデルを選択できるようにする
-          // model: 'gpt-3.5-turbo',
-          // model: 'gpt-4',
+          model,
           messages: sendData as ChatCompletionRequestMessage[],
         })
 
@@ -195,6 +202,11 @@ const InputBox = (props: Props) => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setMessageValue(event.target.value)
             }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+              if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                handleClickSend()
+              }
+            }}
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& > fieldset': { borderColor: 'inputOutline.primary' },
@@ -202,14 +214,26 @@ const InputBox = (props: Props) => {
             }}
           />
 
-          <Button
-            variant="outlined"
-            disabled={messageValue === ''}
-            onClick={handleClickSend}
-            sx={{ marginTop: '1rem' }}
+          <Grid
+            container
+            justifyContent="flex-end"
+            sx={{ marginTop: '0.6rem' }}
           >
-            {t('timeline.send')}
-          </Button>
+            <Grid item sx={{ marginRight: '0.6rem' }}>
+              <Typography variant="caption">{`${t(
+                'timeline.send'
+              )} : Ctrl+Enter`}</Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                disabled={messageValue === ''}
+                onClick={handleClickSend}
+              >
+                {t('timeline.send')}
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </AccordionDetails>
     </Accordion>

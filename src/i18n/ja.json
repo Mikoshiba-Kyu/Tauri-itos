@@ -44,6 +44,7 @@
   },
   "error": {
     "chatGPTApiKeyIsNotSet": "ChatGPT の API キーが設定されていません。",
+    "chatGPTModelIsNotSet": "ChatGPT のモデルが設定されていません。",
     "chatGPTNotResponse": "ChatGPT からの応答がありませんでした。",
     "chatGPTUnknownError": "ChatGPT との連携で何らかの問題が発生しました。"
   }
