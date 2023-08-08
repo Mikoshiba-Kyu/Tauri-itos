@@ -6,6 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: |
+      echo ${{ secrets.TAURI_PRIVATE_KEY }}
+      echo ${{ secrets.TAURI_KEY_PASSWORD }}
+
   release:
     permissions:
       contents: write
