@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-latest
     steps:
       - run: echo ${{ secrets.TAURI_KEY_PASSWORD }}
 
