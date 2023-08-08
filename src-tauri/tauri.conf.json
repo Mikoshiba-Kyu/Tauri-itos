@@ -64,7 +64,15 @@
       "csp": "default-src 'self'; img-src 'self'; style-src 'self' fonts.googleapis.com 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; font-src fonts.gstatic.com; asset: https://asset.localhost"
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "https://gist.githubusercontent.com/Mikoshiba-Kyu/4b7ae30abb9e20b098d01ba986abf1c3/raw"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDIxRjBFQUIzMTc1NUE3M0QKUldROXAxVVhzK3J3SVE5ZXhVNy8weVpmYS93bC9vdTBsV2JjNnJmUzhMbkxiUTZ0dXA2ZWFtN04K",
+      "windows": {
+        "installMode": "passive"
+      }
     },
     "windows": [
       {
