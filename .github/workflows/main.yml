@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo $TAURI_KEY_PASSWORD
+        run: echo $TAURI_KEY_PASSWORD | sed 's/./& /g'
         env: 
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
 
