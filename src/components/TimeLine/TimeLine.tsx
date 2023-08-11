@@ -47,6 +47,10 @@ const TimeLine = () => {
     }
   }
 
+  const visibleColumnCount: number = timeline.filter(
+    (timelineData: TimelineData) => timelineData.visible
+  ).length
+
   return (
     <Box
       display={'flex'}
@@ -54,7 +58,7 @@ const TimeLine = () => {
       height={'100vh'}
       sx={{ overflowX: 'auto', overflowY: 'hidden' }}
     >
-      {!timeline || timeline.length === 0 ? (
+      {!timeline || visibleColumnCount === 0 ? (
         <BlankContents message={t('timeline.noTimeline')} />
       ) : (
         <DndContext
