@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import { settingsState } from './atoms/settingsState'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -7,19 +6,11 @@ import { ThemeProvider } from '@mui/material/styles'
 import SidePanel from './components/SidePanel/SidePanel'
 import { theme } from './utils/theme'
 import TimeLine from './components/TimeLine/TimeLine'
-import { createDataDir } from './utils/files'
-import { setDefaultLanguage } from './i18n/configs'
 import ShowError from './components/UI/ShowError'
+import './i18n/configs'
 
 const App = () => {
   const settings = useRecoilValue(settingsState)
-
-  useEffect(() => {
-    ;(async () => {
-      await createDataDir()
-    })()
-    setDefaultLanguage(settings.language ?? 'en')
-  }, [])
 
   // Do not show right-click menus on applications.
   const handleContextMenu = (
