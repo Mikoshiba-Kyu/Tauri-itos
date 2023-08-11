@@ -46,6 +46,7 @@ const Pane = (props: Props) => {
       .columnWidth
   )
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
+  const [isProgress, setIsProgress] = useState(false)
 
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: id,
@@ -140,10 +141,12 @@ const Pane = (props: Props) => {
             scrollRef={scrollRef}
             isAccordionOpen={isAccordionOpen}
             setIsAccordionOpen={setIsAccordionOpen}
+            setIsProgress={setIsProgress}
           />
           <Body
             conversationFile={conversationFile}
             scrollRef={scrollRef}
+            isProgress={isProgress}
           ></Body>
         </Box>
       </Rnd>

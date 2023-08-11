@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil'
 import { settingsState } from '../../../atoms/settingsState'
-import { Box, Typography, Grid, Avatar } from '@mui/material'
+import { Box, Typography, Grid, Avatar, CircularProgress } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import SpokeIcon from '@mui/icons-material/Spoke'
 import { ConversationFile, ConversationData } from '../../../types/types'
@@ -17,6 +17,7 @@ export interface Props {
   conversationFile?: ConversationFile
   scrollRef?: React.RefObject<HTMLDivElement>
   isPreview?: boolean
+  isProgress: boolean
 }
 
 export interface MessageAvatarProps {
@@ -40,7 +41,7 @@ const cardStyle = {
 }
 
 const Body = (props: Props) => {
-  const { conversationFile, scrollRef, isPreview } = props
+  const { conversationFile, scrollRef, isPreview, isProgress } = props
 
   const [dataDirPath, setDataDirPath] = useState('')
   useEffect(() => {
@@ -93,6 +94,24 @@ const Body = (props: Props) => {
 
   return (
     <Box ref={scrollRef} sx={style}>
+      {isProgress && (
+        <Box
+          position={'absolute'}
+          sx={{
+            width: '100%',
+            height: '4rem',
+            backgroundColor: 'background.paper',
+            opacity: 0.9,
+            zIndex: 1,
+          }}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CircularProgress />
+        </Box>
+      )}
+
       {displayTalks.map((conversationData: ConversationData, index) => {
         return (
           <Box key={index} sx={cardStyle}>

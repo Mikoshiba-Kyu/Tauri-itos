@@ -24,10 +24,11 @@ import { getDataTimeNow } from '../../../utils/datetime'
 
 export interface Props {
   conversationFile: ConversationFile
-  setConversationFile: any
+  setConversationFile: (conversationFile: ConversationFile) => void
   scrollRef: React.RefObject<HTMLDivElement>
   isAccordionOpen: boolean
-  setIsAccordionOpen: any
+  setIsAccordionOpen: (value: boolean) => void
+  setIsProgress: (value: boolean) => void
 }
 
 const adjustScroll = (
@@ -60,6 +61,7 @@ const InputBox = (props: Props) => {
     setConversationFile,
     scrollRef,
     setIsAccordionOpen,
+    setIsProgress,
   } = props
 
   const [messageValue, setMessageValue] = useState<string>('')
@@ -118,6 +120,7 @@ const InputBox = (props: Props) => {
       ]
 
       // OpenAIのAPIを叩く
+      setIsProgress(true)
       const configuration = new Configuration({ apiKey })
       const openai = new OpenAIApi(configuration)
 
@@ -154,6 +157,7 @@ const InputBox = (props: Props) => {
         }
         setConversationFile(addedResConversationFile)
         adjustScroll(scrollRef, settings.timelineSort)
+        setIsProgress(false)
 
         // ConversationFile を更新する
         const fileName = `${addedResConversationFile.id}.json`
@@ -163,6 +167,7 @@ const InputBox = (props: Props) => {
         )
       } catch (err) {
         setConversationFile(baseData)
+        setIsProgress(false)
         setShowError(t('error.chatGPTUnknownError'))
       }
     })
