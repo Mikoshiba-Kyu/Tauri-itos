@@ -35,6 +35,13 @@ itos is a multi-platform application that runs on Windows, MacOS, and Linux.
 
 - Switch between English and Japanese, change color themes. These screen display customizations are supported.
 
+## Usage
+
+1. Open the settings screen from the "Settings" icon on the left side of the screen.
+2. Setup API and Model for ChatGPT.
+3. Create a new conversation from the "New Conversation" icon on the left side of the screen.
+4. Expand the top of the conversation pane you created and have a conversation with ChatGPT.
+
 ## Development
 
 1. Clone repository your locally and Run `npm i`.
@@ -46,3 +53,11 @@ itos is a multi-platform application that runs on Windows, MacOS, and Linux.
 1. `npm run tauri dev` command can be used to test launch.
 
 1. If you need a local build, you can use the `npm run tauri build` command.
+
+## Postscript
+
+If my product could be a great experience for you,
+Please buy me a hot cup of coffee. Thank you.
+
+
+[Buy me a coffee](https://www.buymeacoffee.com/mikoshibakyu)
