@@ -21,9 +21,16 @@ const App = () => {
     setDefaultLanguage(settings.language ?? 'en')
   }, [])
 
+  // Do not show right-click menus on applications.
+  const handleContextMenu = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.preventDefault()
+  }
+
   return (
     <ThemeProvider theme={theme(settings.theme ?? 'dark')}>
-      <Box sx={{ display: 'flex' }}>
+      <Box onContextMenu={handleContextMenu} sx={{ display: 'flex' }}>
         <CssBaseline />
         <SidePanel />
         <TimeLine />
