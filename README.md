@@ -25,6 +25,16 @@ itos is a multi-platform application that runs on Windows, MacOS, and Linux.
 
 ![overview_fixes](https://github.com/Mikoshiba-Kyu/Tauri-itos/assets/40236427/ab0b28a6-fb50-4fba-b4e7-965939804d1f)
 
+## Features
+
+- Multiple conversations can be arranged on the screen. Individual conversations can be easily displayed, hidden, and rearranged.
+
+- Each conversation can have its own prompt. This allows you to give instructions to ChatGPT.
+
+- You can set icon files for yourself and for the assistant for each conversation. This can be used for character-based conversations, etc.
+
+- Switch between English and Japanese, change color themes. These screen display customizations are supported.
+
 ## Development
 
 1. Clone repository your locally and Run `npm i`.
