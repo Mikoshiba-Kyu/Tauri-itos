@@ -9,6 +9,7 @@ import SettingsMenu from './SettingsMenu/SettingsMenu'
 import { t } from 'i18next'
 import EditColumnsMenu from './EditColumnsMenu/EditColumnsMenu'
 import ConversationEdit from '../UI/ConversationEdit'
+import InformationMenu from './InformationMenu/informationMenu'
 
 const SidePanel = () => {
   const [expandMenu, setExpandMenu] = useState<string>('')
@@ -164,10 +165,13 @@ const SidePanel = () => {
               <SettingsMenu />
             </>
           ) : expandMenu === 'info' ? (
-            <ExpandMenuHeader
-              title={t('menu.info')}
-              setExpandMenu={setExpandMenu}
-            ></ExpandMenuHeader>
+            <>
+              <ExpandMenuHeader
+                title={t('menu.info')}
+                setExpandMenu={setExpandMenu}
+              ></ExpandMenuHeader>
+              <InformationMenu />
+            </>
           ) : null}
         </Box>
       </Drawer>
