@@ -86,7 +86,11 @@ const Header = (props: Props) => {
               }}
             >
               <Tooltip title={t('timeline.dragIcon')}>
-                <DragIndicatorIcon />
+                <DragIndicatorIcon
+                  sx={{
+                    color: 'timelineText.secondary',
+                  }}
+                />
               </Tooltip>
             </Box>
             <Box
@@ -115,7 +119,11 @@ const Header = (props: Props) => {
           <Grid item>
             <Tooltip title={t('timeline.columnSettings')}>
               <IconButton onClick={handleConversationEditOpen}>
-                <SettingsIcon />
+                <SettingsIcon
+                  sx={{
+                    color: 'timelineText.secondary',
+                  }}
+                />
               </IconButton>
             </Tooltip>
             <Dialog
@@ -136,7 +144,11 @@ const Header = (props: Props) => {
             </Dialog>
             <Tooltip title={t('timeline.hideColumns')}>
               <IconButton onClick={handleHideColumns}>
-                <CloseIcon />
+                <CloseIcon
+                  sx={{
+                    color: 'timelineText.secondary',
+                  }}
+                />
               </IconButton>
             </Tooltip>
           </Grid>

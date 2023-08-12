@@ -11,7 +11,8 @@ import {
   Typography,
   Radio,
   Avatar,
-  Autocomplete,
+  Select,
+  MenuItem,
 } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import { Spacer } from '../../UI/Spacer'
@@ -79,14 +80,11 @@ const SettingsMenu = () => {
     }
 
   // ChatGPT Model
-  const handleModelChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string
-  ) => {
-    const resultValue = value ?? ''
-    setSettings({ ...settings, ...{ model: resultValue } })
+  const handleModelChange = (event: any) => {
+    const value = event.target.value
+    setSettings({ ...settings, ...{ model: value } })
     ;(async () => {
-      await saveConfig({ model: resultValue })
+      await saveConfig({ model: value })
     })()
   }
 
@@ -214,34 +212,23 @@ const SettingsMenu = () => {
         variant="standard"
         defaultValue={settings.apiKey ?? ''}
         onChange={handleAPIKeyChange()}
-        sx={{
-          borderBottom: '1px solid',
-          borderBottomColor: 'inputOutline.primary',
-        }}
       />
 
       <Spacer size="2rem" />
 
-      <Autocomplete
-        {...{ options: ['gpt-4', 'gpt-3.5-turbo'] }}
-        id="select-on-focus"
-        selectOnFocus
-        onChange={(event: any, value: string | null) =>
-          handleModelChange(event, value ?? '')
-        }
-        onInputChange={(event: any, value: string | null) =>
-          handleModelChange(event, value ?? '')
-        }
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="ChatGPT Model"
-            size="small"
-            variant="standard"
-            defaultValue={settings.model ?? ''}
-          />
-        )}
-      />
+      <FormControl>
+        <FormLabel>
+          <Typography variant="caption">ChatGPT Model</Typography>
+        </FormLabel>
+        <Select
+          size="small"
+          defaultValue={settings.model ?? null}
+          onChange={handleModelChange}
+        >
+          <MenuItem value="gpt-4">gpt-4</MenuItem>
+          <MenuItem value="gpt-3.5-turbo">gpt-3.5-turbo</MenuItem>
+        </Select>
+      </FormControl>
 
       <Spacer size="2rem" />
 

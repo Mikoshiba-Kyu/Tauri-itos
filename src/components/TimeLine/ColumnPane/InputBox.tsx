@@ -225,9 +225,10 @@ const InputBox = (props: Props) => {
             sx={{ marginTop: '0.6rem' }}
           >
             <Grid item sx={{ marginRight: '0.6rem' }}>
-              <Typography variant="caption">{`${t(
-                'timeline.send'
-              )} : Ctrl+Enter`}</Typography>
+              <Typography
+                variant="caption"
+                sx={{ color: 'timelineText.secondary' }}
+              >{`${t('timeline.send')} : Ctrl+Enter`}</Typography>
             </Grid>
             <Grid item>
               <Button

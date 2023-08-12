@@ -2,7 +2,6 @@ import { createTheme } from '@mui/material/styles'
 
 export const theme = (mode?: string) =>
   createTheme({
-    //TODO 型
     //@ts-ignore
     palette: mode === 'light' ? lightTheme : darkTheme,
   })
@@ -23,7 +22,7 @@ export const lightTheme = {
   },
   timelineText: {
     primary: '#343434',
-    secondary: '#888888',
+    secondary: '#666666',
   },
   timelinePreviewText: {
     primary: '#EAEAEA',
