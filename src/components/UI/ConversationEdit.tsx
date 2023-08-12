@@ -181,13 +181,25 @@ const ConversationEdit = (props: Props) => {
         ...timeline,
       ]
     } else {
-      newTimeline = timeline.map(
-        // TODO ここでうまく timeline の atoms を更新しないと、カラムの編集ペーンのリストに反映されない？
-        (timelineData: TimelineData) => timelineData
-      )
+      // timelineの中のidがnewConversationFile.idと一致するもののnameを更新する
+      newTimeline = timeline.map((timelineData: TimelineData) => {
+        if (timelineData.id === newConversationFile.id) {
+          return {
+            ...timelineData,
+            name: newConversationFile.name,
+          }
+        } else {
+          return timelineData
+        }
+      })
     }
 
     setTimeline(newTimeline)
+
+    await saveTextFileInDataDir(
+      'Timeline.json',
+      JSON.stringify(newTimeline, null, 2)
+    )
 
     handleClose!()
   }
