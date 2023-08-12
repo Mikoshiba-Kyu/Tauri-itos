@@ -212,10 +212,6 @@ const SettingsMenu = () => {
         variant="standard"
         defaultValue={settings.apiKey ?? ''}
         onChange={handleAPIKeyChange()}
-        sx={{
-          borderBottom: '1px solid',
-          borderBottomColor: 'inputOutline.primary',
-        }}
       />
 
       <Spacer size="2rem" />

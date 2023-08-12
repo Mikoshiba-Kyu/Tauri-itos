@@ -226,10 +226,6 @@ const ConversationEdit = (props: Props) => {
           setTitleValue(event.target.value)
           setTitleError(checkTitle(event.target.value))
         }}
-        sx={{
-          borderBottom: '1px solid',
-          borderBottomColor: 'inputOutline.primary',
-        }}
       />
 
       <Spacer size="2rem" />
