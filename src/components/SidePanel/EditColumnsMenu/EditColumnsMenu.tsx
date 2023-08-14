@@ -201,7 +201,11 @@ const EditColumnsMenu = () => {
 
       <Box sx={conversationPreviewStyle}>
         {selectedId !== undefined && (
-          <Body conversationFile={conversationFile} isPreview={true} />
+          <Body
+            conversationFile={conversationFile}
+            isPreview={true}
+            isProgress={false}
+          />
         )}
       </Box>
     </Box>
