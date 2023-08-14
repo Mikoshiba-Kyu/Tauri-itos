@@ -122,6 +122,9 @@ const InputBox = (props: Props) => {
       // OpenAIのAPIを叩く
       setIsProgress(true)
       const configuration = new Configuration({ apiKey })
+      configuration.baseOptions.headers = {
+        Authorization: `Bearer ${apiKey}`,
+      }
       const openai = new OpenAIApi(configuration)
 
       try {
