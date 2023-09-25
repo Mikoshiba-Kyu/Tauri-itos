@@ -79,6 +79,7 @@
         "fullscreen": false,
         "resizable": true,
         "title": "itos powered by GPT",
+        "label": "itos",
         "width": 800,
         "height": 600
       }
