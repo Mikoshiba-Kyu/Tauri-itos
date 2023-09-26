@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined'
 
 interface Props {
