@@ -36,5 +36,6 @@ export default defineConfig(async () => ({
       enabled: true,
       reporter: ['text'],
     },
+    setupFiles: ['./vitest.setup.ts'],
   },
 }))
